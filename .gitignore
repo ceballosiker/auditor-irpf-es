@@ -201,6 +201,10 @@ cython_debug/
 .cursorignore
 .cursorindexingignore
 
+# Claude Code
+#  CLAUDE.md is local AI-assistant scaffolding, not project documentation.
+CLAUDE.md
+
 
 # Archivos Excel generados por el script para que no saturen GitHub
 *.xlsx
