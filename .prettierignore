@@ -1,0 +1,7 @@
+dist/
+node_modules/
+coverage/
+.venv/
+tests/fixtures/
+package-lock.json
+*.xlsx
