@@ -1,0 +1,23 @@
+name: 📖 Docs
+description: Reportar un error, un hueco o una mejora en la documentación
+labels: ['area/docs']
+body:
+  - type: input
+    id: page
+    attributes:
+      label: Página o archivo
+      description: README, CONTRIBUTING, manual MkDocs, etc.
+      placeholder: 'README.md / docs/motor/05-art-20.md'
+    validations:
+      required: true
+  - type: textarea
+    id: issue
+    attributes:
+      label: Qué falta o qué está mal
+    validations:
+      required: true
+  - type: textarea
+    id: suggestion
+    attributes:
+      label: Sugerencia (opcional)
+      description: Si tienes una propuesta concreta de redacción, inclúyela.

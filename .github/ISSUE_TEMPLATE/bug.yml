@@ -1,0 +1,52 @@
+name: 🐛 Bug
+description: Reportar un comportamiento incorrecto del motor o de la web
+labels: ['type/bug']
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Gracias por reportar. Cuanta más información incluyas, antes podremos reproducir y corregir.
+  - type: input
+    id: version
+    attributes:
+      label: Versión
+      description: Tag, rama o commit afectado.
+      placeholder: 'v0.1.0 / develop @ abc1234'
+    validations:
+      required: true
+  - type: textarea
+    id: description
+    attributes:
+      label: Qué ocurre
+      description: Comportamiento observado.
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Qué debería ocurrir
+      description: Comportamiento esperado y por qué (cita normativa o lógica si aplica).
+    validations:
+      required: true
+  - type: textarea
+    id: reproduce
+    attributes:
+      label: Pasos para reproducir
+      placeholder: |
+        1. Ir a...
+        2. Ejecutar...
+        3. Observar...
+    validations:
+      required: true
+  - type: dropdown
+    id: area
+    attributes:
+      label: Área afectada
+      options:
+        - engine (motor TS / Python)
+        - ui (web)
+        - docs (manual)
+        - infra (CI, deploy)
+        - no estoy seguro/a
+    validations:
+      required: true

@@ -1,0 +1,39 @@
+name: ✨ Feature request
+description: Proponer una nueva funcionalidad o mejora
+labels: ['type/feature']
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Las propuestas concretas avanzan más rápido. Indica qué problema resuelve y, si existe, un workaround actual.
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problema o necesidad
+      description: ¿Qué fricción o carencia experimentas hoy?
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Propuesta
+      description: Describe la funcionalidad. Si tienes una sugerencia de API o UX, inclúyela.
+    validations:
+      required: true
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternativas consideradas
+      description: ¿Hay workarounds actuales? ¿Otras formas de resolver el problema?
+  - type: dropdown
+    id: area
+    attributes:
+      label: Área afectada
+      options:
+        - engine (motor)
+        - ui (web)
+        - docs (manual)
+        - fiscal (alcance normativo)
+        - infra (CI, deploy)
+    validations:
+      required: true

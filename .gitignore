@@ -201,6 +201,10 @@ cython_debug/
 .cursorignore
 .cursorindexingignore
 
+# Claude Code
+#  CLAUDE.md is local AI-assistant scaffolding, not project documentation.
+CLAUDE.md
+
 
 # Archivos Excel generados por el script para que no saturen GitHub
 *.xlsx
@@ -208,3 +212,12 @@ cython_debug/
 marimo/_static/
 marimo/_lsp/
 __marimo__/
+
+# Node
+node_modules/
+coverage/
+*.tsbuildinfo
+.vite/
+
+# Bootstrap scripts (one-shot ops tooling for GitHub state, kept local)
+scripts/bootstrap_*.sh

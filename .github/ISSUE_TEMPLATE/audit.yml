@@ -1,0 +1,60 @@
+name: 🧾 Auditoría fiscal de un año
+description: Validar la normativa de un año fiscal contra el motor; documentar referencias BOE
+title: 'audit-YYYY: validación normativa de <Año>'
+labels: ['area/fiscal', 'type/audit']
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Esta plantilla documenta la auditoría normativa de **un año fiscal concreto**.
+        El checklist abajo cubre los puntos del motor que deben validarse contra el BOE.
+
+        Para cada ítem, anota la **referencia legal** en "Referencias BOE" (norma, fecha, artículo).
+        Si encuentras una discrepancia, abre un PR `audit:` con la corrección y enlaza este issue con `Closes #NN`.
+  - type: input
+    id: anio
+    attributes:
+      label: Año fiscal
+      placeholder: '2023'
+    validations:
+      required: true
+  - type: input
+    id: motor_path
+    attributes:
+      label: Punto en el motor
+      description: Permalink al snippet correspondiente (en `obtener_parametros` / `obtenerParametros`).
+      placeholder: 'https://github.com/.../blob/<sha>/Calculo_Salario_IRPF.py#L34-L80'
+    validations:
+      required: true
+  - type: checkboxes
+    id: checklist
+    attributes:
+      label: Checklist normativo
+      description: Marca cada ítem cuando lo hayas validado contra el BOE; deja la referencia en el campo siguiente.
+      options:
+        - label: Base máxima de cotización
+        - label: Tipos de cotización (comunes, desempleo, FP, FOGASA, ATEP)
+        - label: MEI (Mecanismo de Equidad Intergeneracional, desde 2023)
+        - label: Cuota de Solidaridad (desde 2025)
+        - label: Escala IRPF (tramos y tipos)
+        - label: Gastos fijos deducibles (Art. 19)
+        - label: Reducción por rendimientos del trabajo (Art. 20) — incluye caso 2018
+        - label: Mínimo personal del contribuyente
+        - label: Mínimo exento de retención
+        - label: Tope del 43 % (Art. 85.3 RIRPF)
+        - label: Deducción SMI (2025+)
+  - type: textarea
+    id: refs
+    attributes:
+      label: Referencias BOE
+      description: Lista las normas y artículos usados para validar.
+      placeholder: |
+        - BOE-A-2023-XXXXX (Ley XX/2023, art. Y)
+        - Resolución TGSS DD/MM/2023
+    validations:
+      required: true
+  - type: textarea
+    id: discrepancies
+    attributes:
+      label: Discrepancias encontradas
+      description: Si encontraste algún valor incorrecto, descríbelo. Cada corrección irá como un PR `audit:` aparte.
