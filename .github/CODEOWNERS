@@ -1,0 +1,5 @@
+# CODEOWNERS — quién debe revisar PRs por defecto.
+# Sintaxis: <patrón> <usuario1> <usuario2> ...
+# https://docs.github.com/en/repositories/managing-your-repositories-settings-and-features/customizing-your-repository/about-code-owners
+
+* @ceballosiker
