@@ -218,3 +218,6 @@ node_modules/
 coverage/
 *.tsbuildinfo
 .vite/
+
+# Bootstrap scripts (one-shot ops tooling for GitHub state, kept local)
+scripts/bootstrap_*.sh

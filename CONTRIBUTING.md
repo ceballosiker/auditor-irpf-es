@@ -28,6 +28,50 @@ Seguimos un flujo issue-first, branch-per-issue, PR-to-`develop`:
 6. **Cierra el issue** con `Closes #NN` en el cuerpo del PR.
 7. **Release PR:** cuando un milestone está completo, abre PR `develop → main`, etiqueta `vX.Y.Z`, publica GitHub Release.
 
+## Etiquetas y milestones
+
+Las etiquetas se aplican automáticamente vía las plantillas de issue, o manualmente durante el triaje. La taxonomía completa:
+
+### `area/*` — dominio del cambio
+
+Ver la tabla en [Perfiles y áreas](#perfiles-y-áreas) más arriba.
+
+### `type/*` — naturaleza del issue
+
+| Etiqueta          | Significado                               |
+| ----------------- | ----------------------------------------- |
+| `type/bug`        | Comportamiento incorrecto.                |
+| `type/feature`    | Nueva funcionalidad o mejora.             |
+| `type/audit`      | Auditoría normativa anual (`audit-YYYY`). |
+| `type/question`   | Pregunta o aclaración.                    |
+| `type/discussion` | Roadmap, RFC, decisión abierta.           |
+
+### `priority/*` — prioridad relativa
+
+| Etiqueta          | Significado      |
+| ----------------- | ---------------- |
+| `priority/high`   | Alta prioridad.  |
+| `priority/medium` | Prioridad media. |
+| `priority/low`    | Baja prioridad.  |
+
+### Estado
+
+| Etiqueta           | Significado                                      |
+| ------------------ | ------------------------------------------------ |
+| `good first issue` | Buen punto de entrada para colaboradores nuevos. |
+| `help wanted`      | Se busca colaborador/a.                          |
+| `blocked`          | Bloqueado por dependencia o decisión externa.    |
+
+### Milestones
+
+| Milestone | Fase                                                                |
+| --------- | ------------------------------------------------------------------- |
+| `v0.1.0`  | OSS foundation + TS tooling + correctness oracle (Python fixtures). |
+| `v0.2.0`  | TypeScript engine port validado contra fixtures de v0.1.0.          |
+| `v0.3.0`  | Fiscal audit workflow (15 issues `audit-YYYY` con referencias BOE). |
+| `v0.4.0`  | Manual divulgativo en MkDocs (GitHub Pages).                        |
+| `v1.0.0`  | Web UI: SPA estático en GitHub Pages, browser-local.                |
+
 ## Setup local
 
 Requisitos: Node ≥ 18.18.
