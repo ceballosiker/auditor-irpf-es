@@ -34,12 +34,6 @@ Los administradores de la comunidad tendrán el derecho y la responsabilidad de 
 
 Este Código de Conducta aplica tanto a espacios del proyecto como a espacios públicos donde un individuo esté en representación del proyecto o comunidad. Ejemplos de esto incluyen el uso de la cuenta oficial de correo electrónico, publicaciones a través de las redes sociales oficiales, o presentaciones con personas designadas en eventos en línea o no.
 
-## Aplicación
-
-Instancias de comportamiento abusivo, acosador o inaceptable de otro modo podrán ser reportadas a los administradores de la comunidad responsables del cumplimiento a través de **iker@acuratio.com**. Todas las quejas serán evaluadas e investigadas de una manera puntual y justa.
-
-Todos los administradores de la comunidad están obligados a respetar la privacidad y la seguridad de quienes reporten incidentes.
-
 ## Guías de aplicación
 
 Los administradores de la comunidad seguirán estas Guías de Impacto en la Comunidad para determinar las consecuencias de cualquier acción que juzguen como en violación de este Código de Conducta:
