@@ -3,11 +3,11 @@
 ![TypeScript](https://img.shields.io/badge/typescript-5.5%2B-blue.svg)
 ![Node](https://img.shields.io/badge/node-%3E%3D18.18-brightgreen.svg)
 ![License](https://img.shields.io/badge/license-MIT-green.svg)
-![Estado](<https://img.shields.io/badge/estado-en%20construcci%C3%B3n%20(v0.1)-orange.svg>)
+![Estado](<https://img.shields.io/badge/estado-en%20curso%20(v0.3)-yellow.svg>)
 
 Auditor fiscal que calcula el salario neto en España (2012–2026) euro a euro: IRPF, Seguridad Social, MEI y Cuota de Solidaridad, con análisis de pérdida de poder adquisitivo ajustada a la inflación real (IPC oficial del INE). Se expondrá como una **calculadora interactiva 100 % en el navegador** (sin servidor) acompañada de un manual divulgativo y un proceso de auditoría pública año a año.
 
-> **Estado actual (v0.1):** se está portando el motor de cálculo desde el script original en Python (`Calculo_Salario_IRPF.py`) a una librería en TypeScript. Los **fixtures JSON** capturados del motor Python (`tests/fixtures/golden_*.json`) son la **fuente de verdad** mientras dura el porting; el motor TS deberá coincidir con ellos al céntimo.
+> **Estado actual:** motor TypeScript completo y validado al céntimo contra los fixtures-oráculo de la implementación Python original (v0.2.0, 2026-04). Fase en curso (v0.3.0): **workflow de auditoría fiscal** con 15 issues abiertos (uno por año fiscal 2012–2026), cada uno con checklist normativo y permalinks al motor. Ver [`docs/auditoria/progreso.md`](docs/auditoria/progreso.md).
 
 ---
 
@@ -59,9 +59,9 @@ Para maximizar la precisión antes de ampliar casuística, el motor modela delib
 
 | Versión                 | Hito                                                                                                        |
 | ----------------------- | ----------------------------------------------------------------------------------------------------------- |
-| **v0.1.0** _(en curso)_ | Infraestructura OSS, tooling TypeScript, fixtures JSON desde el motor Python (oráculo).                     |
-| **v0.2.0**              | Port del motor a TypeScript validado al céntimo contra los fixtures de v0.1.0.                              |
-| **v0.3.0**              | Workflow de auditoría fiscal: 15 issues (uno por año, 2012–2026) con checklist normativo + referencias BOE. |
+| **v0.1.0** ✅           | Infraestructura OSS, tooling TypeScript, fixtures JSON desde el motor Python (oráculo).                     |
+| **v0.2.0** ✅           | Port del motor a TypeScript validado al céntimo contra los fixtures de v0.1.0.                              |
+| **v0.3.0** _(en curso)_ | Workflow de auditoría fiscal: 15 issues (uno por año, 2012–2026) con checklist normativo + referencias BOE. |
 | **v0.4.0**              | Manual divulgativo en MkDocs publicado en GitHub Pages.                                                     |
 | **v1.0.0**              | Calculadora web interactiva: SPA estático, 100 % en el navegador, GitHub Pages.                             |
 
