@@ -75,40 +75,41 @@ Sigue el progreso en los [issues abiertos](https://github.com/ceballosiker/audit
 
 ## 🚀 Instalación y uso
 
-### TypeScript (motor en porting)
+### TypeScript (motor principal)
 
 ```bash
 git clone https://github.com/ceballosiker/auditor-irpf-es.git
 cd auditor-irpf-es
 npm install
-npm test            # Vitest
-npm run lint        # ESLint
-npm run typecheck   # tsc --noEmit
+npm test               # Vitest (664 tests)
+npm run lint           # ESLint
+npm run typecheck      # tsc --noEmit
+npm run build:excel    # Genera el Excel completo (15 años × 0-100 000 €)
 ```
 
 Requisitos: Node ≥ 18.18.
 
-### Python (motor original — referencia de v0.1)
+### Python (motor original — archivado en `legacy/`)
 
-El script `Calculo_Salario_IRPF.py` permanece como **referencia de comportamiento** durante el porting. Sigue siendo ejecutable y genera el Excel completo:
+El script Python original vive bajo `legacy/python-reference/` como referencia histórica y como generador de los fixtures-oráculo. Sigue siendo ejecutable:
 
 ```bash
 python3 -m venv .venv
-.venv/bin/pip install -r requirements.txt
-.venv/bin/python3 Calculo_Salario_IRPF.py
+.venv/bin/pip install -r legacy/python-reference/requirements.txt
+.venv/bin/python3 legacy/python-reference/Calculo_Salario_IRPF.py
 ```
 
-Para regenerar los fixtures JSON desde el motor Python (operación idempotente):
+Para regenerar los fixtures JSON (operación idempotente):
 
 ```bash
 .venv/bin/python3 scripts/generate_fixtures.py
 ```
 
-> ⏳ La generación del Excel tarda varios minutos por el volumen de cálculos (>1,5 millones de operaciones). Los fixtures, en cambio, son cuestión de segundos.
+> ⏳ El motor TypeScript genera el mismo Excel en segundos vía SheetJS; el script Python tarda minutos por el volumen de cálculos.
 
-## 📊 Entendiendo el output (Excel generado por el motor Python)
+## 📊 Entendiendo el output (Excel generado)
 
-El script Python produce `Auditoria_Integral_Nominas_e_Inflacion_2012_2026.xlsx` con las siguientes pestañas. El motor TypeScript replicará esta estructura vía [SheetJS](https://sheetjs.com/) cuando aterrice el porting (Phase 1).
+`npm run build:excel` (TS) y `python3 legacy/python-reference/Calculo_Salario_IRPF.py` (Python) producen el mismo `Auditoria_Integral_Nominas_e_Inflacion_2012_2026.xlsx` con estas pestañas:
 
 | Pestaña                 | Qué contiene                                                                                                                                                                                 |
 | ----------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -121,19 +122,28 @@ El script Python produce `Auditoria_Integral_Nominas_e_Inflacion_2012_2026.xlsx`
 
 ```
 .
-├── src/                       # Motor TypeScript (en porting; aterriza en v0.2.0)
-│   └── index.ts               # Public API barrel
-├── test/                      # Vitest tests
-├── tests/fixtures/            # Golden JSON fixtures: oráculo inmutable
-│   └── golden_YYYY.json       # 10 brutos representativos por año (2012–2026)
+├── src/                          # Motor TypeScript
+│   ├── inflacion.ts              # IPC + inflacionAcumulada
+│   ├── normativa.ts              # obtenerParametros + tablas año a año
+│   ├── pipeline.ts               # calcularNomina (motor central)
+│   ├── bulk.ts                   # calcularAnoCompleto (brutos 0-100 000)
+│   ├── excel.ts                  # generarExcel (vía SheetJS)
+│   ├── format.ts                 # Helpers de redondeo Python-compatibles
+│   ├── types.ts                  # Tipos públicos
+│   ├── cli.ts                    # Entry point para `npm run build:excel`
+│   └── index.ts                  # Public API barrel
+├── test/                         # Vitest (664 cases: fixtures + invariantes + smoke)
+├── tests/fixtures/               # Golden JSON fixtures: oráculo inmutable
+│   └── golden_YYYY.json          # 10 brutos representativos por año (2012-2026)
 ├── scripts/
-│   └── generate_fixtures.py   # Genera los fixtures desde el motor Python
-├── Calculo_Salario_IRPF.py    # Motor Python original (referencia de v0.1; archivado al cierre de v0.2.0)
-├── requirements.txt           # Deps del motor Python
-└── package.json               # npm + Vitest + ESLint + Prettier
+│   └── generate_fixtures.py      # Regenera fixtures desde el motor Python
+├── legacy/python-reference/      # Motor Python original (archivado tras v0.2.0)
+│   ├── Calculo_Salario_IRPF.py
+│   └── requirements.txt
+└── package.json                  # npm + Vite + Vitest + ESLint + Prettier + xlsx
 ```
 
-Punto único de verdad normativa hoy: `obtener_parametros(anio)` en `Calculo_Salario_IRPF.py`. Tras la v0.2.0, será `obtenerParametros(anio)` en `src/normativa.ts`.
+Punto único de verdad normativa: `obtenerParametros(anio)` en `src/normativa.ts`. Cualquier actualización de ley se centraliza ahí.
 
 ## 🤝 Contribuciones
 
