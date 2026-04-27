@@ -187,7 +187,10 @@ def calcular_cuotas_por_tramo(base_liq, tramos):
 def procesar_ano(anio):
     p = obtener_parametros(anio)
     # Rango exhaustivo: 0 a 100.000€ de 1€ en 1€
-    salarios_brutos = np.arange(0, 100001, 1)
+    # `.tolist()` los convierte a `int` Python para evitar la promoción a
+    # `numpy.float64` cuando bruto < base_max (que provocaba redondeos
+    # bancarios inconsistentes en `round(...)`).
+    salarios_brutos = np.arange(0, 100001, 1).tolist()
     resultados = []
 
     for bruto in salarios_brutos:
