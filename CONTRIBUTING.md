@@ -38,13 +38,13 @@ Ver la tabla en [Perfiles y áreas](#perfiles-y-áreas) más arriba.
 
 ### `type/*` — naturaleza del issue
 
-| Etiqueta          | Significado                               |
-| ----------------- | ----------------------------------------- |
-| `type/bug`        | Comportamiento incorrecto.                |
-| `type/feature`    | Nueva funcionalidad o mejora.             |
-| `type/audit`      | Auditoría normativa anual (`audit-YYYY`). |
-| `type/question`   | Pregunta o aclaración.                    |
-| `type/discussion` | Roadmap, RFC, decisión abierta.           |
+| Etiqueta          | Significado                                                                                  |
+| ----------------- | -------------------------------------------------------------------------------------------- |
+| `type/bug`        | Comportamiento incorrecto.                                                                   |
+| `type/feature`    | Nueva funcionalidad o mejora.                                                                |
+| `type/audit`      | Auditoría normativa anual (`audit-YYYY`); cada issue lleva además la sublabel `audit/<año>`. |
+| `type/question`   | Pregunta o aclaración.                                                                       |
+| `type/discussion` | Roadmap, RFC, decisión abierta.                                                              |
 
 ### `priority/*` — prioridad relativa
 
@@ -112,13 +112,20 @@ Coverage:
 npm run test:coverage
 ```
 
-Los fixtures bajo `tests/fixtures/golden_YYYY.json` son **inmutables** durante el porting (Phase 1). Si un cambio normativo te obliga a regenerarlos, hazlo desde el motor Python con `python3 scripts/generate_fixtures.py` y documenta el motivo en el PR (citando la referencia BOE correspondiente).
+Los fixtures bajo `tests/fixtures/golden_YYYY.json` son **inmutables** salvo cuando una corrección de auditoría (`audit:`) modifique un valor normativo. En ese caso el mismo PR debe regenerarlos vía `python3 scripts/generate_fixtures.py` y documentar el motivo (referencia BOE) en el commit.
 
 ## Para fiscalistas
 
-Si estás auditando un año, abre o reclama el issue `audit-YYYY` (etiqueta `type/audit`). Dentro encontrarás un checklist normativo a verificar. **Incluye siempre la referencia legal** (BOE, artículo, disposición) cuando reportes una corrección.
+Hay 15 issues de auditoría abiertos, uno por año fiscal 2012–2026. La tabla agregada de progreso vive en [`docs/auditoria/progreso.md`](docs/auditoria/progreso.md) y enlaza a cada issue. Cada issue contiene un checklist normativo con permalinks al motor (`src/normativa.ts`) anclados al commit de la última release.
 
-Si tu corrección modifica un valor del motor, el PR debe actualizar también los fixtures correspondientes y dejar constancia del impacto.
+Para auditar un año:
+
+1. Reclama el issue `audit-YYYY` correspondiente (etiquetas `area/fiscal` + `type/audit` + `audit/YYYY`) comentando "tomo este año".
+2. Por cada ítem del checklist, valida el valor del motor contra la(s) referencia(s) BOE oficial(es) y déjalas anotadas en el campo "Referencias BOE" del issue.
+3. Si todos los valores son correctos, marca los ítems y cierra el issue.
+4. Si encuentras una discrepancia, abre un PR `audit:` usando la plantilla específica (`?template=audit.md` al crear el PR): corrige el valor, regenera el fixture afectado (ver sección [Tests](#tests)) y cita la referencia BOE.
+
+**Incluye siempre la referencia legal** (BOE, artículo, disposición) cuando reportes una corrección.
 
 ## Para divulgadores
 
