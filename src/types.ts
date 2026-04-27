@@ -41,6 +41,10 @@ export interface Parametros {
   readonly baseMax: number;
   readonly ssTipos: SSTipos;
   readonly mei: readonly [number, number];
+  /** Suma de ssTipos[*][0] + mei[0]. Precomputado para ahorrar trabajo en el hot path. */
+  readonly tipoEmpresaTotal: number;
+  /** Suma de ssTipos[*][1] + mei[1]. Precomputado para ahorrar trabajo en el hot path. */
+  readonly tipoTrabajadorTotal: number;
   readonly solidaridad: readonly SolidaridadBand[];
   readonly irpfMinimo: number;
   readonly minimoExento: number;

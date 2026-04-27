@@ -3,15 +3,21 @@
 
 import { utils, writeFile, type WorkBook, type WorkSheet } from 'xlsx';
 import { calcularAnoCompleto, MAX_BRUTO_DEFAULT } from './bulk';
-import { r2, r3, roundN, tramoLabel } from './format';
+import { nominaToFila, r2, r3, roundN } from './format';
 import { INFLACION_A_2026 } from './inflacion';
-import { obtenerParametros } from './normativa';
-import { calcularNomina } from './pipeline';
+import { ANIOS_SOPORTADOS, obtenerParametros } from './normativa';
+import { calcularNominaConParametros } from './pipeline';
 import type { Nomina, Parametros } from './types';
 
-const ANIO_MIN = 2012;
-const ANIO_MAX = 2026;
-const ANIOS_DEFAULT = Array.from({ length: ANIO_MAX - ANIO_MIN + 1 }, (_, i) => ANIO_MIN + i);
+/** Bruto mínimo (en € de 2026) para la tabla COMPARATIVA_INFLACION. */
+export const COMPARATIVA_BRUTO_MIN = 15000;
+/** Bruto máximo (en € de 2026) para la tabla COMPARATIVA_INFLACION. */
+export const COMPARATIVA_BRUTO_MAX = 100000;
+/** Paso entre brutos en COMPARATIVA_INFLACION. */
+export const COMPARATIVA_BRUTO_STEP = 1000;
+/** Número de filas que COMPARATIVA_INFLACION genera por año. */
+export const COMPARATIVA_FILAS_POR_ANIO =
+  (COMPARATIVA_BRUTO_MAX - COMPARATIVA_BRUTO_MIN) / COMPARATIVA_BRUTO_STEP + 1;
 
 export interface GenerarExcelOptions {
   /** Años a incluir como pestañas DAT_YYYY. Default: 2012–2026. */
@@ -20,36 +26,14 @@ export interface GenerarExcelOptions {
   readonly maxBruto?: number;
 }
 
-function tipoEmpresaTotal(p: Parametros): number {
-  return (
-    p.ssTipos.comunes[0] +
-    p.ssTipos.desempleo[0] +
-    p.ssTipos.fogasa[0] +
-    p.ssTipos.fp[0] +
-    p.ssTipos.atep[0] +
-    p.mei[0]
-  );
-}
-
-function tipoTrabajadorTotal(p: Parametros): number {
-  return (
-    p.ssTipos.comunes[1] +
-    p.ssTipos.desempleo[1] +
-    p.ssTipos.fogasa[1] +
-    p.ssTipos.fp[1] +
-    p.ssTipos.atep[1] +
-    p.mei[1]
-  );
-}
-
 function buildControlGeneral(anios: readonly number[]): Record<string, number | string>[] {
   return anios.map((anio) => {
     const p = obtenerParametros(anio);
     return {
       Año: anio,
       'Base Máx. Anual': p.baseMax,
-      'SS Empleador %': r2(tipoEmpresaTotal(p) * 100),
-      'SS Empleado %': r2(tipoTrabajadorTotal(p) * 100),
+      'SS Empleador %': r2(p.tipoEmpresaTotal * 100),
+      'SS Empleado %': r2(p.tipoTrabajadorTotal * 100),
       'MEI Empleador %': r3(p.mei[0] * 100),
       'MEI Empleado %': r3(p.mei[1] * 100),
       'Gastos Fijos Art.19': p.gastosFijos,
@@ -81,19 +65,23 @@ function buildControlTramos(anios: readonly number[]): Record<string, number | s
 
 function buildComparativaInflacion(anios: readonly number[]): Record<string, number | string>[] {
   const salarios2026: number[] = [];
-  for (let s = 15000; s <= 100000; s += 1000) salarios2026.push(s);
+  for (let s = COMPARATIVA_BRUTO_MIN; s <= COMPARATIVA_BRUTO_MAX; s += COMPARATIVA_BRUTO_STEP) {
+    salarios2026.push(s);
+  }
 
+  const p2026 = obtenerParametros(2026);
   const ref2026 = new Map<number, Nomina>();
-  for (const b of salarios2026) ref2026.set(b, calcularNomina(b, 2026));
+  for (const b of salarios2026) ref2026.set(b, calcularNominaConParametros(b, p2026));
 
   const rows: Record<string, number | string>[] = [];
   for (const anio of anios) {
     const infAcum = INFLACION_A_2026[anio];
     if (infAcum === undefined) continue;
+    const p: Parametros = anio === 2026 ? p2026 : obtenerParametros(anio);
 
     for (const bruto26 of salarios2026) {
       const brutoNom = bruto26 / infAcum;
-      const n = calcularNomina(brutoNom, anio);
+      const n = calcularNominaConParametros(brutoNom, p);
 
       const cLabAj = n.costeLaboral * infAcum;
       const cEmpAj = n.cotSocEmpresa * infAcum;
@@ -109,7 +97,7 @@ function buildComparativaInflacion(anios: readonly number[]): Record<string, num
         'Año a Comparar': anio,
         'Salario Equivalente (2026)': bruto26,
         'Multiplicador IPC Acum.': roundN(infAcum, 4),
-        'IPC Acumulado (%)': `${String(r2((infAcum - 1) * 100))}%`,
+        'IPC Acumulado (%)': `${r2((infAcum - 1) * 100)}%`,
         'Salario Bruto Nominal': r2(brutoNom),
         'Coste Lab. (Euros 2026)': r2(cLabAj),
         'SS Emp. (Euros 2026)': r2(cEmpAj),
@@ -123,31 +111,6 @@ function buildComparativaInflacion(anios: readonly number[]): Record<string, num
     }
   }
   return rows;
-}
-
-function nominaToFila(n: Nomina): Record<string, number> {
-  const fila: Record<string, number> = {
-    'Salario Bruto': n.bruto,
-    'Cot. Soc. Empresa': r2(n.cotSocEmpresa),
-    'Coste Laboral': r2(n.costeLaboral),
-    'Cot. Soc. Trab.': r2(n.cotSocTrabajador),
-    'Ren. Previo': r2(n.renPrevio),
-    'Gastos Fijos': n.gastosFijos,
-    'Red. Ren. Trab.': r2(n.redRenTrabajo),
-    'Base Imponible': r2(n.baseImponible),
-  };
-  n.cuotasPorTramo.forEach((c, i) => {
-    fila[tramoLabel(i, c.tipo)] = r2(c.cuota);
-  });
-  fila['Cuota Íntegra'] = r2(n.cuotaIntegra);
-  fila['Cuota Mínimo Personal'] = r2(n.cuotaMinimoPersonal);
-  fila['Cuota Teórica'] = r2(n.cuotaTeorica);
-  fila['Deducción SMI'] = r2(n.deduccionSMI);
-  fila['Cuota tras SMI'] = r2(n.cuotaTrasSMI);
-  fila['Límite 43% (Art 85.3)'] = r2(n.limite43);
-  fila['IRPF Final'] = r2(n.irpfFinal);
-  fila['Salario Neto'] = r2(n.salarioNeto);
-  return fila;
 }
 
 function buildDatYear(anio: number, maxBruto: number): Record<string, number>[] {
@@ -166,7 +129,7 @@ function appendSheet(wb: WorkBook, name: string, rows: object[]): void {
  * Por defecto: 2012–2026 con brutos 0–100 000 €.
  */
 export function generarExcel(outputPath: string, opts: GenerarExcelOptions = {}): void {
-  const anios = opts.anios ?? ANIOS_DEFAULT;
+  const anios = opts.anios ?? ANIOS_SOPORTADOS;
   const maxBruto = opts.maxBruto ?? MAX_BRUTO_DEFAULT;
   const wb = utils.book_new();
   appendSheet(wb, 'CONTROL_GENERAL', buildControlGeneral(anios));

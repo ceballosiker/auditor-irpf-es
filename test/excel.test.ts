@@ -3,7 +3,7 @@ import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { afterAll, beforeAll, describe, expect, it } from 'vitest';
 import { readFile, utils } from 'xlsx';
-import { generarExcel } from '../src/excel';
+import { COMPARATIVA_FILAS_POR_ANIO, generarExcel } from '../src/excel';
 
 // Smoke test against a small workbook (2 years, brutos 0..1000) so the
 // vitest worker doesn't OOM. The full 2012-2026 × 0-100 000 generation is
@@ -56,11 +56,11 @@ describe('generarExcel — smoke (small workbook)', () => {
     expect(rows[TEST_MAX_BRUTO]?.['Salario Bruto']).toBe(TEST_MAX_BRUTO);
   });
 
-  it('COMPARATIVA_INFLACION has 86 rows × number of requested years', () => {
+  it('COMPARATIVA_INFLACION has COMPARATIVA_FILAS_POR_ANIO rows × number of requested years', () => {
     const wb = readFile(xlsxPath);
     const sheet = wb.Sheets['COMPARATIVA_INFLACION'];
     expect(sheet).toBeDefined();
     const rows = utils.sheet_to_json<Record<string, unknown>>(sheet!);
-    expect(rows).toHaveLength(TEST_ANIOS.length * 86);
+    expect(rows).toHaveLength(TEST_ANIOS.length * COMPARATIVA_FILAS_POR_ANIO);
   });
 });

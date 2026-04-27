@@ -1,6 +1,7 @@
 // Bulk computation: nóminas para los brutos enteros en [0, maxBruto].
 
-import { calcularNomina } from './pipeline';
+import { obtenerParametros } from './normativa';
+import { calcularNominaConParametros } from './pipeline';
 import type { Nomina } from './types';
 
 export const MAX_BRUTO_DEFAULT = 100000;
@@ -11,9 +12,10 @@ export const MAX_BRUTO_DEFAULT = 100000;
  * rango completo 0–100 000 € que reproduce la salida del script Python.
  */
 export function calcularAnoCompleto(anio: number, maxBruto: number = MAX_BRUTO_DEFAULT): Nomina[] {
+  const p = obtenerParametros(anio);
   const out: Nomina[] = new Array<Nomina>(maxBruto + 1);
   for (let bruto = 0; bruto <= maxBruto; bruto++) {
-    out[bruto] = calcularNomina(bruto, anio);
+    out[bruto] = calcularNominaConParametros(bruto, p);
   }
   return out;
 }

@@ -22,28 +22,6 @@ const REPARTO_SOLIDARIDAD_TRABAJADOR = 1 / 6;
 const SOLIDARIDAD_BANDA_1 = 0.1;
 const SOLIDARIDAD_BANDA_2 = 0.5;
 
-function tipoEmpresa(p: Parametros): number {
-  return (
-    p.ssTipos.comunes[0] +
-    p.ssTipos.desempleo[0] +
-    p.ssTipos.fogasa[0] +
-    p.ssTipos.fp[0] +
-    p.ssTipos.atep[0] +
-    p.mei[0]
-  );
-}
-
-function tipoTrabajador(p: Parametros): number {
-  return (
-    p.ssTipos.comunes[1] +
-    p.ssTipos.desempleo[1] +
-    p.ssTipos.fogasa[1] +
-    p.ssTipos.fp[1] +
-    p.ssTipos.atep[1] +
-    p.mei[1]
-  );
-}
-
 interface CuotaSolidaridad {
   empresa: number;
   trabajador: number;
@@ -76,9 +54,7 @@ function calcularCuotasPorTramo(
   if (baseLiq <= 0) return { cuotas, total: 0 };
   let total = 0;
   let limAnt = 0;
-  for (let i = 0; i < tramos.length; i++) {
-    const t = tramos[i];
-    if (t === undefined) break;
+  for (const [i, t] of tramos.entries()) {
     if (baseLiq > t.hasta) {
       const cuota = (t.hasta - limAnt) * t.tipo;
       cuotas[i] = { tipo: t.tipo, cuota };
@@ -95,17 +71,16 @@ function calcularCuotasPorTramo(
 }
 
 /**
- * Calcula la nómina anual para un salario bruto. Función pura: el resultado
- * sólo depende de `(bruto, anio)`. Lanza si `anio` está fuera de [2012, 2026].
+ * Variante de `calcularNomina` que toma `Parametros` ya resueltos. Diseñada
+ * para que llamadores en bucle (Excel, comparativa) hoisten `obtenerParametros`
+ * fuera del bucle interno y eviten reconstruir cierres y objetos por bruto.
  */
-export function calcularNomina(bruto: number, anio: number): Nomina {
-  const p = obtenerParametros(anio);
-
+export function calcularNominaConParametros(bruto: number, p: Parametros): Nomina {
   const baseCotizacion = Math.min(bruto, p.baseMax);
   const excesoBase = Math.max(0, bruto - p.baseMax);
 
-  let cotEmpresa = baseCotizacion * tipoEmpresa(p);
-  let cotTrabajador = baseCotizacion * tipoTrabajador(p);
+  let cotEmpresa = baseCotizacion * p.tipoEmpresaTotal;
+  let cotTrabajador = baseCotizacion * p.tipoTrabajadorTotal;
 
   const sol = cuotaSolidaridad(excesoBase, p);
   cotEmpresa += sol.empresa;
@@ -132,7 +107,7 @@ export function calcularNomina(bruto: number, anio: number): Nomina {
 
   return {
     bruto,
-    anio,
+    anio: p.anio,
     cotSocEmpresa: cotEmpresa,
     costeLaboral,
     cotSocTrabajador: cotTrabajador,
@@ -150,4 +125,12 @@ export function calcularNomina(bruto: number, anio: number): Nomina {
     irpfFinal,
     salarioNeto,
   };
+}
+
+/**
+ * Calcula la nómina anual para un salario bruto. Función pura: el resultado
+ * sólo depende de `(bruto, anio)`. Lanza si `anio` está fuera de [2012, 2026].
+ */
+export function calcularNomina(bruto: number, anio: number): Nomina {
+  return calcularNominaConParametros(bruto, obtenerParametros(anio));
 }

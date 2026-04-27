@@ -7,8 +7,12 @@
 
 import type { Art20Meta, Parametros, SolidaridadBand, SSTipos, TramoIRPF } from './types';
 
-const ANIO_MIN = 2012;
-const ANIO_MAX = 2026;
+export const ANIO_MIN = 2012;
+export const ANIO_MAX = 2026;
+export const ANIOS_SOPORTADOS: readonly number[] = Array.from(
+  { length: ANIO_MAX - ANIO_MIN + 1 },
+  (_, i) => ANIO_MIN + i,
+);
 
 const BASE_MAX_POR_ANIO: Readonly<Record<number, number>> = {
   2012: 39150.0,
@@ -206,11 +210,28 @@ export function obtenerParametros(anio: number): Parametros {
       `Año fuera de rango (${String(ANIO_MIN)}-${String(ANIO_MAX)}): ${String(anio)}`,
     );
   }
+  const mei = meiDe(anio);
+  const tipoEmpresaTotal =
+    SS_TIPOS.comunes[0] +
+    SS_TIPOS.desempleo[0] +
+    SS_TIPOS.fogasa[0] +
+    SS_TIPOS.fp[0] +
+    SS_TIPOS.atep[0] +
+    mei[0];
+  const tipoTrabajadorTotal =
+    SS_TIPOS.comunes[1] +
+    SS_TIPOS.desempleo[1] +
+    SS_TIPOS.fogasa[1] +
+    SS_TIPOS.fp[1] +
+    SS_TIPOS.atep[1] +
+    mei[1];
   return {
     anio,
     baseMax,
     ssTipos: SS_TIPOS,
-    mei: meiDe(anio),
+    mei,
+    tipoEmpresaTotal,
+    tipoTrabajadorTotal,
     solidaridad: solidaridadDe(anio),
     irpfMinimo: anio <= 2014 ? 5151 : 5550,
     minimoExento,
