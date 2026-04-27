@@ -2,6 +2,7 @@ import { readFileSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { describe, expect, it } from 'vitest';
+import { r2, tramoLabel } from '../src/format';
 import { calcularNomina } from '../src/pipeline';
 import type { Nomina } from '../src/types';
 
@@ -18,39 +19,6 @@ interface Fixture {
 function loadFixture(anio: number): Fixture {
   const path = join(FIXTURES_DIR, `golden_${String(anio)}.json`);
   return JSON.parse(readFileSync(path, 'utf-8')) as Fixture;
-}
-
-function r2(n: number): number {
-  // Match Python's round(x, 2). Python looks at the float's true decimal
-  // expansion (via David Gay's dtoa) and applies banker's rule only on
-  // *exact* halves; near-halves round to nearest. Multiplying by 100 in JS
-  // can collapse a near-half into an exact half (e.g. 2486.0250000000004
-  // → 248602.5 exactly), so we work from `toFixed(20)` instead.
-  if (!Number.isFinite(n) || n === 0) return n;
-  const sign = n < 0 ? -1 : 1;
-  const s = Math.abs(n).toFixed(20);
-  const [intPartRaw = '0', fracPartRaw = ''] = s.split('.');
-  if (fracPartRaw.length <= 2) return n;
-  const keep = fracPartRaw.slice(0, 2);
-  const rest = fracPartRaw.slice(2);
-  const halfRest = `5${'0'.repeat(rest.length - 1)}`;
-  let increment: 0 | 1;
-  if (rest > halfRest) {
-    increment = 1;
-  } else if (rest < halfRest) {
-    increment = 0;
-  } else {
-    // Exact half — banker's: round to even.
-    increment = (keep.charCodeAt(1) - 48) % 2 === 0 ? 0 : 1;
-  }
-  const base = Number(`${intPartRaw}.${keep}`);
-  return sign * Number((base + increment * 0.01).toFixed(2));
-}
-
-function tramoLabel(idx: number, tipo: number): string {
-  // Reproduce Python's f"T{i+1} ({round(tipo*100, 1)}%)"
-  const pct = (Math.round(tipo * 1000) / 10).toFixed(1);
-  return `T${String(idx + 1)} (${pct}%)`;
 }
 
 function nominaToFixtureRow(n: Nomina): FixtureRow {

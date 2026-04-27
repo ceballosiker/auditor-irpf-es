@@ -16,3 +16,6 @@ export type {
 export { IPC_ANUAL_DIC, INFLACION_A_2026, inflacionAcumulada } from './inflacion';
 export { obtenerParametros } from './normativa';
 export { calcularNomina } from './pipeline';
+export { calcularAnoCompleto } from './bulk';
+export { generarExcel } from './excel';
+export { r1, r2, r3, roundN, tramoLabel } from './format';
