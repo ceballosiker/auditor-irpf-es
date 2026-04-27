@@ -21,7 +21,7 @@ import json
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
-SCRIPT_PATH = ROOT / "Calculo_Salario_IRPF.py"
+SCRIPT_PATH = ROOT / "legacy" / "python-reference" / "Calculo_Salario_IRPF.py"
 FIXTURES_DIR = ROOT / "tests" / "fixtures"
 SECTION_6_MARKER = "# 6. EJECUCIÓN MAESTRA"
 
