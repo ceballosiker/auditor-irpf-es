@@ -26,7 +26,7 @@ Pendiente (Phase 6):
 ## Cómo está organizado este manual
 
 - **[Motor de cálculo](motor/01-cotizacion.md)** — la cadena de cálculo paso a paso, en siete páginas.
-- **Progresividad en frío** — el concepto clave (próximamente, Phase 3.3).
+- **[Progresividad en frío](progresividad-en-frio.md)** — el concepto clave: por qué los impuestos pueden subir sin que el legislador los suba.
 - **Anual** — un resumen por año entre 2012 y 2026 (stubs en v0.4.0; redacción completa en Phase 5).
 - **[Auditoría](auditoria/progreso.md)** — estado vivo de la validación normativa.
 - **[Cómo contribuir](contribuir.md)** — guía corta por perfil.
