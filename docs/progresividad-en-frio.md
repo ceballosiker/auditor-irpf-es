@@ -61,7 +61,8 @@ Lo más llamativo no es la columna del **tipo medio efectivo** —que de hecho h
 
 Una parte de esa caída es por inflación pura (su salario perdió valor). La otra parte es lo que la **progresividad en frío** habría agravado de no ser por reformas puntuales que recortaron tramos y subieron reducciones.
 
-<!-- CHART: "neto-real-mismo-nominal" — eje X: año (2012–2026); eje Y: neto en € de 2026; serie única (bruto nominal = 30 000 €). Pendiente decreciente que ilustra el ejemplo de la tabla anterior. -->
+![Neto real con bruto nominal fijo en 30 000 €](assets/neto-real-mismo-nominal.svg)
+{ .img-chart }
 
 ## Otra mirada: mismo poder de compra a través del tiempo
 
@@ -69,9 +70,11 @@ Otra forma de ver el efecto es preguntarse: si yo gano hoy lo equivalente a un p
 
 Esta vez **fijamos el bruto real**, no el nominal — el sueldo se actualiza año a año en línea con el IPC.
 
-<!-- CHART: "neto-real-bruto-real-fijo" — eje X: bruto en € de 2026 (15 000–80 000 €); eje Y: neto en € de 2026; una serie por año (2012, 2015, 2018, 2022, 2024, 2026). El espaciado vertical entre líneas mide el efecto neto de las reformas + progresividad en frío. -->
+![Neto real por bruto real, fiscalidad de cada año](assets/neto-real-bruto-real-fijo.svg)
+{ .img-chart }
 
-<!-- CHART: "tipo-medio-efectivo" — eje X: bruto en € de 2026 (15 000–80 000 €); eje Y: tipo medio efectivo (cot. trabajador + IRPF) / bruto, en %; una serie por año (2012, 2015, 2018, 2022, 2024, 2026). Permite ver dónde tributa hoy más quien antes tributaba menos. -->
+![Tipo medio efectivo: cotización + IRPF sobre bruto](assets/tipo-medio-efectivo.svg)
+{ .img-chart }
 
 ## Cuándo se nota más
 

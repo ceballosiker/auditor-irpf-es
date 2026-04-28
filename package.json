@@ -30,6 +30,8 @@
     "dev": "vite",
     "preview": "vite preview",
     "build:excel": "tsx src/cli.ts",
+    "charts": "tsx scripts/render-charts.ts",
+    "anual:stubs": "tsx scripts/render-anual-stubs.ts && prettier --write \"docs/anual/**/*.md\"",
     "test": "vitest run",
     "test:watch": "vitest",
     "test:coverage": "vitest run --coverage",
