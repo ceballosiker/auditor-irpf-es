@@ -52,4 +52,4 @@ y `✓` "aplicable, validado".
 4. Si el valor es correcto, marca el ítem y deja la(s) referencia(s) en la sección "Referencias BOE" del issue.
 5. Si encuentras una discrepancia, abre un PR `audit:` con la plantilla `?template=audit.md`: corrige el valor, regenera el fixture afectado y cita la referencia BOE.
 
-Ver [`CONTRIBUTING.md`](../../CONTRIBUTING.md) para el flujo OSS general.
+Ver [`CONTRIBUTING.md`](https://github.com/ceballosiker/auditor-irpf-es/blob/main/CONTRIBUTING.md) para el flujo OSS general.
