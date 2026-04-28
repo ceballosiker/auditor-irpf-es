@@ -41,6 +41,14 @@ theme:
 
 nav:
   - Inicio: index.md
+  - Motor de cálculo:
+      - 1. Base de cotización: motor/01-cotizacion.md
+      - 2. Tipos SS: motor/02-ss.md
+      - 3. MEI y Solidaridad: motor/03-mei-solidaridad.md
+      - 4. Gastos Art. 19: motor/04-art-19.md
+      - 5. Reducción Art. 20: motor/05-art-20.md
+      - 6. Tramos IRPF: motor/06-tramos-irpf.md
+      - 7. SMI y tope 43 %: motor/07-smi-y-43.md
   - Cómo contribuir: contribuir.md
   - Auditoría:
       - Progreso 2012–2026: auditoria/progreso.md
