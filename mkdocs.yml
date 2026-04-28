@@ -22,14 +22,14 @@ theme:
     - search.highlight
     - search.suggest
   palette:
-    - media: "(prefers-color-scheme: light)"
+    - media: '(prefers-color-scheme: light)'
       scheme: default
       primary: indigo
       accent: indigo
       toggle:
         icon: material/brightness-7
         name: Cambiar a modo oscuro
-    - media: "(prefers-color-scheme: dark)"
+    - media: '(prefers-color-scheme: dark)'
       scheme: slate
       primary: indigo
       accent: indigo

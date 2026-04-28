@@ -14,7 +14,7 @@ Este manual acompaña al [motor de cálculo](https://github.com/ceballosiker/aud
 
 Modelado:
 
-- *Soltero / sin hijos / sin discapacidad*.
+- _Soltero / sin hijos / sin discapacidad_.
 - Tramo autonómico = tramo estatal (es decir, escala estatal duplicada; sin variación por CCAA).
 
 Pendiente (Phase 6):

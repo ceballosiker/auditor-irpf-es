@@ -6,12 +6,7 @@ Este proyecto necesita tres tipos de aportación. Elige tu perfil:
 
 Tu valor está en **validar la fidelidad normativa** del motor año a año.
 
-1. Mira la [tabla de progreso de auditoría](auditoria/progreso.md).
-2. Elige un año en estado *no iniciado*.
-3. Abre el issue `audit-YYYY` correspondiente y reclama el slot comentando "tomo este año".
-4. Para cada ítem del checklist, valida el valor en `src/normativa.ts` (o `src/pipeline.ts` para el tope 43 %) contra la referencia BOE oficial.
-5. Si el valor es correcto, marca el ítem y deja la(s) referencia(s) BOE en el issue.
-6. Si encuentras una discrepancia, abre un issue describiéndola y un *techie* la convertirá en un PR `audit:` con la corrección + actualización del fixture afectado.
+El flujo paso a paso —elegir año, reclamar slot, validar contra BOE, reportar discrepancias— vive en la sección «Cómo participar» de la [tabla de progreso de auditoría](auditoria/progreso.md), para mantener una única fuente de verdad.
 
 No necesitas saber programar para auditar; basta con saber leer normativa y citar BOE.
 
