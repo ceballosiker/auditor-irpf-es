@@ -1,0 +1,69 @@
+site_name: Auditor IRPF ES
+site_description: Implementación pública y auditable del cálculo del IRPF y del salario neto en España, 2012–2026.
+site_url: https://ceballosiker.github.io/auditor-irpf-es/
+site_author: ceballosiker
+
+repo_url: https://github.com/ceballosiker/auditor-irpf-es
+repo_name: ceballosiker/auditor-irpf-es
+edit_uri: edit/develop/docs/
+
+docs_dir: docs
+site_dir: site
+
+theme:
+  name: material
+  language: es
+  features:
+    - navigation.sections
+    - navigation.top
+    - navigation.tracking
+    - content.code.copy
+    - content.action.edit
+    - search.highlight
+    - search.suggest
+  palette:
+    - media: '(prefers-color-scheme: light)'
+      scheme: default
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/brightness-7
+        name: Cambiar a modo oscuro
+    - media: '(prefers-color-scheme: dark)'
+      scheme: slate
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/brightness-4
+        name: Cambiar a modo claro
+  icon:
+    repo: fontawesome/brands/github
+
+nav:
+  - Inicio: index.md
+  - Cómo contribuir: contribuir.md
+  - Auditoría:
+      - Progreso 2012–2026: auditoria/progreso.md
+
+markdown_extensions:
+  - admonition
+  - attr_list
+  - md_in_html
+  - tables
+  - toc:
+      permalink: true
+  - pymdownx.details
+  - pymdownx.superfences
+  - pymdownx.highlight:
+      anchor_linenums: true
+  - pymdownx.tabbed:
+      alternate_style: true
+
+plugins:
+  - search:
+      lang: es
+
+extra:
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/ceballosiker/auditor-irpf-es
