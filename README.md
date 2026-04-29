@@ -5,6 +5,8 @@
 ![License](https://img.shields.io/badge/license-MIT-green.svg)
 ![Estado](<https://img.shields.io/badge/estado-en%20curso%20(v0.3)-yellow.svg>)
 
+> **Aviso.** El objetivo de este repositorio es **practicar flujos de trabajo OSS con asistencia de agentes de IA** (Claude Code).
+
 Auditor fiscal que calcula el salario neto en España (2012–2026) euro a euro: IRPF, Seguridad Social, MEI y Cuota de Solidaridad, con análisis de pérdida de poder adquisitivo ajustada a la inflación real (IPC oficial del INE). Se expondrá como una **calculadora interactiva 100 % en el navegador** (sin servidor) acompañada de un manual divulgativo y un proceso de auditoría pública año a año.
 
 > **Estado actual:** motor TypeScript completo y validado al céntimo contra los fixtures-oráculo de la implementación Python original (v0.2.0, 2026-04). Fase en curso (v0.3.0): **workflow de auditoría fiscal** con 15 issues abiertos (uno por año fiscal 2012–2026), cada uno con checklist normativo y permalinks al motor. Ver [`docs/auditoria/progreso.md`](docs/auditoria/progreso.md).
