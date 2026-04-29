@@ -1,0 +1,95 @@
+site_name: Auditor IRPF ES
+site_description: Implementación pública y auditable del cálculo del IRPF y del salario neto en España, 2012–2026.
+site_url: https://ceballosiker.github.io/auditor-irpf-es/
+site_author: ceballosiker
+
+repo_url: https://github.com/ceballosiker/auditor-irpf-es
+repo_name: ceballosiker/auditor-irpf-es
+edit_uri: edit/develop/docs/
+
+docs_dir: docs
+site_dir: site
+
+theme:
+  name: material
+  language: es
+  features:
+    - navigation.sections
+    - navigation.top
+    - navigation.tracking
+    - content.code.copy
+    - content.action.edit
+    - search.highlight
+    - search.suggest
+  palette:
+    - media: '(prefers-color-scheme: light)'
+      scheme: default
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/brightness-7
+        name: Cambiar a modo oscuro
+    - media: '(prefers-color-scheme: dark)'
+      scheme: slate
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/brightness-4
+        name: Cambiar a modo claro
+  icon:
+    repo: fontawesome/brands/github
+
+nav:
+  - Inicio: index.md
+  - Motor de cálculo:
+      - 1. Base de cotización: motor/01-cotizacion.md
+      - 2. Tipos SS: motor/02-ss.md
+      - 3. MEI y Solidaridad: motor/03-mei-solidaridad.md
+      - 4. Gastos Art. 19: motor/04-art-19.md
+      - 5. Reducción Art. 20: motor/05-art-20.md
+      - 6. Tramos IRPF: motor/06-tramos-irpf.md
+      - 7. SMI y tope 43 %: motor/07-smi-y-43.md
+  - Progresividad en frío: progresividad-en-frio.md
+  - Resúmenes anuales:
+      - Índice 2012–2026: anual/index.md
+      - 2012: anual/2012.md
+      - 2013: anual/2013.md
+      - 2014: anual/2014.md
+      - 2015: anual/2015.md
+      - 2016: anual/2016.md
+      - 2017: anual/2017.md
+      - 2018: anual/2018.md
+      - 2019: anual/2019.md
+      - 2020: anual/2020.md
+      - 2021: anual/2021.md
+      - 2022: anual/2022.md
+      - 2023: anual/2023.md
+      - 2024: anual/2024.md
+      - 2025: anual/2025.md
+      - 2026: anual/2026.md
+  - Cómo contribuir: contribuir.md
+  - Auditoría:
+      - Progreso 2012–2026: auditoria/progreso.md
+
+markdown_extensions:
+  - admonition
+  - attr_list
+  - md_in_html
+  - tables
+  - toc:
+      permalink: true
+  - pymdownx.details
+  - pymdownx.superfences
+  - pymdownx.highlight:
+      anchor_linenums: true
+  - pymdownx.tabbed:
+      alternate_style: true
+
+plugins:
+  - search:
+      lang: es
+
+extra:
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/ceballosiker/auditor-irpf-es

@@ -114,6 +114,22 @@ npm run test:coverage
 
 Los fixtures bajo `tests/fixtures/golden_YYYY.json` son **inmutables** salvo cuando una corrección de auditoría (`audit:`) modifique un valor normativo. En ese caso el mismo PR debe regenerarlos vía `python3 scripts/generate_fixtures.py` y documentar el motivo (referencia BOE) en el commit.
 
+## Manual divulgativo (MkDocs)
+
+El sitio bajo [`docs/`](docs/) se construye con MkDocs Material. Para iterar localmente:
+
+```bash
+python3 -m venv .venv-docs && .venv-docs/bin/pip install -r requirements-docs.txt
+.venv-docs/bin/mkdocs serve
+```
+
+Hay dos artefactos generados desde el motor TypeScript que viven dentro de `docs/`:
+
+- **`docs/assets/*.svg`** — gráficos para la página `progresividad-en-frio.md`. Regenerar con `npm run charts` cada vez que cambie `src/inflacion.ts`, `src/pipeline.ts` o el parámetro de un año relevante (los charts están pinned al SHA implícito del momento de la regeneración).
+- **`docs/anual/YYYY.md` + `docs/anual/index.md`** — los stubs anuales con los parámetros vigentes leídos desde `obtenerParametros()`. Regenerar con `npm run anual:stubs`.
+
+Ambos comandos son idempotentes y deterministas. Si una corrección de auditoría cambia un valor en `src/normativa.ts`, ejecuta los dos comandos en el mismo PR para que el manual no quede desincronizado del motor.
+
 ## Para fiscalistas
 
 Hay 15 issues de auditoría abiertos, uno por año fiscal 2012–2026. La tabla agregada de progreso vive en [`docs/auditoria/progreso.md`](docs/auditoria/progreso.md) y enlaza a cada issue. Cada issue contiene un checklist normativo con permalinks al motor (`src/normativa.ts`) anclados al commit de la última release.
