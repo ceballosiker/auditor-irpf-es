@@ -3,13 +3,18 @@
 ![TypeScript](https://img.shields.io/badge/typescript-5.5%2B-blue.svg)
 ![Node](https://img.shields.io/badge/node-%3E%3D18.18-brightgreen.svg)
 ![License](https://img.shields.io/badge/license-MIT-green.svg)
-![Estado](<https://img.shields.io/badge/estado-en%20curso%20(v0.3)-yellow.svg>)
+![Estado](<https://img.shields.io/badge/estado-en%20curso%20(v0.4)-yellow.svg>)
+[![Manual](https://img.shields.io/badge/manual-ceballosiker.github.io-blue.svg)](https://ceballosiker.github.io/auditor-irpf-es/)
 
 > **Aviso.** El objetivo de este repositorio es **practicar flujos de trabajo OSS con asistencia de agentes de IA** (Claude Code).
 
 Auditor fiscal que calcula el salario neto en España (2012–2026) euro a euro: IRPF, Seguridad Social, MEI y Cuota de Solidaridad, con análisis de pérdida de poder adquisitivo ajustada a la inflación real (IPC oficial del INE). Se expondrá como una **calculadora interactiva 100 % en el navegador** (sin servidor) acompañada de un manual divulgativo y un proceso de auditoría pública año a año.
 
-> **Estado actual:** motor TypeScript completo y validado al céntimo contra los fixtures-oráculo de la implementación Python original (v0.2.0, 2026-04). Fase en curso (v0.3.0): **workflow de auditoría fiscal** con 15 issues abiertos (uno por año fiscal 2012–2026), cada uno con checklist normativo y permalinks al motor. Ver [`docs/auditoria/progreso.md`](docs/auditoria/progreso.md).
+> **Estado actual:** motor TypeScript completo y validado al céntimo (v0.2.0), workflow de auditoría fiscal con 15 issues `audit-YYYY` abiertos (v0.3.0), y **manual divulgativo publicado** en GitHub Pages (v0.4.0). Próximo hito: calculadora web interactiva (v1.0.0).
+
+## 📖 Manual divulgativo
+
+El manual está publicado en **<https://ceballosiker.github.io/auditor-irpf-es/>**. Contiene siete páginas explicando paso a paso la cadena de cálculo (cotización, SS, MEI/Solidaridad, Art. 19/20, escala IRPF, SMI/tope 43 %), una página dedicada a la **progresividad en frío** con gráficos generados desde el propio motor, y un esqueleto de 15 resúmenes anuales (uno por año entre 2012 y 2026) cuya redacción completa irá llegando en `v1.1.0` en paralelo con la auditoría fiscal.
 
 ---
 
@@ -59,17 +64,18 @@ Para maximizar la precisión antes de ampliar casuística, el motor modela delib
 
 ### Hoja de ruta de desarrollo
 
-| Versión                 | Hito                                                                                                        |
-| ----------------------- | ----------------------------------------------------------------------------------------------------------- |
-| **v0.1.0** ✅           | Infraestructura OSS, tooling TypeScript, fixtures JSON desde el motor Python (oráculo).                     |
-| **v0.2.0** ✅           | Port del motor a TypeScript validado al céntimo contra los fixtures de v0.1.0.                              |
-| **v0.3.0** _(en curso)_ | Workflow de auditoría fiscal: 15 issues (uno por año, 2012–2026) con checklist normativo + referencias BOE. |
-| **v0.4.0**              | Manual divulgativo en MkDocs publicado en GitHub Pages.                                                     |
-| **v1.0.0**              | Calculadora web interactiva: SPA estático, 100 % en el navegador, GitHub Pages.                             |
+| Versión       | Hito                                                                                                        |
+| ------------- | ----------------------------------------------------------------------------------------------------------- |
+| **v0.1.0** ✅ | Infraestructura OSS, tooling TypeScript, fixtures JSON desde el motor Python (oráculo).                     |
+| **v0.2.0** ✅ | Port del motor a TypeScript validado al céntimo contra los fixtures de v0.1.0.                              |
+| **v0.3.0** ✅ | Workflow de auditoría fiscal: 15 issues (uno por año, 2012–2026) con checklist normativo + referencias BOE. |
+| **v0.4.0** ✅ | Manual divulgativo en MkDocs Material publicado en GitHub Pages.                                            |
+| **v1.0.0**    | Calculadora web interactiva: SPA estático, 100 % en el navegador, GitHub Pages.                             |
+| **v1.1.0**    | Redacción completa de los 15 resúmenes anuales con referencias BOE, en paralelo con los `audit-YYYY`.       |
 
 Sigue el progreso en los [issues abiertos](https://github.com/ceballosiker/auditor-irpf-es/issues) y [milestones](https://github.com/ceballosiker/auditor-irpf-es/milestones).
 
-### Hoja de ruta normativa (post-v1.0)
+### Hoja de ruta normativa (post-v1.1)
 
 - Tramos autonómicos específicos por Comunidad Autónoma.
 - Deducciones familiares (hijos, ascendientes, discapacidad).
@@ -137,8 +143,17 @@ Para regenerar los fixtures JSON (operación idempotente):
 ├── test/                         # Vitest (664 cases: fixtures + invariantes + smoke)
 ├── tests/fixtures/               # Golden JSON fixtures: oráculo inmutable
 │   └── golden_YYYY.json          # 10 brutos representativos por año (2012-2026)
+├── docs/                         # Manual MkDocs Material (GitHub Pages)
+│   ├── index.md, contribuir.md
+│   ├── motor/                    # 7 páginas: cadena de cálculo paso a paso
+│   ├── progresividad-en-frio.md  # Concepto + gráficos generados del motor
+│   ├── anual/                    # Stubs 2012-2026 (redacción completa en v1.1.0)
+│   ├── auditoria/progreso.md     # Estado de los 15 audit-YYYY
+│   └── assets/*.svg              # Charts hand-rolled desde src/pipeline.ts
 ├── scripts/
-│   └── generate_fixtures.py      # Regenera fixtures desde el motor Python
+│   ├── generate_fixtures.py      # Regenera fixtures desde el motor Python
+│   ├── render-charts.ts          # `npm run charts` — SVGs para el manual
+│   └── render-anual-stubs.ts     # `npm run anual:stubs` — stubs anuales
 ├── legacy/python-reference/      # Motor Python original (archivado tras v0.2.0)
 │   ├── Calculo_Salario_IRPF.py
 │   └── requirements.txt
