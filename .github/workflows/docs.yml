@@ -34,11 +34,38 @@ jobs:
       - name: Build with strict mode
         run: mkdocs build --strict
 
+      # Pages layout: manual under /manual/, root reserved for the SPA (Phase 4 / #53).
+      # `actions/deploy-pages` replaces the entire deployment per upload, so we publish
+      # both the manual and a placeholder root redirect from a single artifact here.
+      # When #53 lands, the root index.html will be replaced by the SPA bundle in a
+      # unified workflow (see #53 for the merge plan).
+      - name: Restructure artifact (manual under /manual/, redirect at root)
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        run: |
+          mkdir -p public/manual
+          mv site/* public/manual/
+          cat > public/index.html <<'HTML'
+          <!doctype html>
+          <html lang="es">
+          <head>
+            <meta charset="utf-8">
+            <title>Auditor IRPF ES</title>
+            <meta http-equiv="refresh" content="0; url=./manual/">
+            <link rel="canonical" href="./manual/">
+            <meta name="robots" content="noindex">
+          </head>
+          <body>
+            <p>Redirigiendo al <a href="./manual/">manual</a>…</p>
+            <p>La calculadora interactiva (v1.0.0) sustituirá esta página próximamente.</p>
+          </body>
+          </html>
+          HTML
+
       - name: Upload Pages artifact
         if: github.event_name == 'push' && github.ref == 'refs/heads/main'
         uses: actions/upload-pages-artifact@v3
         with:
-          path: site
+          path: public
 
   deploy:
     name: Deploy to GitHub Pages

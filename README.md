@@ -4,7 +4,7 @@
 ![Node](https://img.shields.io/badge/node-%3E%3D18.18-brightgreen.svg)
 ![License](https://img.shields.io/badge/license-MIT-green.svg)
 ![Estado](<https://img.shields.io/badge/estado-en%20curso%20(v0.4)-yellow.svg>)
-[![Manual](https://img.shields.io/badge/manual-ceballosiker.github.io-blue.svg)](https://ceballosiker.github.io/auditor-irpf-es/)
+[![Manual](https://img.shields.io/badge/manual-ceballosiker.github.io-blue.svg)](https://ceballosiker.github.io/auditor-irpf-es/manual/)
 
 > **Aviso.** El objetivo de este repositorio es **practicar flujos de trabajo OSS con asistencia de agentes de IA** (Claude Code).
 
@@ -14,7 +14,9 @@ Auditor fiscal que calcula el salario neto en España (2012–2026) euro a euro:
 
 ## 📖 Manual divulgativo
 
-El manual está publicado en **<https://ceballosiker.github.io/auditor-irpf-es/>**. Contiene siete páginas explicando paso a paso la cadena de cálculo (cotización, SS, MEI/Solidaridad, Art. 19/20, escala IRPF, SMI/tope 43 %), una página dedicada a la **progresividad en frío** con gráficos generados desde el propio motor, y un esqueleto de 15 resúmenes anuales (uno por año entre 2012 y 2026) cuya redacción completa irá llegando en `v1.1.0` en paralelo con la auditoría fiscal.
+El manual está publicado en **<https://ceballosiker.github.io/auditor-irpf-es/manual/>**. Contiene siete páginas explicando paso a paso la cadena de cálculo (cotización, SS, MEI/Solidaridad, Art. 19/20, escala IRPF, SMI/tope 43 %), una página dedicada a la **progresividad en frío** con gráficos generados desde el propio motor, y un esqueleto de 15 resúmenes anuales (uno por año entre 2012 y 2026) cuya redacción completa irá llegando en `v1.1.0` en paralelo con la auditoría fiscal.
+
+> La raíz del sitio (`https://ceballosiker.github.io/auditor-irpf-es/`) está reservada para la **calculadora interactiva** que aterrizará en `v1.0.0`; mientras tanto redirige al manual.
 
 ---
 

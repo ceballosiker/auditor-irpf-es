@@ -1,6 +1,6 @@
 site_name: Auditor IRPF ES
 site_description: Implementación pública y auditable del cálculo del IRPF y del salario neto en España, 2012–2026.
-site_url: https://ceballosiker.github.io/auditor-irpf-es/
+site_url: https://ceballosiker.github.io/auditor-irpf-es/manual/
 site_author: ceballosiker
 
 repo_url: https://github.com/ceballosiker/auditor-irpf-es
