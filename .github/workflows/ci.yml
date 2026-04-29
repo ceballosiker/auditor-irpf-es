@@ -41,3 +41,6 @@ jobs:
 
       - name: Test
         run: npm test
+
+      - name: Build (Vite static bundle)
+        run: npm run build

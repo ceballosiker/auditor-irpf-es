@@ -6,6 +6,15 @@ El formato sigue [Keep a Changelog](https://keepachangelog.com/es-ES/1.1.0/) y e
 
 ## [Unreleased]
 
+### Added
+
+- **Esqueleto SPA estático** (Phase 4.1) — primer paso hacia la calculadora interactiva (`v1.0.0`):
+  - `index.html` en la raíz como entrypoint Vite (lang `es`, viewport, meta description, mount point `<main id="app">`).
+  - `src/ui/main.ts` — bootstrap mínimo que importa Pico.css y renderiza un placeholder en `#app`.
+  - `src/ui/render.ts` — helper `render(target, html)` para usar template strings sin reaching directo a `innerHTML` desde toda la app.
+  - `@picocss/pico` añadido como dependencia (CSS clásico, sin runtime, ~12 KB gzip), bundleado por Vite — sin CDN externo.
+- `.github/workflows/ci.yml` — añadido paso `npm run build` para que CI cace cualquier rotura del bundle Vite a partir de ahora.
+
 ### Changed
 
 - Manual MkDocs reubicado bajo el subpath `/manual/` (antes en la raíz). La raíz de GitHub Pages queda reservada para la calculadora interactiva (Phase 4 / `v1.0.0`); hasta entonces, una página estática redirige automáticamente a `/manual/`. `mkdocs.yml` actualiza `site_url` para que canonical URLs y sitemap reflejen la nueva ruta. `.github/workflows/docs.yml` reestructura el artefacto antes del upload (mueve `site/` a `public/manual/` y emite un `public/index.html` con `meta refresh`). README + badge apuntan a la nueva URL.
