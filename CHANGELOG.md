@@ -8,6 +8,7 @@ El formato sigue [Keep a Changelog](https://keepachangelog.com/es-ES/1.1.0/) y e
 
 ### Added
 
+- **Comparativa frente a inflación** (Phase 4.3) — gráfico Chart.js que ilustra la pérdida de poder adquisitivo: para el bruto introducido (interpretado como € de 2026), deflacta al equivalente nominal de cada año entre 2012 y 2026, calcula `salarioNeto` e `irpfFinal` con la fiscalidad de ese año y reinflacta los tres números a € de 2026. Tres series en línea: bruto real (constante, dashed), neto real (creciente luego decreciente vía progresividad en frío), IRPF real (creciente). Tooltips en español con `Intl.NumberFormat`. Re-render del chart en cada cambio de bruto destruyendo la instancia previa para evitar fugas.
 - **Calculadora interactiva** (Phase 4.2) — el SPA pasa de placeholder a calculadora funcional:
   - `src/ui/form.ts` — formulario con bruto (€, `step=100`), año (2012–2026, default 2026 ordenado descendente) y CCAA (deshabilitado, "Estatal" fijo). Etiquetas semánticas `<label>` con texto de ayuda en `<small>` para cada campo.
   - `src/ui/results.ts` — panel de resultados en tres `<article>`s (cotización social, IRPF, neto). Detalla tope de cotización, MEI/Solidaridad trabajador (cuando aplican), reducción Art. 20, gastos Art. 19, base imponible, mínimo personal aplicado como cuota, tope 43 % con etiqueta "aplica/no aplica", y neto anual + mensual (×14). Tabla de tramos IRPF muestra solo los tramos con cuota > 0 (o un mensaje si no hay IRPF a pagar).

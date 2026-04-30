@@ -1,5 +1,6 @@
 import '@picocss/pico/css/pico.min.css';
 import { ANIO_MAX } from '../normativa.js';
+import { renderComparativaInflacion } from './chart.js';
 import { mountForm } from './form.js';
 import type { FormState } from './form.js';
 import { render } from './render.js';
@@ -21,24 +22,42 @@ render(
     </header>
     <section id="form-section"></section>
     <section id="results-section" aria-live="polite"></section>
+    <section id="chart-section">
+      <h2>Comparativa frente a inflación</h2>
+      <p>
+        Manteniendo el bruto constante en euros de ${String(ANIO_MAX)}, este gráfico
+        muestra qué neto e IRPF reales obtendría el mismo poder adquisitivo en
+        cada año entre ${String(2012)} y ${String(ANIO_MAX)}.
+      </p>
+      <div class="chart-container" style="position: relative; height: clamp(240px, 40vh, 360px);">
+        <canvas id="chart-comparativa" role="img" aria-label="Bruto, neto e IRPF reales (€ de 2026) entre 2012 y 2026"></canvas>
+      </div>
+    </section>
   `,
 );
 
 const formSection = app.querySelector<HTMLElement>('#form-section');
 const resultsSection = app.querySelector<HTMLElement>('#results-section');
-if (!formSection || !resultsSection) {
+const chartCanvas = app.querySelector<HTMLCanvasElement>('#chart-comparativa');
+if (!formSection || !resultsSection || !chartCanvas) {
   throw new Error('Layout sections not found after initial render');
 }
 
 const initial: FormState = { bruto: 30000, anio: ANIO_MAX };
 
+let lastBruto: number | undefined;
+
 function update(state: FormState): void {
-  if (!resultsSection) return;
+  if (!resultsSection || !chartCanvas) return;
   if (!Number.isInteger(state.anio)) {
     render(resultsSection, '<p role="alert">Año no válido.</p>');
     return;
   }
   renderResults(resultsSection, state.bruto, state.anio);
+  if (state.bruto !== lastBruto) {
+    renderComparativaInflacion(chartCanvas, state.bruto);
+    lastBruto = state.bruto;
+  }
 }
 
 mountForm(formSection, { initial, onChange: update });
