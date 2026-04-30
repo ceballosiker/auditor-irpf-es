@@ -8,6 +8,11 @@ El formato sigue [Keep a Changelog](https://keepachangelog.com/es-ES/1.1.0/) y e
 
 ### Added
 
+- **Calculadora interactiva** (Phase 4.2) — el SPA pasa de placeholder a calculadora funcional:
+  - `src/ui/form.ts` — formulario con bruto (€, `step=100`), año (2012–2026, default 2026 ordenado descendente) y CCAA (deshabilitado, "Estatal" fijo). Etiquetas semánticas `<label>` con texto de ayuda en `<small>` para cada campo.
+  - `src/ui/results.ts` — panel de resultados en tres `<article>`s (cotización social, IRPF, neto). Detalla tope de cotización, MEI/Solidaridad trabajador (cuando aplican), reducción Art. 20, gastos Art. 19, base imponible, mínimo personal aplicado como cuota, tope 43 % con etiqueta "aplica/no aplica", y neto anual + mensual (×14). Tabla de tramos IRPF muestra solo los tramos con cuota > 0 (o un mensaje si no hay IRPF a pagar).
+  - `src/ui/format.ts` — helpers `eur()` y `percent()` con `Intl.NumberFormat('es-ES', …)` para que todos los importes y porcentajes usen el formato español de forma consistente.
+  - `src/ui/main.ts` — wiring reactivo: cada `input`/`change` del formulario re-renderiza la sección de resultados (sin debouncing). Sección con `aria-live="polite"` para que lectores de pantalla anuncien las actualizaciones.
 - **Esqueleto SPA estático** (Phase 4.1) — primer paso hacia la calculadora interactiva (`v1.0.0`):
   - `index.html` en la raíz como entrypoint Vite (lang `es`, viewport, meta description, mount point `<main id="app">`).
   - `src/ui/main.ts` — bootstrap mínimo que importa Pico.css y renderiza un placeholder en `#app`.
