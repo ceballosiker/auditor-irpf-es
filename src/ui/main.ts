@@ -1,6 +1,7 @@
 import '@picocss/pico/css/pico.min.css';
 import { ANIO_MAX } from '../normativa.js';
 import { renderComparativaInflacion } from './chart.js';
+import { mountExcelButton } from './excel-button.js';
 import { mountForm } from './form.js';
 import type { FormState } from './form.js';
 import { render } from './render.js';
@@ -33,15 +34,22 @@ render(
         <canvas id="chart-comparativa" role="img" aria-label="Bruto, neto e IRPF reales (€ de 2026) entre 2012 y 2026"></canvas>
       </div>
     </section>
+    <section id="excel-section">
+      <h2>Descargar libro Excel</h2>
+      <div id="excel-button-mount"></div>
+    </section>
   `,
 );
 
 const formSection = app.querySelector<HTMLElement>('#form-section');
 const resultsSection = app.querySelector<HTMLElement>('#results-section');
 const chartCanvas = app.querySelector<HTMLCanvasElement>('#chart-comparativa');
-if (!formSection || !resultsSection || !chartCanvas) {
+const excelMount = app.querySelector<HTMLElement>('#excel-button-mount');
+if (!formSection || !resultsSection || !chartCanvas || !excelMount) {
   throw new Error('Layout sections not found after initial render');
 }
+
+mountExcelButton(excelMount);
 
 const initial: FormState = { bruto: 30000, anio: ANIO_MAX };
 
