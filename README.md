@@ -143,8 +143,8 @@ Para regenerar los fixtures JSON (operación idempotente):
 │   ├── cli.ts                    # Entry point para `npm run build:excel`
 │   └── index.ts                  # Public API barrel
 ├── test/                         # Vitest (664 cases: fixtures + invariantes + smoke)
-├── tests/fixtures/               # Golden JSON fixtures: oráculo inmutable
-│   └── golden_YYYY.json          # 10 brutos representativos por año (2012-2026)
+│   └── fixtures/                 # Golden JSON fixtures: oráculo inmutable
+│       └── golden_YYYY.json      # 10 brutos representativos por año (2012-2026)
 ├── docs/                         # Manual MkDocs Material (GitHub Pages)
 │   ├── index.md, contribuir.md
 │   ├── motor/                    # 7 páginas: cadena de cálculo paso a paso

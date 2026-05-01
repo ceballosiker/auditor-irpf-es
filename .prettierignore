@@ -2,6 +2,6 @@ dist/
 node_modules/
 coverage/
 .venv/
-tests/fixtures/
+test/fixtures/
 package-lock.json
 *.xlsx
