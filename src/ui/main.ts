@@ -1,12 +1,30 @@
 import '@picocss/pico/css/pico.min.css';
 import './sr-only.css';
 import { ANIO_MAX } from '../normativa.js';
-import { renderComparativaInflacion, renderComparativaTableSrOnly } from './chart.js';
 import { mountExcelButton } from './excel-button.js';
 import { mountForm } from './form.js';
 import type { FormState } from './form.js';
 import { render } from './render.js';
 import { renderResults } from './results.js';
+
+type ChartModule = typeof import('./chart.js');
+let chartModulePromise: Promise<ChartModule> | undefined;
+
+function loadChartModule(): Promise<ChartModule> {
+  if (!chartModulePromise) {
+    chartModulePromise = import('./chart.js');
+  }
+  return chartModulePromise;
+}
+
+const idle: (cb: () => void) => void =
+  typeof requestIdleCallback === 'function'
+    ? (cb) => {
+        requestIdleCallback(cb, { timeout: 1500 });
+      }
+    : (cb) => {
+        setTimeout(cb, 0);
+      };
 
 const app = document.getElementById('app');
 if (!app) {
@@ -66,11 +84,18 @@ function update(state: FormState): void {
   }
   renderResults(resultsSection, state.bruto, state.anio);
   if (state.bruto !== lastBruto) {
-    renderComparativaInflacion(chartCanvas, state.bruto);
-    renderComparativaTableSrOnly(chartSrOnly, state.bruto);
-    lastBruto = state.bruto;
+    const bruto = state.bruto;
+    void loadChartModule().then((mod) => {
+      if (!chartCanvas || !chartSrOnly) return;
+      mod.renderComparativaInflacion(chartCanvas, bruto);
+      mod.renderComparativaTableSrOnly(chartSrOnly, bruto);
+    });
+    lastBruto = bruto;
   }
 }
 
 mountForm(formSection, { initial, onChange: update });
 update(initial);
+idle(() => {
+  void loadChartModule();
+});
