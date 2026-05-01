@@ -8,14 +8,14 @@ const PALETTE = {
   irpf: '#d62728',
 } as const;
 
-interface Series {
+export interface Series {
   readonly bruto: number[];
   readonly neto: number[];
   readonly irpf: number[];
   readonly years: number[];
 }
 
-function comparativaSeries(bruto2026: number): Series {
+export function comparativaSeries(bruto2026: number): Series {
   const years: number[] = [];
   const brutoR: number[] = [];
   const netoR: number[] = [];
@@ -95,4 +95,26 @@ export function renderComparativaInflacion(canvas: HTMLCanvasElement, bruto: num
       },
     },
   });
+}
+
+export function renderComparativaTableSrOnly(target: HTMLElement, bruto: number): void {
+  const data = comparativaSeries(bruto);
+  const rows = data.years
+    .map(
+      (y, i) =>
+        `<tr><th scope="row">${String(y)}</th>` +
+        `<td>${eur(data.bruto[i] ?? 0)}</td>` +
+        `<td>${eur(data.neto[i] ?? 0)}</td>` +
+        `<td>${eur(data.irpf[i] ?? 0)}</td></tr>`,
+    )
+    .join('');
+  target.innerHTML = `
+    <table class="sr-only">
+      <caption>Bruto, neto e IRPF reales (€ de 2026) entre 2012 y 2026</caption>
+      <thead>
+        <tr><th scope="col">Año</th><th scope="col">Bruto real</th><th scope="col">Neto real</th><th scope="col">IRPF real</th></tr>
+      </thead>
+      <tbody>${rows}</tbody>
+    </table>
+  `;
 }

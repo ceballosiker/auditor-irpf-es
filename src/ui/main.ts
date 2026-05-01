@@ -1,7 +1,7 @@
 import '@picocss/pico/css/pico.min.css';
 import './sr-only.css';
 import { ANIO_MAX } from '../normativa.js';
-import { renderComparativaInflacion } from './chart.js';
+import { renderComparativaInflacion, renderComparativaTableSrOnly } from './chart.js';
 import { mountExcelButton } from './excel-button.js';
 import { mountForm } from './form.js';
 import type { FormState } from './form.js';
@@ -34,6 +34,7 @@ render(
       <div class="chart-container" style="position: relative; height: clamp(240px, 40vh, 360px);">
         <canvas id="chart-comparativa" role="img" aria-label="Bruto, neto e IRPF reales (€ de 2026) entre 2012 y 2026"></canvas>
       </div>
+      <div id="chart-sr-only"></div>
     </section>
     <section id="excel-section">
       <h2>Descargar libro Excel</h2>
@@ -45,8 +46,9 @@ render(
 const formSection = app.querySelector<HTMLElement>('#form-section');
 const resultsSection = app.querySelector<HTMLElement>('#results-section');
 const chartCanvas = app.querySelector<HTMLCanvasElement>('#chart-comparativa');
+const chartSrOnly = app.querySelector<HTMLElement>('#chart-sr-only');
 const excelMount = app.querySelector<HTMLElement>('#excel-button-mount');
-if (!formSection || !resultsSection || !chartCanvas || !excelMount) {
+if (!formSection || !resultsSection || !chartCanvas || !chartSrOnly || !excelMount) {
   throw new Error('Layout sections not found after initial render');
 }
 
@@ -57,7 +59,7 @@ const initial: FormState = { bruto: 30000, anio: ANIO_MAX };
 let lastBruto: number | undefined;
 
 function update(state: FormState): void {
-  if (!resultsSection || !chartCanvas) return;
+  if (!resultsSection || !chartCanvas || !chartSrOnly) return;
   if (!Number.isInteger(state.anio)) {
     render(resultsSection, '<p role="alert">Año no válido.</p>');
     return;
@@ -65,6 +67,7 @@ function update(state: FormState): void {
   renderResults(resultsSection, state.bruto, state.anio);
   if (state.bruto !== lastBruto) {
     renderComparativaInflacion(chartCanvas, state.bruto);
+    renderComparativaTableSrOnly(chartSrOnly, state.bruto);
     lastBruto = state.bruto;
   }
 }
