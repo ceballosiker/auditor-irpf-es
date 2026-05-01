@@ -1,4 +1,5 @@
 import '@picocss/pico/css/pico.min.css';
+import './sr-only.css';
 import { ANIO_MAX } from '../normativa.js';
 import { renderComparativaInflacion } from './chart.js';
 import { mountExcelButton } from './excel-button.js';
