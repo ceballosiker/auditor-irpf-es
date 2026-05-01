@@ -112,7 +112,7 @@ Coverage:
 npm run test:coverage
 ```
 
-Los fixtures bajo `test/fixtures/golden_YYYY.json` son **inmutables** salvo cuando una corrección de auditoría (`audit:`) modifique un valor normativo. En ese caso el mismo PR debe regenerarlos vía `python3 scripts/generate_fixtures.py` y documentar el motivo (referencia BOE) en el commit.
+Los fixtures bajo `test/fixtures/golden_YYYY.json` son **inmutables** salvo cuando una corrección de auditoría (`audit:`) modifique un valor normativo. En ese caso el mismo PR debe regenerarlos vía `python3 legacy/python-reference/generate_fixtures.py` y documentar el motivo (referencia BOE) en el commit.
 
 ## Manual divulgativo (MkDocs)
 
