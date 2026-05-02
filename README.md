@@ -112,7 +112,7 @@ python3 -m venv .venv
 Para regenerar los fixtures JSON (operación idempotente):
 
 ```bash
-.venv/bin/python3 scripts/generate_fixtures.py
+.venv/bin/python3 legacy/python-reference/generate_fixtures.py
 ```
 
 > ⏳ El motor TypeScript genera el mismo Excel en segundos vía SheetJS; el script Python tarda minutos por el volumen de cálculos.
@@ -143,8 +143,8 @@ Para regenerar los fixtures JSON (operación idempotente):
 │   ├── cli.ts                    # Entry point para `npm run build:excel`
 │   └── index.ts                  # Public API barrel
 ├── test/                         # Vitest (664 cases: fixtures + invariantes + smoke)
-├── tests/fixtures/               # Golden JSON fixtures: oráculo inmutable
-│   └── golden_YYYY.json          # 10 brutos representativos por año (2012-2026)
+│   └── fixtures/                 # Golden JSON fixtures: oráculo inmutable
+│       └── golden_YYYY.json      # 10 brutos representativos por año (2012-2026)
 ├── docs/                         # Manual MkDocs Material (GitHub Pages)
 │   ├── index.md, contribuir.md
 │   ├── motor/                    # 7 páginas: cadena de cálculo paso a paso
@@ -153,11 +153,11 @@ Para regenerar los fixtures JSON (operación idempotente):
 │   ├── auditoria/progreso.md     # Estado de los 15 audit-YYYY
 │   └── assets/*.svg              # Charts hand-rolled desde src/pipeline.ts
 ├── scripts/
-│   ├── generate_fixtures.py      # Regenera fixtures desde el motor Python
 │   ├── render-charts.ts          # `npm run charts` — SVGs para el manual
 │   └── render-anual-stubs.ts     # `npm run anual:stubs` — stubs anuales
-├── legacy/python-reference/      # Motor Python original (archivado tras v0.2.0)
-│   ├── Calculo_Salario_IRPF.py
+├── legacy/python-reference/      # Mundo Python: motor original + regenerador
+│   ├── Calculo_Salario_IRPF.py   # Motor Python original (archivado tras v0.2.0)
+│   ├── generate_fixtures.py      # Regenera fixtures desde el motor Python
 │   └── requirements.txt
 └── package.json                  # npm + Vite + Vitest + ESLint + Prettier + xlsx
 ```

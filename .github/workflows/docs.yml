@@ -34,11 +34,8 @@ jobs:
       - name: Build with strict mode
         run: mkdocs build --strict
 
-      # Pages layout: manual under /manual/, root reserved for the SPA (Phase 4 / #53).
-      # `actions/deploy-pages` replaces the entire deployment per upload, so we publish
-      # both the manual and a placeholder root redirect from a single artifact here.
-      # When #53 lands, the root index.html will be replaced by the SPA bundle in a
-      # unified workflow (see #53 for the merge plan).
+      # `actions/deploy-pages` replaces the entire deployment per upload, so the
+      # manual and the root redirect must ship in a single artifact.
       - name: Restructure artifact (manual under /manual/, redirect at root)
         if: github.event_name == 'push' && github.ref == 'refs/heads/main'
         run: |

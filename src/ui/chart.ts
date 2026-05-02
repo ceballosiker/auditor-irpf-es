@@ -1,6 +1,7 @@
 import { Chart } from 'chart.js/auto';
 import { ANIO_MAX, ANIO_MIN, INFLACION_A_2026, calcularNomina } from '../index.js';
 import { eur } from './format.js';
+import { render } from './render.js';
 
 const PALETTE = {
   bruto: '#1f4e79',
@@ -8,14 +9,14 @@ const PALETTE = {
   irpf: '#d62728',
 } as const;
 
-interface Series {
+export interface Series {
   readonly bruto: number[];
   readonly neto: number[];
   readonly irpf: number[];
   readonly years: number[];
 }
 
-function comparativaSeries(bruto2026: number): Series {
+export function comparativaSeries(bruto2026: number): Series {
   const years: number[] = [];
   const brutoR: number[] = [];
   const netoR: number[] = [];
@@ -35,9 +36,7 @@ function comparativaSeries(bruto2026: number): Series {
 
 let current: Chart | undefined;
 
-export function renderComparativaInflacion(canvas: HTMLCanvasElement, bruto: number): void {
-  const data = comparativaSeries(bruto);
-
+export function renderComparativaInflacion(canvas: HTMLCanvasElement, data: Series): void {
   current?.destroy();
   current = new Chart(canvas, {
     type: 'line',
@@ -95,4 +94,28 @@ export function renderComparativaInflacion(canvas: HTMLCanvasElement, bruto: num
       },
     },
   });
+}
+
+export function renderComparativaTableSrOnly(target: HTMLElement, data: Series): void {
+  const rows = data.years
+    .map(
+      (y, i) =>
+        `<tr><th scope="row">${String(y)}</th>` +
+        `<td>${eur(data.bruto[i] ?? 0)}</td>` +
+        `<td>${eur(data.neto[i] ?? 0)}</td>` +
+        `<td>${eur(data.irpf[i] ?? 0)}</td></tr>`,
+    )
+    .join('');
+  render(
+    target,
+    `
+    <table class="sr-only">
+      <caption>Bruto, neto e IRPF reales (€ de 2026) entre 2012 y 2026</caption>
+      <thead>
+        <tr><th scope="col">Año</th><th scope="col">Bruto real</th><th scope="col">Neto real</th><th scope="col">IRPF real</th></tr>
+      </thead>
+      <tbody>${rows}</tbody>
+    </table>
+  `,
+  );
 }

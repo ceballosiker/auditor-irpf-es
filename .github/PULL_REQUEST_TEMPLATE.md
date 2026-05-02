@@ -26,7 +26,7 @@ Closes #NN
 ### Si es un cambio normativo (`audit`)
 
 - [ ] He incluido la referencia BOE / artículo / disposición.
-- [ ] He actualizado los fixtures correspondientes (`tests/fixtures/golden_YYYY.json`) y verificado que los tests siguen verdes.
+- [ ] He actualizado los fixtures correspondientes (`test/fixtures/golden_YYYY.json`) y verificado que los tests siguen verdes.
 
 ## Notas para el revisor
 

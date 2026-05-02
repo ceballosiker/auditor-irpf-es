@@ -34,7 +34,7 @@ YYYY
 ## Verificación
 
 - [ ] He actualizado `src/normativa.ts` (o el módulo correspondiente) y los tests siguen verdes.
-- [ ] He regenerado el/los fixture(s)-oráculo afectado(s) en `tests/fixtures/golden_YYYY.json` documentando el motivo en el commit (ver `CONTRIBUTING.md`).
+- [ ] He regenerado el/los fixture(s)-oráculo afectado(s) en `test/fixtures/golden_YYYY.json` documentando el motivo en el commit (ver `CONTRIBUTING.md`).
 - [ ] `npm run format:check`, `npm run lint`, `npm run typecheck` y `npm test` están verdes en local.
 - [ ] He marcado el ítem correspondiente en `docs/auditoria/progreso.md`.
 

@@ -17,5 +17,5 @@
     "noEmit": true
   },
   "include": ["src/**/*", "test/**/*", "*.config.ts"],
-  "exclude": ["node_modules", "dist", "coverage", ".venv", "tests/fixtures"]
+  "exclude": ["node_modules", "dist", "coverage", ".venv", "test/fixtures"]
 }

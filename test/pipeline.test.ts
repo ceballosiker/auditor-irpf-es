@@ -7,7 +7,7 @@ import { ANIOS_SOPORTADOS } from '../src/normativa';
 import { calcularNomina } from '../src/pipeline';
 
 const HERE = dirname(fileURLToPath(import.meta.url));
-const FIXTURES_DIR = join(HERE, '..', 'tests', 'fixtures');
+const FIXTURES_DIR = join(HERE, 'fixtures');
 
 type FixtureRow = Record<string, number>;
 interface Fixture {
