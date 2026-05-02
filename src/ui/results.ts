@@ -1,4 +1,4 @@
-import { calcularNomina, obtenerParametros } from '../index.js';
+import { calcularNominaConParametros, obtenerParametros } from '../index.js';
 import type { Nomina, Parametros } from '../index.js';
 import { eur, percent } from './format.js';
 import { render } from './render.js';
@@ -64,7 +64,7 @@ function tramosTable(nomina: Nomina): string {
 
 export function renderResults(target: HTMLElement, bruto: number, anio: number): void {
   const params = obtenerParametros(anio);
-  const nomina = calcularNomina(bruto, anio);
+  const nomina = calcularNominaConParametros(bruto, params);
   const b = breakdown(nomina, params);
 
   const netoMensual = nomina.salarioNeto / 14;

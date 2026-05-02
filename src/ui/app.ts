@@ -5,25 +5,6 @@ import type { FormState } from './form.js';
 import { render } from './render.js';
 import { renderResults } from './results.js';
 
-type ChartModule = typeof import('./chart.js');
-let chartModulePromise: Promise<ChartModule> | undefined;
-
-function loadChartModule(): Promise<ChartModule> {
-  if (!chartModulePromise) {
-    chartModulePromise = import('./chart.js');
-  }
-  return chartModulePromise;
-}
-
-const idle: (cb: () => void) => void =
-  typeof requestIdleCallback === 'function'
-    ? (cb) => {
-        requestIdleCallback(cb, { timeout: 1500 });
-      }
-    : (cb) => {
-        setTimeout(cb, 0);
-      };
-
 export function mountApp(app: HTMLElement): void {
   render(
     app,
@@ -79,10 +60,11 @@ export function mountApp(app: HTMLElement): void {
     renderResults(resultsSection, state.bruto, state.anio);
     if (state.bruto !== lastBruto) {
       const bruto = state.bruto;
-      void loadChartModule().then((mod) => {
+      void import('./chart.js').then((mod) => {
         if (!chartCanvas || !chartSrOnly) return;
-        mod.renderComparativaInflacion(chartCanvas, bruto);
-        mod.renderComparativaTableSrOnly(chartSrOnly, bruto);
+        const series = mod.comparativaSeries(bruto);
+        mod.renderComparativaInflacion(chartCanvas, series);
+        mod.renderComparativaTableSrOnly(chartSrOnly, series);
       });
       lastBruto = bruto;
     }
@@ -90,7 +72,4 @@ export function mountApp(app: HTMLElement): void {
 
   mountForm(formSection, { initial, onChange: update });
   update(initial);
-  idle(() => {
-    void loadChartModule();
-  });
 }

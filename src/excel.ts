@@ -122,12 +122,6 @@ function appendSheet(wb: WorkBook, name: string, rows: object[]): void {
   utils.book_append_sheet(wb, sheet, name);
 }
 
-/**
- * Construye el WorkBook con todas las pestañas. Función pura: no toca
- * el filesystem, devuelve el objeto SheetJS en memoria. Reutilizable
- * tanto desde CLI (`generarExcel`) como desde navegador
- * (`generarExcelBlob`).
- */
 export function generarWorkbook(opts: GenerarExcelOptions = {}): WorkBook {
   const anios = opts.anios ?? ANIOS_SOPORTADOS;
   const maxBruto = opts.maxBruto ?? MAX_BRUTO_DEFAULT;
@@ -141,21 +135,10 @@ export function generarWorkbook(opts: GenerarExcelOptions = {}): WorkBook {
   return wb;
 }
 
-/**
- * Genera el Excel con las pestañas: CONTROL_GENERAL, CONTROL_TRAMOS_IRPF,
- * COMPARATIVA_INFLACION y una DAT_YYYY por año en `opts.anios`. Escribe
- * a `outputPath` (uso CLI / Node).
- *
- * Por defecto: 2012–2026 con brutos 0–100 000 €.
- */
 export function generarExcel(outputPath: string, opts: GenerarExcelOptions = {}): void {
   writeFile(generarWorkbook(opts), outputPath);
 }
 
-/**
- * Variante browser-safe: serializa el workbook a un `Blob` listo para
- * descargar (`URL.createObjectURL` + `<a download>`). No toca filesystem.
- */
 export function generarExcelBlob(opts: GenerarExcelOptions = {}): Blob {
   const wb = generarWorkbook(opts);
   const buffer = write(wb, { type: 'array', bookType: 'xlsx' }) as ArrayBuffer;
