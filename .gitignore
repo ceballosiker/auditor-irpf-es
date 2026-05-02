@@ -12,6 +12,9 @@ build/
 develop-eggs/
 dist/
 .lighthouseci/
+# Lighthouse on WSL2 sometimes drops Chrome user-profile dirs whose names
+# are literal Windows paths (backslashes and all) into the repo root.
+C:\\*
 downloads/
 eggs/
 .eggs/
