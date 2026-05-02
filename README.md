@@ -3,20 +3,24 @@
 ![TypeScript](https://img.shields.io/badge/typescript-5.5%2B-blue.svg)
 ![Node](https://img.shields.io/badge/node-%3E%3D18.18-brightgreen.svg)
 ![License](https://img.shields.io/badge/license-MIT-green.svg)
-![Estado](<https://img.shields.io/badge/estado-en%20curso%20(v0.4)-yellow.svg>)
-[![Manual](https://img.shields.io/badge/manual-ceballosiker.github.io-blue.svg)](https://ceballosiker.github.io/auditor-irpf-es/manual/)
+![Estado](https://img.shields.io/badge/estado-v1.0.0-brightgreen.svg)
+[![Calculadora](https://img.shields.io/badge/calculadora-ceballosiker.github.io-blue.svg)](https://ceballosiker.github.io/auditor-irpf-es/)
+[![Manual](https://img.shields.io/badge/manual-ceballosiker.github.io%2Fmanual-blue.svg)](https://ceballosiker.github.io/auditor-irpf-es/manual/)
 
-> **Aviso.** El objetivo de este repositorio es **practicar flujos de trabajo OSS con asistencia de agentes de IA** (Claude Code).
+> [!WARNING]
+> **Este repositorio es ante todo un experimento de flujos OSS asistidos por agentes de IA** (Claude Code): el código y los cálculos son reales, pero la motivación primaria es metodológica — practicar issues, branches, PRs, releases y CI con un agente como _pair programmer_.
 
-Auditor fiscal que calcula el salario neto en España (2012–2026) euro a euro: IRPF, Seguridad Social, MEI y Cuota de Solidaridad, con análisis de pérdida de poder adquisitivo ajustada a la inflación real (IPC oficial del INE). Se expondrá como una **calculadora interactiva 100 % en el navegador** (sin servidor) acompañada de un manual divulgativo y un proceso de auditoría pública año a año.
+Auditor fiscal que calcula el salario neto en España (2012–2026): IRPF, Seguridad Social, MEI y Cuota de Solidaridad, con análisis de pérdida de poder adquisitivo ajustada a la inflación real (IPC oficial del INE). Se expone como una **calculadora interactiva 100 % en el navegador** (sin servidor) acompañada de un manual divulgativo y un proceso de auditoría pública año a año.
 
-> **Estado actual:** motor TypeScript completo y validado al céntimo (v0.2.0), workflow de auditoría fiscal con 15 issues `audit-YYYY` abiertos (v0.3.0), y **manual divulgativo publicado** en GitHub Pages (v0.4.0). Próximo hito: calculadora web interactiva (v1.0.0).
+> **Estado actual (v1.0.0):** motor TypeScript validado contra los fixtures del motor Python de referencia, **calculadora web interactiva en producción** y manual divulgativo publicados en GitHub Pages, auditoría axe-core (WCAG 2.1 AA) + thresholds Lighthouse (perf ≥ 0.85, a11y ≥ 0.95) bloqueando cada PR. Próximo hito (`v1.1.0`): redacción completa de los 15 resúmenes anuales junto con la auditoría fiscal.
+
+## 🧮 Calculadora interactiva
+
+Disponible en **<https://ceballosiker.github.io/auditor-irpf-es/>** — escribe un bruto, elige un año entre 2012 y 2026 y obtén el desglose completo (cotización social, MEI/Solidaridad, IRPF tramo a tramo, mínimo personal aplicado como cuota, tope 43 %, deducción SMI) más la curva de pérdida de poder adquisitivo deflactada a euros de 2026. El botón "Descargar Excel" genera el libro `.xlsx` completo en el navegador, sin red. Cero telemetría, cero cookies, cero servidor.
 
 ## 📖 Manual divulgativo
 
 El manual está publicado en **<https://ceballosiker.github.io/auditor-irpf-es/manual/>**. Contiene siete páginas explicando paso a paso la cadena de cálculo (cotización, SS, MEI/Solidaridad, Art. 19/20, escala IRPF, SMI/tope 43 %), una página dedicada a la **progresividad en frío** con gráficos generados desde el propio motor, y un esqueleto de 15 resúmenes anuales (uno por año entre 2012 y 2026) cuya redacción completa irá llegando en `v1.1.0` en paralelo con la auditoría fiscal.
-
-> La raíz del sitio (`https://ceballosiker.github.io/auditor-irpf-es/`) está reservada para la **calculadora interactiva** que aterrizará en `v1.0.0`; mientras tanto redirige al manual.
 
 ---
 
@@ -35,8 +39,8 @@ Este repositorio es una implementación pública y auditable del cálculo de nó
 Busco tres perfiles. Si te identificas con alguno, abre una _issue_ o un PR indicándolo:
 
 - **🧾 Fiscalistas y economistas** — audita los resultados año a año al mínimo detalle. ¿Falta un matiz normativo? ¿Un redondeo oficial distinto? ¿Una interacción entre Art. 19 y Art. 20 mal secuenciada? Dímelo. La precisión legal es la prioridad número uno.
-- **💻 Techies (TypeScript / web)** — porting del motor a TS, suite de tests con Vitest, ESLint/Prettier, CI con GitHub Actions, y la futura SPA (HTML + Chart.js + SheetJS). React queda explícitamente fuera; el stack es deliberadamente _vanilla_.
-- **🌐 Diseño / UX** — cuando la web aterrice (v1.0) buscaremos accesibilidad sólida (axe-core, Lighthouse a11y ≥ 95), UI clara y móvil-first, sin telemetría ni cookies.
+- **💻 Techies (TypeScript / web)** — motor en TS, suite de tests con Vitest, ESLint/Prettier, CI con GitHub Actions, y la SPA (HTML + Chart.js + SheetJS). React queda explícitamente fuera; el stack es deliberadamente _vanilla_.
+- **🌐 Diseño / UX** — accesibilidad sólida (axe-core en CI, Lighthouse a11y ≥ 0.95 ya verificado), UI clara y móvil-first, sin telemetría ni cookies. Mejoras visuales y de UX bienvenidas vía issue/PR.
 
 También es muy bienvenida la contribución de **redactores divulgativos** que extraigan, a partir del código, un manual sencillo que explique:
 
@@ -66,14 +70,14 @@ Para maximizar la precisión antes de ampliar casuística, el motor modela delib
 
 ### Hoja de ruta de desarrollo
 
-| Versión       | Hito                                                                                                        |
-| ------------- | ----------------------------------------------------------------------------------------------------------- |
-| **v0.1.0** ✅ | Infraestructura OSS, tooling TypeScript, fixtures JSON desde el motor Python (oráculo).                     |
-| **v0.2.0** ✅ | Port del motor a TypeScript validado al céntimo contra los fixtures de v0.1.0.                              |
-| **v0.3.0** ✅ | Workflow de auditoría fiscal: 15 issues (uno por año, 2012–2026) con checklist normativo + referencias BOE. |
-| **v0.4.0** ✅ | Manual divulgativo en MkDocs Material publicado en GitHub Pages.                                            |
-| **v1.0.0**    | Calculadora web interactiva: SPA estático, 100 % en el navegador, GitHub Pages.                             |
-| **v1.1.0**    | Redacción completa de los 15 resúmenes anuales con referencias BOE, en paralelo con los `audit-YYYY`.       |
+| Versión       | Hito                                                                                                         |
+| ------------- | ------------------------------------------------------------------------------------------------------------ |
+| **v0.1.0** ✅ | Infraestructura OSS, tooling TypeScript, fixtures JSON desde el motor Python (oráculo).                      |
+| **v0.2.0** ✅ | Port del motor a TypeScript validado contra los fixtures generados de v0.1.0.                                |
+| **v0.3.0** ✅ | Workflow de auditoría fiscal: 15 issues (uno por año, 2012–2026) con checklist normativo + referencias BOE.  |
+| **v0.4.0** ✅ | Manual divulgativo en MkDocs Material publicado en GitHub Pages.                                             |
+| **v1.0.0** ✅ | Calculadora web interactiva: SPA estático, 100 % en el navegador, GitHub Pages. axe-core + Lighthouse en CI. |
+| **v1.1.0**    | Redacción completa de los 15 resúmenes anuales con referencias BOE, en paralelo con los `audit-YYYY`.        |
 
 Sigue el progreso en los [issues abiertos](https://github.com/ceballosiker/auditor-irpf-es/issues) y [milestones](https://github.com/ceballosiker/auditor-irpf-es/milestones).
 
@@ -92,12 +96,16 @@ git clone https://github.com/ceballosiker/auditor-irpf-es.git
 cd auditor-irpf-es
 npm install
 npm test               # Vitest (664 tests)
+npm run test:browser   # axe-core a11y (Vitest browser project, requiere Chromium)
 npm run lint           # ESLint
 npm run typecheck      # tsc --noEmit
-npm run build:excel    # Genera el Excel completo (15 años × 0-100 000 €)
+npm run dev            # Vite dev server — la calculadora en http://localhost:5173
+npm run build          # Bundle estático en dist/ (sirve cualquier subpath)
+npm run build:excel    # Genera el Excel completo (15 años × 0-100 000 €) por CLI
+npm run lighthouse     # Build + Lighthouse CI (3 corridas, asserts perf/a11y/bp/seo)
 ```
 
-Requisitos: Node ≥ 18.18.
+Requisitos: Node ≥ 18.18. Los tests browser y `lighthouse` requieren Chromium en el sistema (Playwright lo instala automáticamente con `npx playwright install chromium`).
 
 ### Python (motor original — archivado en `legacy/`)
 
@@ -121,12 +129,12 @@ Para regenerar los fixtures JSON (operación idempotente):
 
 `npm run build:excel` (TS) y `python3 legacy/python-reference/Calculo_Salario_IRPF.py` (Python) producen el mismo `Auditoria_Integral_Nominas_e_Inflacion_2012_2026.xlsx` con estas pestañas:
 
-| Pestaña                 | Qué contiene                                                                                                                                                                                 |
-| ----------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `CONTROL_GENERAL`       | Diccionario normativo anual: tipos SS, MEI, mínimos, gastos fijos, umbrales del Art. 20.                                                                                                     |
-| `CONTROL_TRAMOS_IRPF`   | Histórico de tramos y tipos de IRPF de cada año.                                                                                                                                             |
-| `COMPARATIVA_INFLACION` | Análisis macroeconómico: cuánto poder adquisitivo ha perdido un salario frente a su equivalente pasado, deflactando el bruto y actualizando todos los impuestos.                             |
-| `DAT_2012` … `DAT_2026` | Pestañas anuales con desglose euro a euro (0 €–100.000 €): coste laboral, cotizaciones patronales/obreras, cuota por cada tramo de IRPF, aplicación de límites legales y salario neto final. |
+| Pestaña                 | Qué contiene                                                                                                                                                                                           |
+| ----------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `CONTROL_GENERAL`       | Diccionario normativo anual: tipos SS, MEI, mínimos, gastos fijos, umbrales del Art. 20.                                                                                                               |
+| `CONTROL_TRAMOS_IRPF`   | Histórico de tramos y tipos de IRPF de cada año.                                                                                                                                                       |
+| `COMPARATIVA_INFLACION` | Análisis macroeconómico: cuánto poder adquisitivo ha perdido un salario frente a su equivalente pasado, deflactando el bruto y actualizando todos los impuestos.                                       |
+| `DAT_2012` … `DAT_2026` | Pestañas anuales con una fila por cada bruto entero (0 €–100.000 €): coste laboral, cotizaciones patronales/obreras, cuota por cada tramo de IRPF, aplicación de límites legales y salario neto final. |
 
 ## 🏗️ Arquitectura
 

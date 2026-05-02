@@ -6,8 +6,13 @@ El formato sigue [Keep a Changelog](https://keepachangelog.com/es-ES/1.1.0/) y e
 
 ## [Unreleased]
 
+## [1.0.0] - 2026-05-03
+
+Calculadora IRPF interactiva en GitHub Pages. Cualquier persona puede introducir un bruto y un año entre 2012 y 2026 y ver, sin servidor y sin red, el desglose completo (cotización social, MEI, Solidaridad, IRPF tramo a tramo, mínimo personal aplicado como cuota, tope 43 %, deducción SMI) más la curva de pérdida de poder adquisitivo deflactada a euros de 2026. Bundle estático ~92 KB gzip iniciales; Chart.js (~71 KB gzip) y SheetJS (~96 KB gzip) en chunks dinámicos. La auditoría axe-core (WCAG 2.1 AA) y los thresholds Lighthouse (perf ≥ 0.85, a11y ≥ 0.95, bp ≥ 0.95, seo ≥ 0.90) corren en cada PR.
+
 ### Added
 
+- **Pages unificado: SPA en raíz + manual en `/manual/`** (Phase 4.6) — `.github/workflows/pages.yml` (renombrado desde `docs.yml`) construye en un solo job el SPA (Vite, `npm run build` → `dist/`) y el manual (MkDocs, `mkdocs build --strict` → `site/`), compone un único artefacto Pages con `dist/` en raíz y `site/` bajo `public/manual/`, y despliega en push a `main`. La página-redirección stub anterior desaparece — la raíz ahora sirve la calculadora directamente. `vite.config.ts` configurado con `base: './'` para que las URLs de los assets del SPA funcionen tanto en `/` (preview local) como en `/auditor-irpf-es/` (Pages).
 - **Auditoría axe-core en CI** (Phase 4.5) — `test/a11y.browser.test.ts` ejecuta `axe-core` contra el SPA en tres estados (carga inicial, tras cambiar bruto, con `aria-busy="true"` aplicado al botón Excel) bajo Vitest browser project (Playwright + Chromium). Falla CI si aparece cualquier violación `serious` o `critical` de WCAG 2.1 AA (`wcag2a`/`wcag2aa`/`wcag21a`/`wcag21aa`/`best-practice`). Tema fijado a `data-theme="light"` para que las reglas de contraste sean deterministas. Job `browser-tests` añadido a `.github/workflows/ci.yml` con cache de la binary Playwright.
 - **Lighthouse CI** (Phase 4.5) — `.github/workflows/lighthouse.yml` ejecuta Lighthouse mobile (mediana de 3) en cada PR a `develop`/`main`. Thresholds: performance ≥ 0.85 (CI tolera ruido de runners; objetivo local ≥ 0.90), accesibilidad ≥ 0.95, best-practices ≥ 0.95, SEO ≥ 0.90. Reportes subidos a almacenamiento temporal público; HTML también guardado como artefacto. Comando local: `npm run lighthouse`. Scores actuales sobre el bundle: perf 0.99, a11y 0.98, bp 0.96, seo 1.0.
 - **Tabla `sr-only` espejo del chart** — usuarios de lectores de pantalla acceden a las mismas series (bruto, neto e IRPF reales en € de 2026) que el `<canvas>`. La tabla se sincroniza con el chart en cada cambio de bruto. Helper CSS `.sr-only` (patrón estándar WCAG visually-hidden) en `src/ui/sr-only.css`.
@@ -122,7 +127,8 @@ Primera release pública. Establece los cimientos para el porting del motor a Ty
 
 - README reformulado para reflejar la misión pública (democratizar el cálculo del IRPF), la llamada a tres perfiles colaboradores (fiscalistas, _techies_, divulgadores) y el pivote a TypeScript.
 
-[Unreleased]: https://github.com/ceballosiker/auditor-irpf-es/compare/v0.4.0...HEAD
+[Unreleased]: https://github.com/ceballosiker/auditor-irpf-es/compare/v1.0.0...HEAD
+[1.0.0]: https://github.com/ceballosiker/auditor-irpf-es/releases/tag/v1.0.0
 [0.4.0]: https://github.com/ceballosiker/auditor-irpf-es/releases/tag/v0.4.0
 [0.3.0]: https://github.com/ceballosiker/auditor-irpf-es/releases/tag/v0.3.0
 [0.2.0]: https://github.com/ceballosiker/auditor-irpf-es/releases/tag/v0.2.0
