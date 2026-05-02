@@ -1,4 +1,4 @@
-name: Docs
+name: Pages
 
 on:
   push:
@@ -15,11 +15,27 @@ concurrency:
 
 jobs:
   build:
-    name: Build site (strict)
+    name: Build site (SPA + manual, strict)
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+
+      # --- SPA (TypeScript / Vite) ---
+
+      - name: Setup Node 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install Node dependencies
+        run: npm ci
+
+      - name: Build SPA (Vite)
+        run: npm run build
+
+      # --- Manual (MkDocs Material) ---
 
       - name: Setup Python
         uses: actions/setup-python@v5
@@ -28,17 +44,27 @@ jobs:
           cache: 'pip'
           cache-dependency-path: requirements-docs.txt
 
-      - name: Install dependencies
+      - name: Install Python dependencies
         run: pip install -r requirements-docs.txt
 
-      - name: Build with strict mode
+      - name: Build manual (MkDocs strict)
         run: mkdocs build --strict
 
-      - name: Upload Pages artifact
+      # --- Pages artifact: SPA at root, manual under /manual/ ---
+      # `actions/deploy-pages` replaces the entire deployment per upload, so
+      # both must ship in a single artefact tree.
+      - name: Compose Pages artefact
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        run: |
+          mkdir -p public/manual
+          cp -r dist/. public/
+          cp -r site/. public/manual/
+
+      - name: Upload Pages artefact
         if: github.event_name == 'push' && github.ref == 'refs/heads/main'
         uses: actions/upload-pages-artifact@v3
         with:
-          path: site
+          path: public
 
   deploy:
     name: Deploy to GitHub Pages

@@ -6,9 +6,9 @@ for a representative cross-section of (bruto, año) pairs. The TypeScript port
 
 Run from repo root:
 
-    python3 scripts/generate_fixtures.py
+    python3 legacy/python-reference/generate_fixtures.py
 
-Output: ``tests/fixtures/golden_YYYY.json`` for every year in 2012-2026.
+Output: ``test/fixtures/golden_YYYY.json`` for every year in 2012-2026.
 
 Implementation note: the source script runs its full Excel build at module
 level (no ``if __name__ == "__main__":`` guard). To avoid that minutes-long
@@ -20,9 +20,9 @@ from __future__ import annotations
 import json
 from pathlib import Path
 
-ROOT = Path(__file__).resolve().parent.parent
-SCRIPT_PATH = ROOT / "legacy" / "python-reference" / "Calculo_Salario_IRPF.py"
-FIXTURES_DIR = ROOT / "tests" / "fixtures"
+ROOT = Path(__file__).resolve().parent.parent.parent
+SCRIPT_PATH = Path(__file__).resolve().parent / "Calculo_Salario_IRPF.py"
+FIXTURES_DIR = ROOT / "test" / "fixtures"
 SECTION_6_MARKER = "# 6. EJECUCIÓN MAESTRA"
 
 

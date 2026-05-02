@@ -6,6 +6,40 @@ El formato sigue [Keep a Changelog](https://keepachangelog.com/es-ES/1.1.0/) y e
 
 ## [Unreleased]
 
+## [1.0.0] - 2026-05-03
+
+Calculadora IRPF interactiva en GitHub Pages. Cualquier persona puede introducir un bruto y un año entre 2012 y 2026 y ver, sin servidor y sin red, el desglose completo (cotización social, MEI, Solidaridad, IRPF tramo a tramo, mínimo personal aplicado como cuota, tope 43 %, deducción SMI) más la curva de pérdida de poder adquisitivo deflactada a euros de 2026. Bundle estático ~92 KB gzip iniciales; Chart.js (~71 KB gzip) y SheetJS (~96 KB gzip) en chunks dinámicos. La auditoría axe-core (WCAG 2.1 AA) y los thresholds Lighthouse (perf ≥ 0.85, a11y ≥ 0.95, bp ≥ 0.95, seo ≥ 0.90) corren en cada PR.
+
+### Added
+
+- **Pages unificado: SPA en raíz + manual en `/manual/`** (Phase 4.6) — `.github/workflows/pages.yml` (renombrado desde `docs.yml`) construye en un solo job el SPA (Vite, `npm run build` → `dist/`) y el manual (MkDocs, `mkdocs build --strict` → `site/`), compone un único artefacto Pages con `dist/` en raíz y `site/` bajo `public/manual/`, y despliega en push a `main`. La página-redirección stub anterior desaparece — la raíz ahora sirve la calculadora directamente. `vite.config.ts` configurado con `base: './'` para que las URLs de los assets del SPA funcionen tanto en `/` (preview local) como en `/auditor-irpf-es/` (Pages).
+- **Auditoría axe-core en CI** (Phase 4.5) — `test/a11y.browser.test.ts` ejecuta `axe-core` contra el SPA en tres estados (carga inicial, tras cambiar bruto, con `aria-busy="true"` aplicado al botón Excel) bajo Vitest browser project (Playwright + Chromium). Falla CI si aparece cualquier violación `serious` o `critical` de WCAG 2.1 AA (`wcag2a`/`wcag2aa`/`wcag21a`/`wcag21aa`/`best-practice`). Tema fijado a `data-theme="light"` para que las reglas de contraste sean deterministas. Job `browser-tests` añadido a `.github/workflows/ci.yml` con cache de la binary Playwright.
+- **Lighthouse CI** (Phase 4.5) — `.github/workflows/lighthouse.yml` ejecuta Lighthouse mobile (mediana de 3) en cada PR a `develop`/`main`. Thresholds: performance ≥ 0.85 (CI tolera ruido de runners; objetivo local ≥ 0.90), accesibilidad ≥ 0.95, best-practices ≥ 0.95, SEO ≥ 0.90. Reportes subidos a almacenamiento temporal público; HTML también guardado como artefacto. Comando local: `npm run lighthouse`. Scores actuales sobre el bundle: perf 0.99, a11y 0.98, bp 0.96, seo 1.0.
+- **Tabla `sr-only` espejo del chart** — usuarios de lectores de pantalla acceden a las mismas series (bruto, neto e IRPF reales en € de 2026) que el `<canvas>`. La tabla se sincroniza con el chart en cada cambio de bruto. Helper CSS `.sr-only` (patrón estándar WCAG visually-hidden) en `src/ui/sr-only.css`.
+- **Meta tags OpenGraph y Twitter Card** en `index.html` para que enlaces compartidos en redes muestren preview correcta y SEO ≥ 0.90 en Lighthouse.
+- **Descarga de Excel completo desde el navegador** (Phase 4.4) — botón "Descargar Excel completo (2012–2026)" que genera el libro `.xlsx` con las cuatro pestañas (`CONTROL_GENERAL`, `CONTROL_TRAMOS_IRPF`, `COMPARATIVA_INFLACION`, `DAT_2012`…`DAT_2026`) en el cliente, sin red. Usa `import('../excel.js')` dinámico para que SheetJS (~95 KB gzip) viva en un chunk separado y solo se descargue al hacer click. Estado `aria-busy` durante la generación; `<p role="alert">` si SheetJS falla.
+- `src/excel.ts` ahora expone tres funciones complementarias: `generarWorkbook(opts)` (puro, devuelve `WorkBook`), `generarExcel(path, opts)` (escritura Node, sin cambios para el CLI) y `generarExcelBlob(opts)` (browser-safe, devuelve `Blob`). El comportamiento del CLI no cambia y los 4 smoke tests siguen verdes.
+- **Comparativa frente a inflación** (Phase 4.3) — gráfico Chart.js que ilustra la pérdida de poder adquisitivo: para el bruto introducido (interpretado como € de 2026), deflacta al equivalente nominal de cada año entre 2012 y 2026, calcula `salarioNeto` e `irpfFinal` con la fiscalidad de ese año y reinflacta los tres números a € de 2026. Tres series en línea: bruto real (constante, dashed), neto real (creciente luego decreciente vía progresividad en frío), IRPF real (creciente). Tooltips en español con `Intl.NumberFormat`. Re-render del chart en cada cambio de bruto destruyendo la instancia previa para evitar fugas.
+- **Calculadora interactiva** (Phase 4.2) — el SPA pasa de placeholder a calculadora funcional:
+  - `src/ui/form.ts` — formulario con bruto (€, `step=100`), año (2012–2026, default 2026 ordenado descendente) y CCAA (deshabilitado, "Estatal" fijo). Etiquetas semánticas `<label>` con texto de ayuda en `<small>` para cada campo.
+  - `src/ui/results.ts` — panel de resultados en tres `<article>`s (cotización social, IRPF, neto). Detalla tope de cotización, MEI/Solidaridad trabajador (cuando aplican), reducción Art. 20, gastos Art. 19, base imponible, mínimo personal aplicado como cuota, tope 43 % con etiqueta "aplica/no aplica", y neto anual + mensual (×14). Tabla de tramos IRPF muestra solo los tramos con cuota > 0 (o un mensaje si no hay IRPF a pagar).
+  - `src/ui/format.ts` — helpers `eur()` y `percent()` con `Intl.NumberFormat('es-ES', …)` para que todos los importes y porcentajes usen el formato español de forma consistente.
+  - `src/ui/main.ts` — wiring reactivo: cada `input`/`change` del formulario re-renderiza la sección de resultados (sin debouncing). Sección con `aria-live="polite"` para que lectores de pantalla anuncien las actualizaciones.
+- **Esqueleto SPA estático** (Phase 4.1) — primer paso hacia la calculadora interactiva (`v1.0.0`):
+  - `index.html` en la raíz como entrypoint Vite (lang `es`, viewport, meta description, mount point `<main id="app">`).
+  - `src/ui/main.ts` — bootstrap mínimo que importa Pico.css y renderiza un placeholder en `#app`.
+  - `src/ui/render.ts` — helper `render(target, html)` para usar template strings sin reaching directo a `innerHTML` desde toda la app.
+  - `@picocss/pico` añadido como dependencia (CSS clásico, sin runtime, ~12 KB gzip), bundleado por Vite — sin CDN externo.
+- `.github/workflows/ci.yml` — añadido paso `npm run build` para que CI cace cualquier rotura del bundle Vite a partir de ahora.
+
+### Changed
+
+- **Chart.js cargado bajo demanda** (Phase 4.5, perf) — el bundle inicial ya no incluye Chart.js (~70 KB gzip). Se carga vía `import('./chart.js')` programado con `requestIdleCallback` después del primer render del formulario y resultados, así el LCP no compite con el código del gráfico. Bundle deltas: chunk de entrada 222 KB → 14.7 KB (gzip 77 KB → 6.1 KB).
+- **Bootstrap del SPA extraído a `src/ui/app.ts`** (Phase 4.5) — `main.ts` queda como entry-point shim de 9 líneas que importa el CSS y llama a `mountApp(target)`. Permite que los tests browser monten la app contra un DOM fresco sin tropezar con la cache de módulos ESM. Sin cambio de comportamiento en producción.
+- **Fixtures unificadas en `test/fixtures/`** (Phase 4.5, chore) — antes vivían en un directorio hermano `tests/fixtures/`. Consolidación bajo un único root de tests para reducir fricción de onboarding. Sin cambio de contenido (regeneración con `python3 legacy/python-reference/generate_fixtures.py` produce diff vacío).
+- **`generate_fixtures.py` reubicado a `legacy/python-reference/`** (Phase 4.5, chore) — junto al motor Python original que importa. `scripts/` queda como directorio TypeScript-only. La instrucción de regeneración en `CONTRIBUTING.md` y `README.md` se actualiza al nuevo path.
+- Manual MkDocs reubicado bajo el subpath `/manual/` (antes en la raíz). La raíz de GitHub Pages queda reservada para la calculadora interactiva (Phase 4 / `v1.0.0`); hasta entonces, una página estática redirige automáticamente a `/manual/`. `mkdocs.yml` actualiza `site_url` para que canonical URLs y sitemap reflejen la nueva ruta. `.github/workflows/docs.yml` reestructura el artefacto antes del upload (mueve `site/` a `public/manual/` y emite un `public/index.html` con `meta refresh`). README + badge apuntan a la nueva URL.
+
 ## [0.4.0] - 2026-04-29
 
 Manual divulgativo del motor publicado en GitHub Pages: explica la cadena de cálculo paso a paso y la **progresividad en frío** en lenguaje llano, con gráficos generados desde el propio motor.
@@ -93,7 +127,8 @@ Primera release pública. Establece los cimientos para el porting del motor a Ty
 
 - README reformulado para reflejar la misión pública (democratizar el cálculo del IRPF), la llamada a tres perfiles colaboradores (fiscalistas, _techies_, divulgadores) y el pivote a TypeScript.
 
-[Unreleased]: https://github.com/ceballosiker/auditor-irpf-es/compare/v0.4.0...HEAD
+[Unreleased]: https://github.com/ceballosiker/auditor-irpf-es/compare/v1.0.0...HEAD
+[1.0.0]: https://github.com/ceballosiker/auditor-irpf-es/releases/tag/v1.0.0
 [0.4.0]: https://github.com/ceballosiker/auditor-irpf-es/releases/tag/v0.4.0
 [0.3.0]: https://github.com/ceballosiker/auditor-irpf-es/releases/tag/v0.3.0
 [0.2.0]: https://github.com/ceballosiker/auditor-irpf-es/releases/tag/v0.2.0

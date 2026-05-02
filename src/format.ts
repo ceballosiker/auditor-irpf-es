@@ -1,6 +1,6 @@
 // Rounding helpers compatible with CPython's `round(x, n)` on Python floats,
 // y serializadores de fila — esquema de columnas idéntico al Excel del script
-// Python (auditado por los golden fixtures en `tests/fixtures/`).
+// Python (auditado por los golden fixtures en `test/fixtures/`).
 //
 // The naive `Math.round(n * 10^d) / 10^d` approach loses precision at the
 // `n * 10^d` step (e.g. 2486.0250000000004 * 100 collapses to exactly

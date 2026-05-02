@@ -11,7 +11,7 @@ export default tseslint.config(
       '.venv/',
       '.venv-*/',
       'site/',
-      'tests/fixtures/**',
+      'test/fixtures/**',
     ],
   },
   js.configs.recommended,
