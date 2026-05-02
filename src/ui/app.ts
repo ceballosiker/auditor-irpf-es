@@ -50,6 +50,7 @@ export function mountApp(app: HTMLElement): void {
   const initial: FormState = { bruto: 30000, anio: ANIO_MAX };
 
   let lastBruto: number | undefined;
+  let chartRequestId = 0;
 
   function update(state: FormState): void {
     if (!resultsSection || !chartCanvas || !chartSrOnly) return;
@@ -60,7 +61,11 @@ export function mountApp(app: HTMLElement): void {
     renderResults(resultsSection, state.bruto, state.anio);
     if (state.bruto !== lastBruto) {
       const bruto = state.bruto;
+      // Bail if a newer request is already in flight — prevents an older
+      // import().then() from overwriting the sr-only table with stale data.
+      const requestId = ++chartRequestId;
       void import('./chart.js').then((mod) => {
+        if (requestId !== chartRequestId) return;
         if (!chartCanvas || !chartSrOnly) return;
         const series = mod.comparativaSeries(bruto);
         mod.renderComparativaInflacion(chartCanvas, series);

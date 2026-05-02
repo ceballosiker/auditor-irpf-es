@@ -29,7 +29,7 @@ jobs:
         run: npm run build
 
       - name: Run Lighthouse CI
-        run: npx --yes @lhci/cli@0.13.x autorun
+        run: npx lhci autorun
 
       - name: Upload Lighthouse artefacts
         if: always()
