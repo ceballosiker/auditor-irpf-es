@@ -10,9 +10,7 @@ async function scanForCriticalViolations(): Promise<axe.Result[]> {
   const results = await axe.run(document.body, {
     runOnly: { type: 'tag', values: A11Y_TAGS },
   });
-  return results.violations.filter(
-    (v) => v.impact === 'critical' || v.impact === 'serious',
-  );
+  return results.violations.filter((v) => v.impact === 'critical' || v.impact === 'serious');
 }
 
 async function waitForRender(selector: string, timeoutMs = 2000): Promise<HTMLElement> {
