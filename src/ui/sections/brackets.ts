@@ -16,7 +16,7 @@ export function mountBrackets(target: HTMLElement): void {
       <h2>Tu salario «atraviesa» los tramos. Solo lo que cabe en cada tramo paga su tipo.</h2>
       <p>No todo tu sueldo paga el mismo porcentaje. Cada tramo es un «vaso» que se llena por orden, y solo lo que cabe en cada uno paga el tipo de ese tramo.</p>
       <div data-chart="vasos"></div>
-      <a class="read-more" href="/manual/motor/06-tramos-irpf/">Si quieres profundizar: cómo funcionan los tramos →</a>
+      <a class="read-more" href="./manual/motor/06-tramos-irpf/">Si quieres profundizar: cómo funcionan los tramos →</a>
       <details id="drill-irpf">
         <summary>Ver tramos completos, mínimo personal, deducción SMI y tope 43 %</summary>
         <div data-drill="irpf"></div>

@@ -16,7 +16,7 @@ export function mountBreakdown(target: HTMLElement): void {
       <h2 data-h>De cada 100 € de tu bruto, te quedas con —.</h2>
       <p>Antes de llegar a tu cuenta, tu bruto pasa por dos cobros: la cotización social, que paga el sistema público, y el IRPF, que paga el Estado. Lo que queda es tu neto.</p>
       <div data-chart="stacked-bar"></div>
-      <a class="read-more" href="/manual/motor/01-cotizacion/">Si quieres profundizar: cómo funciona la cotización social →</a>
+      <a class="read-more" href="./manual/motor/01-cotizacion/">Si quieres profundizar: cómo funciona la cotización social →</a>
       <details id="drill-cotizacion">
         <summary>Ver el cálculo paso a paso (MEI, Solidaridad, base de cotización)</summary>
         <div data-drill="cotizacion"></div>

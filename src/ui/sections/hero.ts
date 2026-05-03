@@ -1,5 +1,5 @@
 // src/ui/sections/hero.ts
-import { calcularNomina } from '../../pipeline.js';
+import { calcularNomina } from '../../index.js';
 import { eur } from '../format.js';
 import { render } from '../render.js';
 

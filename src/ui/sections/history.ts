@@ -19,7 +19,7 @@ export function mountHistory(target: HTMLElement): void {
       <h2 data-h>—</h2>
       <p>Manteniendo tu poder adquisitivo constante en euros de ${String(ANIO_MAX)}, este es el coste acumulado de la «progresividad en frío» — los tramos no se han actualizado al ritmo de la inflación.</p>
       <div data-chart="gap-area"></div>
-      <a class="read-more" href="/manual/progresividad-en-frio/">Si quieres profundizar: progresividad en frío →</a>
+      <a class="read-more" href="./manual/progresividad-en-frio/">Si quieres profundizar: progresividad en frío →</a>
       <details id="drill-multiples">
         <summary>Ver pequeños múltiples (neto, IRPF, tipo efectivo, SS año a año)</summary>
         <div data-drill="multiples"></div>

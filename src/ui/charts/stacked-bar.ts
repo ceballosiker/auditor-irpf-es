@@ -28,7 +28,7 @@ export function renderStackedBar(target: HTMLElement, d: StackedBarData): void {
       <rect class="segment" x="${String(xIrpf)}" y="0" width="${String(pIrpf)}" height="32" fill="var(--accent)"/>
       <rect class="segment" x="${String(xSS)}"   y="0" width="${String(pSS)}"   height="32" fill="var(--ss)"/>
     </svg>
-    <div class="sb-key" style="display:flex; gap:18px; margin-top:12px; font-size:0.78rem; color:var(--ink-mute);">
+    <div class="sb-key" aria-hidden="true" style="display:flex; gap:18px; margin-top:12px; font-size:0.78rem; color:var(--ink-mute);">
       <span><span style="color:var(--neto);">■</span> Neto ${eur(d.neto)} (${percent(d.neto / total)})</span>
       <span><span style="color:var(--accent);">■</span> IRPF ${eur(d.irpf)} (${percent(d.irpf / total)})</span>
       <span><span style="color:var(--ss);">■</span> SS ${eur(d.cotSocTrabajador)} (${percent(d.cotSocTrabajador / total)})</span>
