@@ -1,0 +1,170 @@
+/* src/ui/theme.css
+ *
+ * Editorial dataviz design system for the calculadora IRPF.
+ *
+ * Contrast ratios (measured before merge — see spec §13). Each pair must
+ * meet WCAG 2.1 AA: ≥ 4.5:1 for normal text, ≥ 3:1 for ≥ 18px headings.
+ * Token comments are filled in once measurements are taken in Task 8.
+ */
+
+:root {
+  /* Palette */
+  --paper:        #f7f3ec; /* warm off-white, page background */
+  --paper-deep:   #f1ebdf; /* used in history section */
+  --ink:          #1a1a1a; /* primary text   — vs --paper: TBD */
+  --ink-soft:     #444444; /* body prose     — vs --paper: TBD */
+  --ink-mute:     #666666; /* eyebrows, captions — vs --paper: TBD */
+  --rule:         #d4cdbf; /* hairlines, borders */
+  --accent:       #b8551e; /* burnt orange   — vs --paper: TBD */
+  --accent-soft:  #f9c79c; /* lighter accent fills */
+  --neto:         #2f6b3c; /* deep green     — vs --paper: TBD */
+  --ss:           #4a5a6e; /* slate          — vs --paper: TBD */
+
+  /* Typography */
+  --font-display: Georgia, 'Source Serif Pro', 'Iowan Old Style', serif;
+  --font-body:    -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+
+  /* Spacing */
+  --space-section: clamp(40px, 6vw, 72px);
+
+  /* Schemes */
+  color-scheme: light;
+}
+
+/* Reset essentials (replaces what Pico used to do) */
+*, *::before, *::after { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; }
+body {
+  font-family: var(--font-body);
+  font-size: 16px;
+  line-height: 1.55;
+  color: var(--ink-soft);
+  background: var(--paper);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Headings */
+h1, h2, h3 {
+  font-family: var(--font-display);
+  color: var(--ink);
+  margin: 0 0 0.5em;
+  line-height: 1.2;
+  font-weight: 700;
+  letter-spacing: -0.005em;
+}
+h1 { font-size: clamp(1.8rem, 3.6vw, 2.6rem); }
+h2 { font-size: clamp(1.3rem, 2.4vw, 1.6rem); }
+h3 { font-size: 1.05rem; }
+
+/* Body text + lead */
+p { margin: 0 0 1em; }
+p.lead { color: var(--ink-soft); max-width: 56ch; }
+
+/* Eyebrow */
+.eyebrow {
+  font-family: var(--font-body);
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  font-size: 0.7rem;
+  color: var(--accent);
+  font-weight: 700;
+}
+
+/* Inputs */
+input[type="number"], select {
+  font-family: var(--font-display);
+  font-size: 1.1rem;
+  padding: 12px 14px;
+  background: #fff;
+  color: var(--ink);
+  border: 1px solid var(--rule);
+  border-radius: 4px;
+  width: 100%;
+}
+label {
+  display: block;
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--ink-mute);
+  font-weight: 600;
+  margin-bottom: 6px;
+  font-family: var(--font-body);
+}
+small { color: var(--ink-mute); font-size: 0.78rem; }
+
+/* Layout containers */
+.container { max-width: 920px; margin: 0 auto; padding: 0 24px; }
+section { padding: var(--space-section) 0; border-top: 1px solid var(--rule); }
+section:first-of-type { border-top: 0; }
+
+/* Drill-down disclosure */
+details > summary {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--font-body);
+  font-size: 0.78rem;
+  color: var(--accent);
+  cursor: pointer;
+  padding: 6px 10px;
+  border: 1px solid var(--accent);
+  border-radius: 999px;
+  list-style: none;
+  margin-top: 16px;
+  user-select: none;
+}
+details > summary::-webkit-details-marker { display: none; }
+details > summary::before { content: '+'; font-weight: 700; }
+details[open] > summary::before { content: '−'; }
+
+/* Accent CTA button */
+.cta {
+  display: inline-block;
+  background: var(--accent);
+  color: #fff;
+  padding: 12px 22px;
+  border-radius: 4px;
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 0.92rem;
+  text-decoration: none;
+  border: 0;
+  cursor: pointer;
+}
+.cta[aria-busy="true"] { opacity: 0.7; cursor: wait; }
+.cta:disabled { opacity: 0.5; cursor: not-allowed; }
+
+/* Inline manual link ("leer más") */
+.read-more {
+  display: inline;
+  font-family: var(--font-display);
+  font-style: italic;
+  color: var(--accent);
+  text-decoration: none;
+  margin-top: 12px;
+}
+.read-more:hover { text-decoration: underline; }
+
+/* Top nav strip */
+.nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 24px;
+  border-bottom: 1px solid var(--rule);
+  font-family: var(--font-body);
+  font-size: 0.85rem;
+}
+.nav .wordmark { color: var(--ink); font-weight: 700; }
+.nav a { color: var(--ink-soft); text-decoration: none; margin-left: 18px; }
+.nav a:hover { color: var(--accent); }
+
+/* Hero number */
+.hero-num { font-family: var(--font-display); font-size: clamp(3rem, 8vw, 5rem); font-weight: 700; line-height: 1; color: var(--neto); letter-spacing: -0.025em; }
+.hero-sub { font-size: 0.85rem; color: var(--ink-mute); margin-top: 8px; text-transform: uppercase; letter-spacing: 0.06em; font-weight: 600; font-family: var(--font-body); }
+
+/* Excel footer band */
+.excel-band { background: var(--ink); color: var(--paper); padding: 32px 24px; margin: 0 -24px; }
+.excel-band h3 { color: var(--paper); }
+.excel-band .lead { color: rgba(247, 243, 236, 0.75); max-width: 56ch; }
