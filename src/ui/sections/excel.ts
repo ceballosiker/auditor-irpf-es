@@ -1,6 +1,10 @@
 // src/ui/sections/excel.ts
 import { render } from '../render.js';
 
+function escHtml(s: string): string {
+  return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+}
+
 const FILENAME = 'Auditoria_Integral_Nominas_e_Inflacion_2012_2026.xlsx';
 
 type State = 'idle' | 'generating' | 'error';
@@ -9,7 +13,7 @@ function bandHtml(state: State, error?: string): string {
   const busy = state === 'generating' ? 'aria-busy="true" disabled' : '';
   const label = state === 'generating' ? 'Generando Excel…' : '↓ Descargar Excel completo (2012 – 2026)';
   const err = state === 'error' && error
-    ? `<p role="alert" style="color:var(--accent);font-size:0.85rem;margin-top:8px;">${error}</p>`
+    ? `<p role="alert" style="color:var(--accent-soft);font-size:0.85rem;margin-top:8px;">${escHtml(error)}</p>`
     : '';
   return `
     <section class="excel-band">

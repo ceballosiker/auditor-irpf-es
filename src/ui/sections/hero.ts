@@ -3,7 +3,7 @@ import { calcularNomina } from '../../pipeline.js';
 import { eur } from '../format.js';
 import { render } from '../render.js';
 
-interface HeroState {
+export interface HeroState {
   readonly bruto: number;
   readonly anio: number;
 }
@@ -13,10 +13,10 @@ export function mountHero(target: HTMLElement): void {
     target,
     `
     <section>
-      <div class="eyebrow">Auditor IRPF · 2012 – 2026</div>
+      <div class="eyebrow">Auditor IRPF · 2012–2026</div>
       <h1>Cuánto del salario que cuestas a tu empresa termina realmente en tu bolsillo.</h1>
-      <p class="lead">Una calculadora pública del IRPF y la Seguridad Social en España, capaz de mostrar quince años de fiscalidad — y la pérdida de poder adquisitivo que la "progresividad en frío" ha ido acumulando entre 2012 y 2026.</p>
-      <div id="form-section" aria-label="Salario y año fiscal"></div>
+      <p class="lead">Una calculadora pública del IRPF y la Seguridad Social en España, capaz de mostrar quince años de fiscalidad — y la pérdida de poder adquisitivo que la «progresividad en frío» ha ido acumulando entre 2012 y 2026.</p>
+      <div id="form-section" role="group" aria-label="Salario y año fiscal"></div>
       <div class="hero-num" data-hero-num aria-live="polite">—</div>
       <div class="hero-sub" data-hero-sub>—</div>
     </section>

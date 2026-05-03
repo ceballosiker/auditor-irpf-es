@@ -46,6 +46,11 @@ describe('hero section', () => {
     expect(sub).toMatch(/14 pagas/i);
     expect(sub).toMatch(new RegExp(String(ANIO_MAX)));
   });
+
+  it('marks the hero number as aria-live="polite" so updates are announced', () => {
+    mountHero(host);
+    expect(host.querySelector('[data-hero-num]')?.getAttribute('aria-live')).toBe('polite');
+  });
 });
 
 describe('excel section', () => {
