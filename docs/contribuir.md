@@ -25,7 +25,7 @@ Issues etiquetados [`good first issue`](https://github.com/ceballosiker/auditor-
 
 ## Si quieres ayudar con la web
 
-La calculadora interactiva (Phase 4 — v1.0.0) aún no ha empezado. Si quieres aportar diseño o frontend, comenta en el [roadmap pinned issue](https://github.com/ceballosiker/auditor-irpf-es/issues/1) indicando tu perfil.
+La calculadora interactiva (Phase 4 — v1.0.0) está publicada. Si quieres aportar diseño o frontend, comenta en el [roadmap pinned issue](https://github.com/ceballosiker/auditor-irpf-es/issues/1) indicando tu perfil.
 
 ## Código de conducta
 

@@ -6,6 +6,37 @@ El formato sigue [Keep a Changelog](https://keepachangelog.com/es-ES/1.1.0/) y e
 
 ## [Unreleased]
 
+## [1.1.0] - 2026-05-04
+
+Rediseño completo de la calculadora web bajo una dirección editorial-dataviz: paleta cálida (off-white + naranja quemado + verde profundo), tipografía Georgia, narrativa pública-primero (tu neto → ¿adónde va el resto? → ¿cómo se calcula? → ¿qué ha cambiado entre 2012 y 2026?), con todo el detalle de auditoría (MEI, Solidaridad, T1–T7, tope 43 %, deducción SMI) detrás de un `<details>` colapsable por sección. Pico CSS y Chart.js desaparecen del bundle; en su lugar, una hoja de tokens propia (`src/ui/theme.css`) y cuatro renderers SVG hechos a mano. El motor de cálculo y los 15 fixtures-oráculo no se tocan.
+
+### Added
+
+- **Cuatro nuevas visualizaciones SVG hechas a mano** en `src/ui/charts/` — `stacked-bar` (barra apilada NETO/IRPF/SS con porcentaje destacado), `vasos` (un "vaso" por tramo de IRPF que se llena por orden, atacando el mito de "si cruzo a 30 %, todo se grava al 30 %"), `gap-area` (brecha acumulada de poder adquisitivo 2012–2026 frente a una fiscalidad indexada, con headline numérico y copy adaptado al signo) y `multiples` (cuatro mini-gráficos: neto real, IRPF real, tipo efectivo, SS real). Cada SVG lleva `role="img"` + `<title>` + `<desc>` y, donde la información es densa, una `<table class="sr-only">` paralela para lectores de pantalla.
+- **Seis secciones de página** en `src/ui/sections/` — `nav` (tira superior con enlaces al manual y GitHub), `hero` (eyebrow + h1 + lead + formulario + neto destacado con `aria-live="polite"`), `breakdown` (¿adónde va el resto?), `brackets` (¿cómo se calcula el IRPF?), `history` (¿qué ha cambiado entre 2012 y 2026?) y `excel` (banda final oscura con CTA de descarga). Las cuatro de contenido tienen un `<details id="drill-…">` que despliega la tabla completa de auditoría — los números densos siguen a un click de distancia.
+- **`src/ui/history-data.ts`** — helper de cálculo del contrafactual de progresividad en frío. `parametrosIndexados(anio)` devuelve los parámetros del año-N con cada campo en € escalado por la inflación acumulada desde 2012; los campos closure (`reduccionTrabajo`, `deduccionSMI`) se envuelven con la identidad de homogeneidad de grado 1, `f_indexada(x) = α · f(x/α)`, lo que permite calcular el contrafactual sin tocar el motor. `gapSeries(bruto2026)` devuelve las series año a año necesarias para el gráfico de brecha. 10 tests cubren identidad en 2012, escalado en años representativos, preservación de tipos/estructura y el envoltorio de las funciones piecewise-linear (incluyendo el `deduccionSMI` no-trivial de 2025/2026).
+- **Integración visible con el manual** — la nav superior incluye un enlace a "Manual divulgativo" (`/manual/`); cada sección de contenido lleva una línea italica en el color acento (clase `.read-more`) con un enlace específico: cotización SS → `motor/01-cotizacion`, tramos → `motor/06-tramos-irpf`, brecha → `progresividad-en-frio`. Todos los enlaces son relativos para funcionar bajo el subpath `/auditor-irpf-es/` de GitHub Pages.
+- **Sign-adaptive headline copy en la sección de historia** — el titular cambia según el signo de la brecha de hoy: `> +100 €` ⇒ "tendrías X € más en el bolsillo", `< −100 €` ⇒ "tendrías X € menos: las reformas posteriores a 2012 te benefician en este caso", entre ambos ⇒ "tu neto real es prácticamente equivalente al de una fiscalidad indexada a 2012". Honra la posibilidad de que en algunos brutos las reformas de tarifa hayan compensado o superado la inflación.
+- **Cuatro issues de seguimiento** abiertos para tracking de mejoras opcionales que quedan fuera de v1.1.0 — **#68** (scrubber/slider del año fiscal), **#69** (webfont serif curado tipo Source Serif Variable), **#70** (paleta dark-mode), **#71** (deep-link `?anio=YYYY` + cross-links bidireccionales desde `anual/YYYY.md`).
+
+### Changed
+
+- **Pico CSS reemplazado por una hoja de tokens propia** (`src/ui/theme.css`, ~210 líneas) — paleta editorial (`--paper`, `--paper-deep`, `--ink`, `--ink-soft`, `--ink-mute`, `--rule`, `--accent`, `--accent-soft`, `--neto`, `--ss`), familias `--font-display` (Georgia + fallbacks) y `--font-body` (sistema), espaciado fluido `--space-section`. Sin webfonts, sin runtime CSS-in-JS, sin reset agresivo. Las clases utilitarias necesarias (`.eyebrow`, `.lead`, `.cta`, `.nav`, `.hero-num`, `.excel-band`, `.vasos`, `.multiples`, `.read-more`, `.form-row`) viven en el mismo archivo. Cada par token/fondo lleva inline un comentario con la ratio de contraste WCAG 2.1 medida (todas pasan AA — la más ajustada es `--accent` sobre `--paper-deep` a 4.69:1, justo por encima del umbral de 4.5:1).
+- **Chart.js eliminado del bundle** — los cuatro gráficos del rediseño se renderizan con SVG construido vía template-literals (no `<canvas>`, no virtual DOM, no instancia que destruir entre renders). El SPA completo sigue siendo zero-runtime-dependency salvo el `xlsx` (SheetJS) cargado dinámicamente al hacer click en el botón de descarga.
+- **`<meta name="color-scheme">` en `index.html` cambiado de `light dark` a `light only`** — el dark-mode editorial es trabajo de diseño aparte (issue #70), no un swap de tokens. El SPA no fuerza colores en dark, así que tampoco prometemos esa rama.
+- **Punto de montaje del SPA**: `index.html` cambia de `<main id="app" class="container">` a `<div id="app">`. `app.ts` escribe su propio `<main class="container">` dentro como landmark único de la página, evitando dos `<main>` anidados (HTML5 sólo admite uno).
+- **API de las secciones**: `mountX(target)` para el render inicial, `updateX(target, state)` para el re-render reactivo en cada cambio del formulario. `app.ts` orquesta el fan-out a las cuatro secciones state-aware (hero, breakdown, brackets, history) sin estado compartido fuera de `{ bruto, anio }`.
+- **Manual divulgativo: dos líneas refrescadas** — `docs/index.md:11` y `docs/contribuir.md:28` describían la calculadora interactiva como "próximamente" / "aún no ha empezado" a pesar de haber sido publicada en `v1.0.0` el 3 de mayo. Ahora `docs/index.md` enlaza directamente al sitio en producción y `docs/contribuir.md` la describe como "publicada".
+
+### Removed
+
+- `@picocss/pico` y `chart.js` desaparecen de `package.json`. La dependencia restante en runtime es `xlsx` (SheetJS, ya en chunk dinámico).
+- `src/ui/results.ts`, `src/ui/chart.ts`, `src/ui/excel-button.ts` — reemplazados por los módulos de `src/ui/sections/` y `src/ui/charts/`.
+
+### Notes
+
+- El milestone originalmente marcado como `v1.1.0` en el README de `v1.0.0` (redacción completa de los 15 resúmenes anuales en paralelo con la auditoría fiscal) se desplaza a un release posterior. Esta `v1.1.0` empuja el rediseño visual del front-end, que ofrece mayor impacto inmediato para el público general que es la audiencia primaria del proyecto.
+
 ## [1.0.0] - 2026-05-03
 
 Calculadora IRPF interactiva en GitHub Pages. Cualquier persona puede introducir un bruto y un año entre 2012 y 2026 y ver, sin servidor y sin red, el desglose completo (cotización social, MEI, Solidaridad, IRPF tramo a tramo, mínimo personal aplicado como cuota, tope 43 %, deducción SMI) más la curva de pérdida de poder adquisitivo deflactada a euros de 2026. Bundle estático ~92 KB gzip iniciales; Chart.js (~71 KB gzip) y SheetJS (~96 KB gzip) en chunks dinámicos. La auditoría axe-core (WCAG 2.1 AA) y los thresholds Lighthouse (perf ≥ 0.85, a11y ≥ 0.95, bp ≥ 0.95, seo ≥ 0.90) corren en cada PR.

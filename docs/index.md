@@ -8,7 +8,7 @@ Este manual acompaña al [motor de cálculo](https://github.com/ceballosiker/aud
 
 - **Fiscalistas y economistas** que quieran auditar la fidelidad normativa año a año. → empieza por la [tabla de progreso](auditoria/progreso.md).
 - **Personas técnicas** que quieran entender el motor o aportar mejoras. → empieza por [Cómo contribuir](contribuir.md).
-- **Cualquier contribuyente** que quiera entender qué se descuenta de su nómina y por qué. → próximamente: la calculadora interactiva (Phase 4 — v1.0.0).
+- **Cualquier contribuyente** que quiera entender qué se descuenta de su nómina y por qué. → ve a la [calculadora interactiva](https://ceballosiker.github.io/auditor-irpf-es/).
 
 ## Alcance actual del motor
 
