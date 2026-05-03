@@ -1,4 +1,4 @@
-import '@picocss/pico/css/pico.min.css';
+import '../src/ui/theme.css';
 import '../src/ui/sr-only.css';
 import axe from 'axe-core';
 import { afterEach, beforeEach, describe, expect, it } from 'vitest';
@@ -24,7 +24,7 @@ async function waitForRender(selector: string, timeoutMs = 2000): Promise<HTMLEl
 }
 
 function setupApp(): HTMLElement {
-  document.body.innerHTML = '<main id="app" class="container"></main>';
+  document.body.innerHTML = '<div id="app"></div>';
   const app = document.getElementById('app');
   if (!app) throw new Error('test setup: #app not in DOM');
   mountApp(app);
@@ -43,14 +43,14 @@ describe('a11y: SPA passes axe-core (WCAG 2.1 AA)', () => {
 
   it('has no serious or critical violations on initial render', async () => {
     setupApp();
-    await waitForRender('#results-section');
+    await waitForRender('#hero-section');
     const violations = await scanForCriticalViolations();
     expect(violations, JSON.stringify(violations, null, 2)).toEqual([]);
   });
 
   it('has no serious or critical violations after changing bruto', async () => {
     setupApp();
-    await waitForRender('#results-section');
+    await waitForRender('#hero-section');
     const input = document.querySelector<HTMLInputElement>('#input-bruto');
     if (!input) throw new Error('bruto input missing');
     input.value = '45000';
@@ -66,7 +66,7 @@ describe('a11y: SPA passes axe-core (WCAG 2.1 AA)', () => {
     // CPU). The point of this scan is to verify the busy-state markup is
     // accessible, not to exercise SheetJS.
     setupApp();
-    await waitForRender('#results-section');
+    await waitForRender('#hero-section');
     const button = document.querySelector<HTMLButtonElement>('#excel-download');
     if (!button) throw new Error('excel-download button missing');
     button.setAttribute('aria-busy', 'true');

@@ -1,80 +1,62 @@
+// src/ui/app.ts
 import { ANIO_MAX } from '../normativa.js';
-import { mountExcelButton } from './excel-button.js';
 import { mountForm } from './form.js';
 import type { FormState } from './form.js';
+import { mountBreakdown, updateBreakdown } from './sections/breakdown.js';
+import { mountBrackets, updateBrackets } from './sections/brackets.js';
+import { mountExcel } from './sections/excel.js';
+import { mountHero, updateHero } from './sections/hero.js';
+import { mountHistory, updateHistory } from './sections/history.js';
+import { mountNav } from './sections/nav.js';
 import { render } from './render.js';
-import { renderResults } from './results.js';
 
 export function mountApp(app: HTMLElement): void {
   render(
     app,
     `
-    <header>
-      <hgroup>
-        <h1>Calculadora IRPF España</h1>
-        <p>Salario neto, IRPF y cotización social entre 2012 y ${String(ANIO_MAX)}.</p>
-      </hgroup>
-    </header>
-    <section id="form-section"></section>
-    <section id="results-section" aria-live="polite"></section>
-    <section id="chart-section">
-      <h2>Comparativa frente a inflación</h2>
-      <p>
-        Manteniendo el bruto constante en euros de ${String(ANIO_MAX)}, este gráfico
-        muestra qué neto e IRPF reales obtendría el mismo poder adquisitivo en
-        cada año entre ${String(2012)} y ${String(ANIO_MAX)}.
-      </p>
-      <div class="chart-container" style="position: relative; height: clamp(240px, 40vh, 360px);">
-        <canvas id="chart-comparativa" role="img" aria-label="Bruto, neto e IRPF reales (€ de 2026) entre 2012 y 2026"></canvas>
-      </div>
-      <div id="chart-sr-only"></div>
-    </section>
-    <section id="excel-section">
-      <h2>Descargar libro Excel</h2>
-      <div id="excel-button-mount"></div>
-    </section>
+    <div id="nav-section"></div>
+    <main class="container">
+      <div id="hero-section"></div>
+      <div id="breakdown-section"></div>
+      <div id="brackets-section"></div>
+      <div id="history-section"></div>
+      <div id="excel-section"></div>
+    </main>
   `,
   );
 
-  const formSection = app.querySelector<HTMLElement>('#form-section');
-  const resultsSection = app.querySelector<HTMLElement>('#results-section');
-  const chartCanvas = app.querySelector<HTMLCanvasElement>('#chart-comparativa');
-  const chartSrOnly = app.querySelector<HTMLElement>('#chart-sr-only');
-  const excelMount = app.querySelector<HTMLElement>('#excel-button-mount');
-  if (!formSection || !resultsSection || !chartCanvas || !chartSrOnly || !excelMount) {
+  const navSec = app.querySelector<HTMLElement>('#nav-section');
+  const heroSec = app.querySelector<HTMLElement>('#hero-section');
+  const breakdownSec = app.querySelector<HTMLElement>('#breakdown-section');
+  const bracketsSec = app.querySelector<HTMLElement>('#brackets-section');
+  const historySec = app.querySelector<HTMLElement>('#history-section');
+  const excelSec = app.querySelector<HTMLElement>('#excel-section');
+  if (!navSec || !heroSec || !breakdownSec || !bracketsSec || !historySec || !excelSec) {
     throw new Error('Layout sections not found after initial render');
   }
 
-  mountExcelButton(excelMount);
+  mountNav(navSec);
+  mountHero(heroSec);
+  mountBreakdown(breakdownSec);
+  mountBrackets(bracketsSec);
+  mountHistory(historySec);
+  mountExcel(excelSec);
 
-  const initial: FormState = { bruto: 30000, anio: ANIO_MAX };
+  // Form lives inside the hero section's #form-section slot.
+  const formMount = heroSec.querySelector<HTMLElement>('#form-section');
+  if (!formMount) throw new Error('#form-section slot missing in hero');
 
-  let lastBruto: number | undefined;
-  let chartRequestId = 0;
+  const initial: FormState = { bruto: 30_000, anio: ANIO_MAX };
 
   function update(state: FormState): void {
-    if (!resultsSection || !chartCanvas || !chartSrOnly) return;
-    if (!Number.isInteger(state.anio)) {
-      render(resultsSection, '<p role="alert">Año no válido.</p>');
-      return;
-    }
-    renderResults(resultsSection, state.bruto, state.anio);
-    if (state.bruto !== lastBruto) {
-      const bruto = state.bruto;
-      // Bail if a newer request is already in flight — prevents an older
-      // import().then() from overwriting the sr-only table with stale data.
-      const requestId = ++chartRequestId;
-      void import('./chart.js').then((mod) => {
-        if (requestId !== chartRequestId) return;
-        if (!chartCanvas || !chartSrOnly) return;
-        const series = mod.comparativaSeries(bruto);
-        mod.renderComparativaInflacion(chartCanvas, series);
-        mod.renderComparativaTableSrOnly(chartSrOnly, series);
-      });
-      lastBruto = bruto;
-    }
+    if (!Number.isInteger(state.anio)) return;
+    if (!heroSec || !breakdownSec || !bracketsSec || !historySec) return;
+    updateHero(heroSec, state);
+    updateBreakdown(breakdownSec, state);
+    updateBrackets(bracketsSec, state);
+    updateHistory(historySec, state);
   }
 
-  mountForm(formSection, { initial, onChange: update });
+  mountForm(formMount, { initial, onChange: update });
   update(initial);
 }
