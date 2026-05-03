@@ -26,7 +26,7 @@ export function mountForm(target: HTMLElement, opts: FormOptions): void {
     target,
     `
       <form id="calc-form" autocomplete="off" novalidate>
-        <div class="grid">
+        <div class="form-row">
           <label>
             Salario bruto anual (€)
             <input

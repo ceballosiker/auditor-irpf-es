@@ -15,7 +15,7 @@
   --ink-soft:     #444444; /* body prose     — vs --paper: TBD */
   --ink-mute:     #666666; /* eyebrows, captions — vs --paper: TBD */
   --rule:         #d4cdbf; /* hairlines, borders */
-  --accent:       #b4531d; /* burnt orange   — vs --paper: ≥4.5:1 (WCAG AA) */
+  --accent:       #a84e1a; /* burnt orange   — vs --paper: 5.04:1, vs --paper-deep: 4.69:1 (WCAG AA) */
   --accent-soft:  #f9c79c; /* lighter accent fills */
   --paper-translucent: rgba(247, 243, 236, 0.75); /* --paper at 75% opacity, for use on --ink bg */
   --neto:         #2f6b3c; /* deep green     — vs --paper: TBD */
@@ -205,3 +205,7 @@ details > summary:focus-visible { outline: 2px solid var(--accent); outline-offs
  *   .gap-endpoint  — gap-area endpoint marker
  *   .multi         — multiples mini-chart svg
  */
+
+/* Form fields — replaces Pico's .grid */
+.form-row { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; align-items: start; margin-top: 14px; }
+@media (max-width: 720px) { .form-row { grid-template-columns: 1fr; } }

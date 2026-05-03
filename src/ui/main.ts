@@ -1,4 +1,5 @@
-import '@picocss/pico/css/pico.min.css';
+// src/ui/main.ts
+import './theme.css';
 import './sr-only.css';
 import { mountApp } from './app.js';
 
