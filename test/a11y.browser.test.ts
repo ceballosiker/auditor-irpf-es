@@ -24,7 +24,7 @@ async function waitForRender(selector: string, timeoutMs = 2000): Promise<HTMLEl
 }
 
 function setupApp(): HTMLElement {
-  document.body.innerHTML = '<main id="app" class="container"></main>';
+  document.body.innerHTML = '<div id="app"></div>';
   const app = document.getElementById('app');
   if (!app) throw new Error('test setup: #app not in DOM');
   mountApp(app);
