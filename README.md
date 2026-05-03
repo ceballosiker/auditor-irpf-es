@@ -3,7 +3,7 @@
 ![TypeScript](https://img.shields.io/badge/typescript-5.5%2B-blue.svg)
 ![Node](https://img.shields.io/badge/node-%3E%3D18.18-brightgreen.svg)
 ![License](https://img.shields.io/badge/license-MIT-green.svg)
-![Estado](https://img.shields.io/badge/estado-v1.0.0-brightgreen.svg)
+![Estado](https://img.shields.io/badge/estado-v1.1.0-brightgreen.svg)
 [![Calculadora](https://img.shields.io/badge/calculadora-ceballosiker.github.io-blue.svg)](https://ceballosiker.github.io/auditor-irpf-es/)
 [![Manual](https://img.shields.io/badge/manual-ceballosiker.github.io%2Fmanual-blue.svg)](https://ceballosiker.github.io/auditor-irpf-es/manual/)
 
@@ -12,7 +12,7 @@
 
 Auditor fiscal que calcula el salario neto en España (2012–2026): IRPF, Seguridad Social, MEI y Cuota de Solidaridad, con análisis de pérdida de poder adquisitivo ajustada a la inflación real (IPC oficial del INE). Se expone como una **calculadora interactiva 100 % en el navegador** (sin servidor) acompañada de un manual divulgativo y un proceso de auditoría pública año a año.
 
-> **Estado actual (v1.0.0):** motor TypeScript validado contra los fixtures del motor Python de referencia, **calculadora web interactiva en producción** y manual divulgativo publicados en GitHub Pages, auditoría axe-core (WCAG 2.1 AA) + thresholds Lighthouse (perf ≥ 0.85, a11y ≥ 0.95) bloqueando cada PR. Próximo hito (`v1.1.0`): redacción completa de los 15 resúmenes anuales junto con la auditoría fiscal.
+> **Estado actual (v1.1.0):** motor TypeScript validado contra los fixtures del motor Python de referencia, **calculadora web interactiva con rediseño editorial-dataviz en producción** y manual divulgativo publicados en GitHub Pages, auditoría axe-core (WCAG 2.1 AA) + thresholds Lighthouse (perf ≥ 0.85, a11y ≥ 0.95) bloqueando cada PR. Próximo hito (`v1.2.0`): redacción completa de los 15 resúmenes anuales junto con la auditoría fiscal.
 
 ## 🧮 Calculadora interactiva
 
@@ -20,7 +20,7 @@ Disponible en **<https://ceballosiker.github.io/auditor-irpf-es/>** — escribe 
 
 ## 📖 Manual divulgativo
 
-El manual está publicado en **<https://ceballosiker.github.io/auditor-irpf-es/manual/>**. Contiene siete páginas explicando paso a paso la cadena de cálculo (cotización, SS, MEI/Solidaridad, Art. 19/20, escala IRPF, SMI/tope 43 %), una página dedicada a la **progresividad en frío** con gráficos generados desde el propio motor, y un esqueleto de 15 resúmenes anuales (uno por año entre 2012 y 2026) cuya redacción completa irá llegando en `v1.1.0` en paralelo con la auditoría fiscal.
+El manual está publicado en **<https://ceballosiker.github.io/auditor-irpf-es/manual/>**. Contiene siete páginas explicando paso a paso la cadena de cálculo (cotización, SS, MEI/Solidaridad, Art. 19/20, escala IRPF, SMI/tope 43 %), una página dedicada a la **progresividad en frío** con gráficos generados desde el propio motor, y un esqueleto de 15 resúmenes anuales (uno por año entre 2012 y 2026) cuya redacción completa irá llegando en `v1.2.0` en paralelo con la auditoría fiscal.
 
 ---
 
@@ -39,7 +39,7 @@ Este repositorio es una implementación pública y auditable del cálculo de nó
 Busco tres perfiles. Si te identificas con alguno, abre una _issue_ o un PR indicándolo:
 
 - **🧾 Fiscalistas y economistas** — audita los resultados año a año al mínimo detalle. ¿Falta un matiz normativo? ¿Un redondeo oficial distinto? ¿Una interacción entre Art. 19 y Art. 20 mal secuenciada? Dímelo. La precisión legal es la prioridad número uno.
-- **💻 Techies (TypeScript / web)** — motor en TS, suite de tests con Vitest, ESLint/Prettier, CI con GitHub Actions, y la SPA (HTML + Chart.js + SheetJS). React queda explícitamente fuera; el stack es deliberadamente _vanilla_.
+- **💻 Techies (TypeScript / web)** — motor en TS, suite de tests con Vitest, ESLint/Prettier, CI con GitHub Actions, y la SPA (HTML + SVG hand-rolled + tema CSS propio + SheetJS). React queda explícitamente fuera; el stack es deliberadamente _vanilla_, sin dependencias de runtime más allá de SheetJS (que vive en un chunk dinámico).
 - **🌐 Diseño / UX** — accesibilidad sólida (axe-core en CI, Lighthouse a11y ≥ 0.95 ya verificado), UI clara y móvil-first, sin telemetría ni cookies. Mejoras visuales y de UX bienvenidas vía issue/PR.
 
 También es muy bienvenida la contribución de **redactores divulgativos** que extraigan, a partir del código, un manual sencillo que explique:
@@ -77,11 +77,12 @@ Para maximizar la precisión antes de ampliar casuística, el motor modela delib
 | **v0.3.0** ✅ | Workflow de auditoría fiscal: 15 issues (uno por año, 2012–2026) con checklist normativo + referencias BOE.  |
 | **v0.4.0** ✅ | Manual divulgativo en MkDocs Material publicado en GitHub Pages.                                             |
 | **v1.0.0** ✅ | Calculadora web interactiva: SPA estático, 100 % en el navegador, GitHub Pages. axe-core + Lighthouse en CI. |
-| **v1.1.0**    | Redacción completa de los 15 resúmenes anuales con referencias BOE, en paralelo con los `audit-YYYY`.        |
+| **v1.1.0** ✅ | Rediseño editorial-dataviz de la calculadora: nueva narrativa pública-primero, 4 visualizaciones SVG (barra apilada, "vasos" de tramos, brecha acumulada, pequeños múltiples), drill-downs de auditoría detrás de `<details>`, integración con el manual. Pico y Chart.js fuera del bundle. |
+| **v1.2.0**    | Redacción completa de los 15 resúmenes anuales con referencias BOE, en paralelo con los `audit-YYYY`.        |
 
 Sigue el progreso en los [issues abiertos](https://github.com/ceballosiker/auditor-irpf-es/issues) y [milestones](https://github.com/ceballosiker/auditor-irpf-es/milestones).
 
-### Hoja de ruta normativa (post-v1.1)
+### Hoja de ruta normativa (post-v1.2)
 
 - Tramos autonómicos específicos por Comunidad Autónoma.
 - Deducciones familiares (hijos, ascendientes, discapacidad).
@@ -95,8 +96,8 @@ Sigue el progreso en los [issues abiertos](https://github.com/ceballosiker/audit
 git clone https://github.com/ceballosiker/auditor-irpf-es.git
 cd auditor-irpf-es
 npm install
-npm test               # Vitest (664 tests)
-npm run test:browser   # axe-core a11y (Vitest browser project, requiere Chromium)
+npm test               # Vitest (674 tests)
+npm run test:browser   # axe-core a11y + secciones + charts (Vitest browser, requiere Chromium)
 npm run lint           # ESLint
 npm run typecheck      # tsc --noEmit
 npm run dev            # Vite dev server — la calculadora en http://localhost:5173
@@ -153,11 +154,19 @@ Para regenerar los fixtures JSON (operación idempotente):
 ├── test/                         # Vitest (664 cases: fixtures + invariantes + smoke)
 │   └── fixtures/                 # Golden JSON fixtures: oráculo inmutable
 │       └── golden_YYYY.json      # 10 brutos representativos por año (2012-2026)
+├── src/ui/                       # SPA editorial (vanilla TS, sin runtime deps)
+│   ├── theme.css                 # Tokens y utilidades CSS (reemplaza Pico)
+│   ├── main.ts, app.ts           # Bootstrap + orquestador
+│   ├── form.ts                   # Formulario (bruto, año, CCAA)
+│   ├── format.ts, render.ts      # Helpers (eur/percent, innerHTML)
+│   ├── history-data.ts           # Counterfactual indexado a 2012 + gapSeries
+│   ├── sections/                 # 6 secciones: nav, hero, breakdown, brackets, history, excel
+│   └── charts/                   # 4 SVG renderers: stacked-bar, vasos, gap-area, multiples
 ├── docs/                         # Manual MkDocs Material (GitHub Pages)
 │   ├── index.md, contribuir.md
 │   ├── motor/                    # 7 páginas: cadena de cálculo paso a paso
 │   ├── progresividad-en-frio.md  # Concepto + gráficos generados del motor
-│   ├── anual/                    # Stubs 2012-2026 (redacción completa en v1.1.0)
+│   ├── anual/                    # Stubs 2012-2026 (redacción completa en v1.2.0)
 │   ├── auditoria/progreso.md     # Estado de los 15 audit-YYYY
 │   └── assets/*.svg              # Charts hand-rolled desde src/pipeline.ts
 ├── scripts/
