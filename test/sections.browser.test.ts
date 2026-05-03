@@ -77,6 +77,7 @@ describe('breakdown section', () => {
     expect(host.querySelector('[data-chart="stacked-bar"]')).not.toBeNull();
     expect(host.querySelector('details > summary')).not.toBeNull();
     expect(host.querySelector('a.read-more')).not.toBeNull();
+    expect(host.querySelector('details')?.id).toBe('drill-cotizacion');
   });
 
   it('updateBreakdown fills the chart and the drill-down table', () => {
@@ -97,6 +98,7 @@ describe('brackets section', () => {
     expect(host.querySelector('h2')).not.toBeNull();
     expect(host.querySelector('[data-chart="vasos"]')).not.toBeNull();
     expect(host.querySelector('details > summary')).not.toBeNull();
+    expect(host.querySelector('details')?.id).toBe('drill-irpf');
   });
 
   it('updateBrackets renders one vasos-row per tramo and fills the drill-down table', () => {
@@ -116,6 +118,7 @@ describe('history section', () => {
     expect(host.querySelector('h2')).not.toBeNull();
     expect(host.querySelector('[data-chart="gap-area"]')).not.toBeNull();
     expect(host.querySelector('details > summary')).not.toBeNull();
+    expect(host.querySelector('details')?.id).toBe('drill-multiples');
   });
 
   it('updateHistory paints the gap-area chart and small multiples', () => {
@@ -125,10 +128,16 @@ describe('history section', () => {
     expect(host.querySelectorAll('svg.multi').length).toBe(4);
   });
 
-  it('headline copy adapts to the sign of gapHoy', () => {
+  it('headline copy reflects the sign of gapHoy', () => {
     mountHistory(host);
+    // Most brutos in the engine's range produce a positive gap (counterfactual >
+    // actual); a high bruto where reform-driven rate cuts dominate could yield a
+    // negative or near-zero gap. Verify the positive branch by sampling 30k.
     updateHistory(host, { bruto: 30_000, anio: ANIO_MAX });
-    const h = host.querySelector('h2')?.textContent ?? '';
-    expect(h).toMatch(/2012/);
+    const text = host.querySelector('h2')?.textContent ?? '';
+    // The text must mention 2012 (all branches do) AND must end with one of the
+    // three known phrases that distinguish the branches.
+    expect(text).toMatch(/2012/);
+    expect(text).toMatch(/(más en el bolsillo|menos:|prácticamente equivalente)/);
   });
 });

@@ -44,10 +44,26 @@ function renderOne(s: Series, years: readonly number[]): string {
 
 export function renderMultiples(target: HTMLElement, d: MultiplesData): void {
   const series: Series[] = [
-    { id: 'multi-neto-real',  label: 'Neto real (€ 2026)',     values: d.netoReal,     format: eur },
-    { id: 'multi-irpf-real',  label: 'IRPF real (€ 2026)',     values: d.irpfReal,     format: eur },
-    { id: 'multi-tipo-efect', label: 'Tipo efectivo IRPF',     values: d.tipoEfectivo, format: percent },
-    { id: 'multi-ss-real',    label: 'Cotización SS (€ 2026)', values: d.ssReal,       format: eur },
+    { id: 'multi-neto-real',  label: 'Neto real (€ 2026)',    values: d.netoReal,    format: eur },
+    { id: 'multi-irpf-real',  label: 'IRPF real (€ 2026)',    values: d.irpfReal,    format: eur },
+    { id: 'multi-tipo-efect', label: 'Tipo efectivo IRPF',    values: d.tipoEfectivo, format: percent },
+    { id: 'multi-ss-real',    label: 'Cotización SS (€ 2026)', values: d.ssReal,     format: eur },
   ];
-  target.innerHTML = `<div class="multiples">${series.map((s) => renderOne(s, d.years)).join('')}</div>`;
+
+  const srRows = d.years
+    .map((y, i) => {
+      const cells = series.map((s) => `<td>${s.format(s.values[i] ?? 0)}</td>`).join('');
+      return `<tr><th scope="row">${String(y)}</th>${cells}</tr>`;
+    })
+    .join('');
+  const srHead = series.map((s) => `<th scope="col">${s.label}</th>`).join('');
+
+  target.innerHTML = `
+    <div class="multiples">${series.map((s) => renderOne(s, d.years)).join('')}</div>
+    <table class="sr-only">
+      <caption>Indicadores año a año entre ${String(d.years[0] ?? '')} y ${String(d.years[d.years.length - 1] ?? '')}</caption>
+      <thead><tr><th scope="col">Año</th>${srHead}</tr></thead>
+      <tbody>${srRows}</tbody>
+    </table>
+  `;
 }

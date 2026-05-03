@@ -17,7 +17,7 @@ export function mountBrackets(target: HTMLElement): void {
       <p>No todo tu sueldo paga el mismo porcentaje. Cada tramo es un «vaso» que se llena por orden, y solo lo que cabe en cada uno paga el tipo de ese tramo.</p>
       <div data-chart="vasos"></div>
       <a class="read-more" href="/manual/motor/06-tramos-irpf/">Si quieres profundizar: cómo funcionan los tramos →</a>
-      <details>
+      <details id="drill-irpf">
         <summary>Ver tramos completos, mínimo personal, deducción SMI y tope 43 %</summary>
         <div data-drill="irpf"></div>
       </details>
@@ -36,7 +36,7 @@ function drillTable(n: Nomina, p: Parametros): string {
   const firstTipo = p.tramosIRPF[0]?.tipo ?? 0;
   const rows = [
     row('Rendimiento previo (bruto − cot. trabajador)', eur(n.renPrevio)),
-    row('Reducción Art. 20', eur(n.redRenTrabajo)),
+    row('Reducción Art. 20 (rendimientos del trabajo)', eur(n.redRenTrabajo)),
     row('Gastos fijos Art. 19', eur(n.gastosFijos)),
     row('Base imponible', eur(n.baseImponible)),
     row('Cuota íntegra (suma tramos)', eur(n.cuotaIntegra)),

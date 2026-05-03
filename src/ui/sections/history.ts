@@ -20,7 +20,7 @@ export function mountHistory(target: HTMLElement): void {
       <p>Manteniendo tu poder adquisitivo constante en euros de ${String(ANIO_MAX)}, este es el coste acumulado de la «progresividad en frío» — los tramos no se han actualizado al ritmo de la inflación.</p>
       <div data-chart="gap-area"></div>
       <a class="read-more" href="/manual/progresividad-en-frio/">Si quieres profundizar: progresividad en frío →</a>
-      <details>
+      <details id="drill-multiples">
         <summary>Ver pequeños múltiples (neto, IRPF, tipo efectivo, SS año a año)</summary>
         <div data-drill="multiples"></div>
       </details>
@@ -47,7 +47,10 @@ export function updateHistory(target: HTMLElement, state: State): void {
   const tipoEfectivo: number[] = [];
   const ssReal:       number[] = [];
   for (let a = ANIO_MIN; a <= ANIO_MAX; a++) {
-    const mult = INFLACION_A_2026[a] ?? 1;
+    const mult = INFLACION_A_2026[a];
+    if (mult === undefined) {
+      throw new Error(`No INFLACION_A_2026 entry for year ${String(a)}`);
+    }
     const brutoNominal = state.bruto / mult;
     const params = obtenerParametros(a);
     const n = calcularNominaConParametros(brutoNominal, params);

@@ -126,4 +126,13 @@ describe('renderMultiples', () => {
     expect(titles.some((t) => /tipo efectivo/i.test(t))).toBe(true);
     expect(titles.some((t) => /Cotización SS/i.test(t))).toBe(true);
   });
+
+  it('exposes a screen-reader table mirroring the data', () => {
+    renderMultiples(host, data);
+    const rows = host.querySelectorAll('table.sr-only tbody tr');
+    expect(rows.length).toBe(data.years.length);
+    // 4 series + the year column = 5 cells per row
+    const firstRow = host.querySelector('table.sr-only tbody tr');
+    expect(firstRow?.querySelectorAll('th, td').length).toBe(5);
+  });
 });
