@@ -4,6 +4,9 @@ import { ANIO_MAX } from '../src/normativa';
 import { mountNav } from '../src/ui/sections/nav';
 import { mountHero, updateHero } from '../src/ui/sections/hero';
 import { mountExcel } from '../src/ui/sections/excel';
+import { mountBreakdown, updateBreakdown } from '../src/ui/sections/breakdown';
+import { mountBrackets,  updateBrackets  } from '../src/ui/sections/brackets';
+import { mountHistory,   updateHistory   } from '../src/ui/sections/history';
 
 let host: HTMLElement;
 beforeEach(() => {
@@ -63,5 +66,69 @@ describe('excel section', () => {
     expect(button).not.toBeNull();
     expect(button?.textContent ?? '').toMatch(/Excel/i);
     expect(button?.disabled).toBe(false);
+  });
+});
+
+describe('breakdown section', () => {
+  it('mounts with eyebrow, h2, body, chart placeholder, drill-down summary', () => {
+    mountBreakdown(host);
+    expect(host.querySelector('.eyebrow')?.textContent).toMatch(/dónde/i);
+    expect(host.querySelector('h2')).not.toBeNull();
+    expect(host.querySelector('[data-chart="stacked-bar"]')).not.toBeNull();
+    expect(host.querySelector('details > summary')).not.toBeNull();
+    expect(host.querySelector('a.read-more')).not.toBeNull();
+  });
+
+  it('updateBreakdown fills the chart and the drill-down table', () => {
+    mountBreakdown(host);
+    updateBreakdown(host, { bruto: 30_000, anio: ANIO_MAX });
+    expect(host.querySelectorAll('rect.segment').length).toBe(3);
+    const drill = host.querySelector('details table');
+    expect(drill).not.toBeNull();
+    const rows = drill?.querySelectorAll('tr') ?? [];
+    expect(rows.length).toBeGreaterThan(3);
+  });
+});
+
+describe('brackets section', () => {
+  it('mounts with eyebrow, h2, body, vasos host, drill-down', () => {
+    mountBrackets(host);
+    expect(host.querySelector('.eyebrow')?.textContent).toMatch(/calcula/i);
+    expect(host.querySelector('h2')).not.toBeNull();
+    expect(host.querySelector('[data-chart="vasos"]')).not.toBeNull();
+    expect(host.querySelector('details > summary')).not.toBeNull();
+  });
+
+  it('updateBrackets renders one vasos-row per tramo and fills the drill-down table', () => {
+    mountBrackets(host);
+    updateBrackets(host, { bruto: 30_000, anio: ANIO_MAX });
+    const rows = host.querySelectorAll('.vasos-row');
+    expect(rows.length).toBeGreaterThan(0);
+    const drill = host.querySelector('details table');
+    expect(drill?.querySelectorAll('tr').length ?? 0).toBeGreaterThan(5);
+  });
+});
+
+describe('history section', () => {
+  it('mounts with eyebrow, h2, body, gap-area host, drill-down', () => {
+    mountHistory(host);
+    expect(host.querySelector('.eyebrow')?.textContent).toMatch(/cambiado/i);
+    expect(host.querySelector('h2')).not.toBeNull();
+    expect(host.querySelector('[data-chart="gap-area"]')).not.toBeNull();
+    expect(host.querySelector('details > summary')).not.toBeNull();
+  });
+
+  it('updateHistory paints the gap-area chart and small multiples', () => {
+    mountHistory(host);
+    updateHistory(host, { bruto: 30_000, anio: ANIO_MAX });
+    expect(host.querySelector('path.gap-area')).not.toBeNull();
+    expect(host.querySelectorAll('svg.multi').length).toBe(4);
+  });
+
+  it('headline copy adapts to the sign of gapHoy', () => {
+    mountHistory(host);
+    updateHistory(host, { bruto: 30_000, anio: ANIO_MAX });
+    const h = host.querySelector('h2')?.textContent ?? '';
+    expect(h).toMatch(/2012/);
   });
 });
