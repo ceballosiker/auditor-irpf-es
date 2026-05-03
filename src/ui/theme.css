@@ -15,8 +15,9 @@
   --ink-soft:     #444444; /* body prose     — vs --paper: TBD */
   --ink-mute:     #666666; /* eyebrows, captions — vs --paper: TBD */
   --rule:         #d4cdbf; /* hairlines, borders */
-  --accent:       #b8551e; /* burnt orange   — vs --paper: TBD */
+  --accent:       #b4531d; /* burnt orange   — vs --paper: ≥4.5:1 (WCAG AA) */
   --accent-soft:  #f9c79c; /* lighter accent fills */
+  --paper-translucent: rgba(247, 243, 236, 0.75); /* --paper at 75% opacity, for use on --ink bg */
   --neto:         #2f6b3c; /* deep green     — vs --paper: TBD */
   --ss:           #4a5a6e; /* slate          — vs --paper: TBD */
 
@@ -26,6 +27,7 @@
 
   /* Spacing */
   --space-section: clamp(40px, 6vw, 72px);
+  --container-gutter: 24px;
 
   /* Schemes */
   color-scheme: light;
@@ -94,7 +96,7 @@ label {
 small { color: var(--ink-mute); font-size: 0.78rem; }
 
 /* Layout containers */
-.container { max-width: 920px; margin: 0 auto; padding: 0 24px; }
+.container { max-width: 920px; margin: 0 auto; padding: 0 var(--container-gutter); }
 section { padding: var(--space-section) 0; border-top: 1px solid var(--rule); }
 section:first-of-type { border-top: 0; }
 
@@ -137,7 +139,7 @@ details[open] > summary::before { content: '−'; }
 
 /* Inline manual link ("leer más") */
 .read-more {
-  display: inline;
+  display: inline-block;
   font-family: var(--font-display);
   font-style: italic;
   color: var(--accent);
@@ -165,6 +167,11 @@ details[open] > summary::before { content: '−'; }
 .hero-sub { font-size: 0.85rem; color: var(--ink-mute); margin-top: 8px; text-transform: uppercase; letter-spacing: 0.06em; font-weight: 600; font-family: var(--font-body); }
 
 /* Excel footer band */
-.excel-band { background: var(--ink); color: var(--paper); padding: 32px 24px; margin: 0 -24px; }
+.excel-band { background: var(--ink); color: var(--paper); padding: 32px var(--container-gutter); margin: 0 calc(-1 * var(--container-gutter)); }
 .excel-band h3 { color: var(--paper); }
-.excel-band .lead { color: rgba(247, 243, 236, 0.75); max-width: 56ch; }
+.excel-band .lead { color: var(--paper-translucent); max-width: 56ch; }
+
+/* Focus-visible states for keyboard a11y */
+.cta:focus-visible              { outline: 2px solid var(--accent); outline-offset: 2px; }
+details > summary:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.read-more:focus-visible        { outline: 2px solid var(--accent); outline-offset: 2px; }
