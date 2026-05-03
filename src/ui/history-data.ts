@@ -26,6 +26,11 @@ export function parametrosIndexados(anio: number): Parametros {
     hasta: t.hasta * alpha,
     tipo: t.tipo,
   }));
+  // art20Meta is metadata for display/audit only — pipeline.ts reads
+  // reduccionTrabajo directly, never art20Meta. We deliberately leave it
+  // unscaled because parametrosIndexados is a calculation-path helper,
+  // not a full audit mirror; scaling art20Meta here would only affect
+  // the excel sheet, which is out of scope for the brecha-acumulada chart.
   return {
     ...base,
     baseMax: base.baseMax * alpha,

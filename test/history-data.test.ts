@@ -15,6 +15,7 @@ describe('parametrosIndexados', () => {
       expect(indexed.tramosIRPF[i]?.hasta).toBe(base.tramosIRPF[i]?.hasta);
       expect(indexed.tramosIRPF[i]?.tipo).toBe(base.tramosIRPF[i]?.tipo);
     }
+    // Probe one interior value; identity holds for any input when alpha = 1.
     expect(indexed.reduccionTrabajo(13_000)).toBeCloseTo(base.reduccionTrabajo(13_000), 10);
   });
 });
@@ -69,6 +70,18 @@ describe('parametrosIndexados scaling', () => {
       expect(indexed.reduccionTrabajo(x)).toBeCloseTo(expected, 8);
     }
   });
+
+  it('wraps deduccionSMI via f_indexed(x) = alpha * f(x/alpha) for 2025 and 2026', () => {
+    for (const anio of [2025, 2026]) {
+      const base = obtenerParametros(anio);
+      const indexed = parametrosIndexados(anio);
+      const alpha = inflacionAcumulada(2012, anio);
+      for (const x of [14_000, 16_000, 17_000, 20_000]) {
+        const expected = alpha * base.deduccionSMI(x / alpha);
+        expect(indexed.deduccionSMI(x)).toBeCloseTo(expected, 8);
+      }
+    }
+  });
 });
 
 describe('gapSeries', () => {
@@ -103,6 +116,9 @@ describe('gapSeries', () => {
 
   it('returns gap = 0 at every year for bruto = 0 (degenerate case)', () => {
     const s = gapSeries(0);
+    // At bruto = 0 the pipeline returns zero neto regardless of parameters,
+    // so actual and indexed real neto agree at every year and the gap is
+    // identically zero — independent of the alpha scaling.
     for (const g of s.gap) {
       expect(g).toBeCloseTo(0, 6);
     }
