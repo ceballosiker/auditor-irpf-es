@@ -10,14 +10,16 @@ export interface MultiplesData {
 }
 
 interface Series {
-  readonly id: string;       // ASCII-safe HTML id (no spaces, no special chars)
-  readonly label: string;    // Display label (rich text OK)
+  readonly id: string; // ASCII-safe HTML id (no spaces, no special chars)
+  readonly label: string; // Display label (rich text OK)
   readonly values: readonly number[];
   readonly format: (v: number) => string;
 }
 
 function renderOne(s: Series, years: readonly number[]): string {
-  const W = 220, H = 110, PAD = 12;
+  const W = 220,
+    H = 110,
+    PAD = 12;
   const yMin = Math.min(...s.values);
   const yMax = Math.max(...s.values);
   const span = Math.max(1e-6, yMax - yMin);
@@ -27,7 +29,7 @@ function renderOne(s: Series, years: readonly number[]): string {
   const y = (v: number): number => H - PAD - ((v - yMin) / span) * (H - 2 * PAD);
   const points = years.map((yr, i) => `${String(x(yr))},${String(y(s.values[i] ?? 0))}`).join(' ');
   const first = s.values[0] ?? 0;
-  const last  = s.values[s.values.length - 1] ?? 0;
+  const last = s.values[s.values.length - 1] ?? 0;
   const titleId = `${s.id}-t`;
 
   return `
@@ -44,10 +46,15 @@ function renderOne(s: Series, years: readonly number[]): string {
 
 export function renderMultiples(target: HTMLElement, d: MultiplesData): void {
   const series: Series[] = [
-    { id: 'multi-neto-real',  label: 'Neto real (€ 2026)',    values: d.netoReal,    format: eur },
-    { id: 'multi-irpf-real',  label: 'IRPF real (€ 2026)',    values: d.irpfReal,    format: eur },
-    { id: 'multi-tipo-efect', label: 'Tipo efectivo IRPF',    values: d.tipoEfectivo, format: percent },
-    { id: 'multi-ss-real',    label: 'Cotización SS (€ 2026)', values: d.ssReal,     format: eur },
+    { id: 'multi-neto-real', label: 'Neto real (€ 2026)', values: d.netoReal, format: eur },
+    { id: 'multi-irpf-real', label: 'IRPF real (€ 2026)', values: d.irpfReal, format: eur },
+    {
+      id: 'multi-tipo-efect',
+      label: 'Tipo efectivo IRPF',
+      values: d.tipoEfectivo,
+      format: percent,
+    },
+    { id: 'multi-ss-real', label: 'Cotización SS (€ 2026)', values: d.ssReal, format: eur },
   ];
 
   const srRows = d.years

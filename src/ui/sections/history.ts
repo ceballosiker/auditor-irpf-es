@@ -8,7 +8,10 @@ import { eur } from '../format.js';
 import { gapSeries } from '../history-data.js';
 import { render } from '../render.js';
 
-interface State { readonly bruto: number; readonly anio: number; }
+interface State {
+  readonly bruto: number;
+  readonly anio: number;
+}
 
 export function mountHistory(target: HTMLElement): void {
   render(
@@ -30,8 +33,10 @@ export function mountHistory(target: HTMLElement): void {
 }
 
 function headline(gapHoy: number): string {
-  if (gapHoy > 100)  return `Si la fiscalidad de 2012 hubiera seguido vigente, hoy tendrías ${eur(gapHoy)} más en el bolsillo.`;
-  if (gapHoy < -100) return `Si la fiscalidad de 2012 hubiera seguido vigente, hoy tendrías ${eur(Math.abs(gapHoy))} menos: las reformas posteriores a 2012 te benefician en este caso.`;
+  if (gapHoy > 100)
+    return `Si la fiscalidad de 2012 hubiera seguido vigente, hoy tendrías ${eur(gapHoy)} más en el bolsillo.`;
+  if (gapHoy < -100)
+    return `Si la fiscalidad de 2012 hubiera seguido vigente, hoy tendrías ${eur(Math.abs(gapHoy))} menos: las reformas posteriores a 2012 te benefician en este caso.`;
   return `Tu neto real es prácticamente equivalente al que tendrías bajo una fiscalidad indexada a 2012.`;
 }
 
@@ -43,9 +48,9 @@ export function updateHistory(target: HTMLElement, state: State): void {
   const gapHost = target.querySelector<HTMLElement>('[data-chart="gap-area"]');
   if (gapHost) renderGapArea(gapHost, { years: series.years, gap: series.gap });
 
-  const irpfReal:     number[] = [];
+  const irpfReal: number[] = [];
   const tipoEfectivo: number[] = [];
-  const ssReal:       number[] = [];
+  const ssReal: number[] = [];
   for (let a = ANIO_MIN; a <= ANIO_MAX; a++) {
     const mult = INFLACION_A_2026[a];
     if (mult === undefined) {

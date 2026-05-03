@@ -56,10 +56,10 @@ describe('renderVasos', () => {
   const data: VasosData = {
     tramos: [
       { idx: 1, tipo: 0.19, hasta: 12_450, baseAplicada: 12_450, cuota: 2_366 },
-      { idx: 2, tipo: 0.24, hasta: 20_200, baseAplicada: 7_750,  cuota: 1_860 },
-      { idx: 3, tipo: 0.30, hasta: 35_200, baseAplicada: 2_298,  cuota: 689   },
-      { idx: 4, tipo: 0.37, hasta: 60_000, baseAplicada: 0,       cuota: 0     },
-      { idx: 5, tipo: 0.45, hasta: Infinity, baseAplicada: 0,     cuota: 0     },
+      { idx: 2, tipo: 0.24, hasta: 20_200, baseAplicada: 7_750, cuota: 1_860 },
+      { idx: 3, tipo: 0.3, hasta: 35_200, baseAplicada: 2_298, cuota: 689 },
+      { idx: 4, tipo: 0.37, hasta: 60_000, baseAplicada: 0, cuota: 0 },
+      { idx: 5, tipo: 0.45, hasta: Infinity, baseAplicada: 0, cuota: 0 },
     ],
     baseImponible: 22_498,
   };
@@ -86,7 +86,7 @@ describe('renderVasos', () => {
 describe('renderGapArea', () => {
   const data: GapAreaData = {
     years: [2012, 2013, 2014, 2015, 2026],
-    gap:   [0,    100,  220,  350,  1247],
+    gap: [0, 100, 220, 350, 1247],
   };
 
   it('renders an SVG with axes, an area path, a line path, and an endpoint marker', () => {
@@ -107,10 +107,10 @@ describe('renderGapArea', () => {
 describe('renderMultiples', () => {
   const data: MultiplesData = {
     years: [2012, 2013, 2014, 2015, 2026],
-    netoReal:    [24_100, 24_050, 23_980, 23_900, 23_650],
-    irpfReal:    [3_200, 3_220, 3_250, 3_300, 3_578],
-    tipoEfectivo: [0.107, 0.108, 0.110, 0.112, 0.119],
-    ssReal:      [1_950, 1_948, 1_945, 1_942, 1_910],
+    netoReal: [24_100, 24_050, 23_980, 23_900, 23_650],
+    irpfReal: [3_200, 3_220, 3_250, 3_300, 3_578],
+    tipoEfectivo: [0.107, 0.108, 0.11, 0.112, 0.119],
+    ssReal: [1_950, 1_948, 1_945, 1_942, 1_910],
   };
 
   it('renders 4 mini-charts (one per series)', () => {
@@ -120,7 +120,9 @@ describe('renderMultiples', () => {
 
   it('exposes per-series titles', () => {
     renderMultiples(host, data);
-    const titles = Array.from(host.querySelectorAll('svg.multi title')).map((t) => t.textContent ?? '');
+    const titles = Array.from(host.querySelectorAll('svg.multi title')).map(
+      (t) => t.textContent ?? '',
+    );
     expect(titles.some((t) => /Neto/i.test(t))).toBe(true);
     expect(titles.some((t) => /IRPF/i.test(t))).toBe(true);
     expect(titles.some((t) => /tipo efectivo/i.test(t))).toBe(true);

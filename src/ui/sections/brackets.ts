@@ -5,7 +5,10 @@ import { renderVasos } from '../charts/vasos.js';
 import { eur, percent } from '../format.js';
 import { render } from '../render.js';
 
-interface State { readonly bruto: number; readonly anio: number; }
+interface State {
+  readonly bruto: number;
+  readonly anio: number;
+}
 
 export function mountBrackets(target: HTMLElement): void {
   render(
@@ -40,14 +43,20 @@ function drillTable(n: Nomina, p: Parametros): string {
     row('Gastos fijos Art. 19', eur(n.gastosFijos)),
     row('Base imponible', eur(n.baseImponible)),
     row('Cuota íntegra (suma tramos)', eur(n.cuotaIntegra)),
-    row('Cuota mínimo personal', eur(n.cuotaMinimoPersonal), `Mínimo aplicado al tipo del primer tramo (${percent(firstTipo)}).`),
+    row(
+      'Cuota mínimo personal',
+      eur(n.cuotaMinimoPersonal),
+      `Mínimo aplicado al tipo del primer tramo (${percent(firstTipo)}).`,
+    ),
     row('Cuota teórica (íntegra − mínimo)', eur(n.cuotaTeorica)),
     ...(n.deduccionSMI > 0 ? [row('Deducción SMI', eur(n.deduccionSMI))] : []),
     row('Cuota tras SMI', eur(n.cuotaTrasSMI)),
     row(
       'Tope 43 % sobre (bruto − mínimo exento)',
       `${eur(n.limite43)} <small>(${tope43Aplica ? 'aplica' : 'no aplica'})</small>`,
-      tope43Aplica ? `Cuota teórica supera el tope; el IRPF final se recorta a ${eur(n.limite43)}.` : undefined,
+      tope43Aplica
+        ? `Cuota teórica supera el tope; el IRPF final se recorta a ${eur(n.limite43)}.`
+        : undefined,
     ),
     row('IRPF final', `<strong>${eur(n.irpfFinal)}</strong>`),
   ].join('');

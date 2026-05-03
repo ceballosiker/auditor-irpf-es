@@ -56,7 +56,8 @@ export function gapSeries(bruto2026: number): GapSeries {
     }
     const brutoNominal = bruto2026 / mult;
     const nActual = calcularNomina(brutoNominal, a).salarioNeto * mult;
-    const nIndex = calcularNominaConParametros(brutoNominal, parametrosIndexados(a)).salarioNeto * mult;
+    const nIndex =
+      calcularNominaConParametros(brutoNominal, parametrosIndexados(a)).salarioNeto * mult;
     years.push(a);
     netoRealActual.push(nActual);
     netoRealIndexado.push(nIndex);

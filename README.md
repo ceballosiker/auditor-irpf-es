@@ -70,15 +70,15 @@ Para maximizar la precisión antes de ampliar casuística, el motor modela delib
 
 ### Hoja de ruta de desarrollo
 
-| Versión       | Hito                                                                                                         |
-| ------------- | ------------------------------------------------------------------------------------------------------------ |
-| **v0.1.0** ✅ | Infraestructura OSS, tooling TypeScript, fixtures JSON desde el motor Python (oráculo).                      |
-| **v0.2.0** ✅ | Port del motor a TypeScript validado contra los fixtures generados de v0.1.0.                                |
-| **v0.3.0** ✅ | Workflow de auditoría fiscal: 15 issues (uno por año, 2012–2026) con checklist normativo + referencias BOE.  |
-| **v0.4.0** ✅ | Manual divulgativo en MkDocs Material publicado en GitHub Pages.                                             |
-| **v1.0.0** ✅ | Calculadora web interactiva: SPA estático, 100 % en el navegador, GitHub Pages. axe-core + Lighthouse en CI. |
+| Versión       | Hito                                                                                                                                                                                                                                                                                        |
+| ------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **v0.1.0** ✅ | Infraestructura OSS, tooling TypeScript, fixtures JSON desde el motor Python (oráculo).                                                                                                                                                                                                     |
+| **v0.2.0** ✅ | Port del motor a TypeScript validado contra los fixtures generados de v0.1.0.                                                                                                                                                                                                               |
+| **v0.3.0** ✅ | Workflow de auditoría fiscal: 15 issues (uno por año, 2012–2026) con checklist normativo + referencias BOE.                                                                                                                                                                                 |
+| **v0.4.0** ✅ | Manual divulgativo en MkDocs Material publicado en GitHub Pages.                                                                                                                                                                                                                            |
+| **v1.0.0** ✅ | Calculadora web interactiva: SPA estático, 100 % en el navegador, GitHub Pages. axe-core + Lighthouse en CI.                                                                                                                                                                                |
 | **v1.1.0** ✅ | Rediseño editorial-dataviz de la calculadora: nueva narrativa pública-primero, 4 visualizaciones SVG (barra apilada, "vasos" de tramos, brecha acumulada, pequeños múltiples), drill-downs de auditoría detrás de `<details>`, integración con el manual. Pico y Chart.js fuera del bundle. |
-| **v1.2.0**    | Redacción completa de los 15 resúmenes anuales con referencias BOE, en paralelo con los `audit-YYYY`.        |
+| **v1.2.0**    | Redacción completa de los 15 resúmenes anuales con referencias BOE, en paralelo con los `audit-YYYY`.                                                                                                                                                                                       |
 
 Sigue el progreso en los [issues abiertos](https://github.com/ceballosiker/auditor-irpf-es/issues) y [milestones](https://github.com/ceballosiker/auditor-irpf-es/milestones).
 

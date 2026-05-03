@@ -7,7 +7,12 @@ export interface GapAreaData {
 }
 
 export function renderGapArea(target: HTMLElement, d: GapAreaData): void {
-  const W = 700, H = 240, PAD_L = 50, PAD_R = 20, PAD_T = 30, PAD_B = 40;
+  const W = 700,
+    H = 240,
+    PAD_L = 50,
+    PAD_R = 20,
+    PAD_T = 30,
+    PAD_B = 40;
   const innerW = W - PAD_L - PAD_R;
   const innerH = H - PAD_T - PAD_B;
 

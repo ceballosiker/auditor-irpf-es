@@ -15,10 +15,10 @@ export function renderStackedBar(target: HTMLElement, d: StackedBarData): void {
   const clamp = (v: number): number => Math.max(0, Math.min(100, v));
   const pNeto = clamp((d.neto / total) * 100);
   const pIrpf = clamp((d.irpf / total) * 100);
-  const pSS   = clamp((d.cotSocTrabajador / total) * 100);
+  const pSS = clamp((d.cotSocTrabajador / total) * 100);
   const xNeto = 0;
   const xIrpf = pNeto;
-  const xSS   = pNeto + pIrpf;
+  const xSS = pNeto + pIrpf;
 
   target.innerHTML = `
     <svg viewBox="0 0 100 32" preserveAspectRatio="none" role="img" aria-labelledby="sb-title sb-desc" style="width:100%;height:56px;">

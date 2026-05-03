@@ -11,10 +11,12 @@ type State = 'idle' | 'generating' | 'error';
 
 function bandHtml(state: State, error?: string): string {
   const busy = state === 'generating' ? 'aria-busy="true" disabled' : '';
-  const label = state === 'generating' ? 'Generando Excel…' : '↓ Descargar Excel completo (2012 – 2026)';
-  const err = state === 'error' && error
-    ? `<p role="alert" style="color:var(--accent-soft);font-size:0.85rem;margin-top:8px;">${escHtml(error)}</p>`
-    : '';
+  const label =
+    state === 'generating' ? 'Generando Excel…' : '↓ Descargar Excel completo (2012 – 2026)';
+  const err =
+    state === 'error' && error
+      ? `<p role="alert" style="color:var(--accent-soft);font-size:0.85rem;margin-top:8px;">${escHtml(error)}</p>`
+      : '';
   return `
     <section class="excel-band">
       <h3>¿Quieres auditarlo tú?</h3>
@@ -58,9 +60,10 @@ export function mountExcel(target: HTMLElement): void {
         state = 'idle';
       } catch (err) {
         state = 'error';
-        errorMessage = err instanceof Error
-          ? `No se pudo generar el Excel: ${err.message}`
-          : 'No se pudo generar el Excel.';
+        errorMessage =
+          err instanceof Error
+            ? `No se pudo generar el Excel: ${err.message}`
+            : 'No se pudo generar el Excel.';
       } finally {
         rerender();
       }

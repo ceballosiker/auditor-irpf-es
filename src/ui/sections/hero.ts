@@ -30,5 +30,6 @@ export function updateHero(target: HTMLElement, state: HeroState): void {
   const num = target.querySelector('[data-hero-num]');
   const sub = target.querySelector('[data-hero-sub]');
   if (num) num.textContent = eur(nomina.salarioNeto);
-  if (sub) sub.textContent = `Salario neto anual · ${eur(monthly)}/mes con 14 pagas · normativa estatal de ${String(state.anio)}`;
+  if (sub)
+    sub.textContent = `Salario neto anual · ${eur(monthly)}/mes con 14 pagas · normativa estatal de ${String(state.anio)}`;
 }

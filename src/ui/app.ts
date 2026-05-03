@@ -25,12 +25,12 @@ export function mountApp(app: HTMLElement): void {
   `,
   );
 
-  const navSec       = app.querySelector<HTMLElement>('#nav-section');
-  const heroSec      = app.querySelector<HTMLElement>('#hero-section');
+  const navSec = app.querySelector<HTMLElement>('#nav-section');
+  const heroSec = app.querySelector<HTMLElement>('#hero-section');
   const breakdownSec = app.querySelector<HTMLElement>('#breakdown-section');
-  const bracketsSec  = app.querySelector<HTMLElement>('#brackets-section');
-  const historySec   = app.querySelector<HTMLElement>('#history-section');
-  const excelSec     = app.querySelector<HTMLElement>('#excel-section');
+  const bracketsSec = app.querySelector<HTMLElement>('#brackets-section');
+  const historySec = app.querySelector<HTMLElement>('#history-section');
+  const excelSec = app.querySelector<HTMLElement>('#excel-section');
   if (!navSec || !heroSec || !breakdownSec || !bracketsSec || !historySec || !excelSec) {
     throw new Error('Layout sections not found after initial render');
   }

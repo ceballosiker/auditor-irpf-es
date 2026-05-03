@@ -56,7 +56,9 @@ describe('parametrosIndexados scaling', () => {
     expect(indexed.tipoTrabajadorTotal).toBe(base.tipoTrabajadorTotal);
     expect(indexed.solidaridad.length).toBe(base.solidaridad.length);
     for (let i = 0; i < base.solidaridad.length; i++) {
-      expect(indexed.solidaridad[i]?.hastaMultiplicador).toBe(base.solidaridad[i]?.hastaMultiplicador);
+      expect(indexed.solidaridad[i]?.hastaMultiplicador).toBe(
+        base.solidaridad[i]?.hastaMultiplicador,
+      );
       expect(indexed.solidaridad[i]?.tipo).toBe(base.solidaridad[i]?.tipo);
     }
   });

@@ -5,7 +5,10 @@ import { renderStackedBar } from '../charts/stacked-bar.js';
 import { eur } from '../format.js';
 import { render } from '../render.js';
 
-interface State { readonly bruto: number; readonly anio: number; }
+interface State {
+  readonly bruto: number;
+  readonly anio: number;
+}
 
 export function mountBreakdown(target: HTMLElement): void {
   render(
@@ -35,18 +38,25 @@ function drillTable(n: Nomina, p: Parametros): string {
   const baseCotizacion = Math.min(n.bruto, p.baseMax);
   const tope = n.bruto > p.baseMax;
   const meiTrabajador = baseCotizacion * p.mei[1];
-  const solidaridadTrabajador = Math.max(0, n.cotSocTrabajador - baseCotizacion * p.tipoTrabajadorTotal);
+  const solidaridadTrabajador = Math.max(
+    0,
+    n.cotSocTrabajador - baseCotizacion * p.tipoTrabajadorTotal,
+  );
   const rows = [
     row('Bruto anual', eur(n.bruto)),
     row(
       'Base de cotización',
       `${eur(baseCotizacion)}${tope ? ' <mark>tope alcanzado</mark>' : ''}`,
-      tope ? `Bruto excede el tope (${eur(p.baseMax)}); el exceso solo cotiza por Solidaridad.` : undefined,
+      tope
+        ? `Bruto excede el tope (${eur(p.baseMax)}); el exceso solo cotiza por Solidaridad.`
+        : undefined,
     ),
     row('Cotización empresa', eur(n.cotSocEmpresa)),
     row('Cotización trabajador', eur(n.cotSocTrabajador)),
     ...(meiTrabajador > 0 ? [row('— de la cual, MEI trabajador', eur(meiTrabajador))] : []),
-    ...(solidaridadTrabajador > 0 ? [row('— de la cual, Solidaridad trabajador', eur(solidaridadTrabajador))] : []),
+    ...(solidaridadTrabajador > 0
+      ? [row('— de la cual, Solidaridad trabajador', eur(solidaridadTrabajador))]
+      : []),
     row('Coste laboral total', eur(n.costeLaboral)),
   ].join('');
   return `<table>${rows}</table>`;

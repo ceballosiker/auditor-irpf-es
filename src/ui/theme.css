@@ -9,21 +9,21 @@
 
 :root {
   /* Palette */
-  --paper:        #f7f3ec; /* warm off-white, page background */
-  --paper-deep:   #f1ebdf; /* used in history section */
-  --ink:          #1a1a1a; /* primary text   — vs --paper: 15.74:1 (WCAG AA, large+normal) */
-  --ink-soft:     #444444; /* body prose     — vs --paper:  8.81:1 (WCAG AA, large+normal) */
-  --ink-mute:     #666666; /* eyebrows, captions — vs --paper: 5.19:1 (WCAG AA normal) */
-  --rule:         #d4cdbf; /* hairlines, borders */
-  --accent:       #a84e1a; /* burnt orange   — vs --paper: 5.04:1, vs --paper-deep: 4.69:1 (WCAG AA); #fff on accent: 5.57:1 */
-  --accent-soft:  #f9c79c; /* lighter accent fills (background only, not used as text) */
+  --paper: #f7f3ec; /* warm off-white, page background */
+  --paper-deep: #f1ebdf; /* used in history section */
+  --ink: #1a1a1a; /* primary text   — vs --paper: 15.74:1 (WCAG AA, large+normal) */
+  --ink-soft: #444444; /* body prose     — vs --paper:  8.81:1 (WCAG AA, large+normal) */
+  --ink-mute: #666666; /* eyebrows, captions — vs --paper: 5.19:1 (WCAG AA normal) */
+  --rule: #d4cdbf; /* hairlines, borders */
+  --accent: #a84e1a; /* burnt orange   — vs --paper: 5.04:1, vs --paper-deep: 4.69:1 (WCAG AA); #fff on accent: 5.57:1 */
+  --accent-soft: #f9c79c; /* lighter accent fills (background only, not used as text) */
   --paper-translucent: rgba(247, 243, 236, 0.75); /* --paper at 75% opacity, for use on --ink bg */
-  --neto:         #2f6b3c; /* deep green     — vs --paper: 5.77:1; #fff on neto: 6.38:1 (WCAG AA) */
-  --ss:           #4a5a6e; /* slate          — vs --paper: 6.37:1; #fff on ss:   7.05:1 (WCAG AA) */
+  --neto: #2f6b3c; /* deep green     — vs --paper: 5.77:1; #fff on neto: 6.38:1 (WCAG AA) */
+  --ss: #4a5a6e; /* slate          — vs --paper: 6.37:1; #fff on ss:   7.05:1 (WCAG AA) */
 
   /* Typography */
   --font-display: Georgia, 'Source Serif Pro', 'Iowan Old Style', serif;
-  --font-body:    -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+  --font-body: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
 
   /* Spacing */
   --space-section: clamp(40px, 6vw, 72px);
@@ -34,8 +34,16 @@
 }
 
 /* Reset essentials (replaces what Pico used to do) */
-*, *::before, *::after { box-sizing: border-box; }
-html, body { margin: 0; padding: 0; }
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+html,
+body {
+  margin: 0;
+  padding: 0;
+}
 body {
   font-family: var(--font-body);
   font-size: 16px;
@@ -46,7 +54,9 @@ body {
 }
 
 /* Headings */
-h1, h2, h3 {
+h1,
+h2,
+h3 {
   font-family: var(--font-display);
   color: var(--ink);
   margin: 0 0 0.5em;
@@ -54,13 +64,24 @@ h1, h2, h3 {
   font-weight: 700;
   letter-spacing: -0.005em;
 }
-h1 { font-size: clamp(1.8rem, 3.6vw, 2.6rem); }
-h2 { font-size: clamp(1.3rem, 2.4vw, 1.6rem); }
-h3 { font-size: 1.05rem; }
+h1 {
+  font-size: clamp(1.8rem, 3.6vw, 2.6rem);
+}
+h2 {
+  font-size: clamp(1.3rem, 2.4vw, 1.6rem);
+}
+h3 {
+  font-size: 1.05rem;
+}
 
 /* Body text + lead */
-p { margin: 0 0 1em; }
-p.lead { color: var(--ink-soft); max-width: 56ch; }
+p {
+  margin: 0 0 1em;
+}
+p.lead {
+  color: var(--ink-soft);
+  max-width: 56ch;
+}
 
 /* Eyebrow */
 .eyebrow {
@@ -73,7 +94,8 @@ p.lead { color: var(--ink-soft); max-width: 56ch; }
 }
 
 /* Inputs */
-input[type="number"], select {
+input[type='number'],
+select {
   font-family: var(--font-display);
   font-size: 1.1rem;
   padding: 12px 14px;
@@ -93,12 +115,24 @@ label {
   margin-bottom: 6px;
   font-family: var(--font-body);
 }
-small { color: var(--ink-mute); font-size: 0.78rem; }
+small {
+  color: var(--ink-mute);
+  font-size: 0.78rem;
+}
 
 /* Layout containers */
-.container { max-width: 920px; margin: 0 auto; padding: 0 var(--container-gutter); }
-section { padding: var(--space-section) 0; border-top: 1px solid var(--rule); }
-section:first-of-type { border-top: 0; }
+.container {
+  max-width: 920px;
+  margin: 0 auto;
+  padding: 0 var(--container-gutter);
+}
+section {
+  padding: var(--space-section) 0;
+  border-top: 1px solid var(--rule);
+}
+section:first-of-type {
+  border-top: 0;
+}
 
 /* Drill-down disclosure */
 details > summary {
@@ -116,9 +150,16 @@ details > summary {
   margin-top: 16px;
   user-select: none;
 }
-details > summary::-webkit-details-marker { display: none; }
-details > summary::before { content: '+'; font-weight: 700; }
-details[open] > summary::before { content: '−'; }
+details > summary::-webkit-details-marker {
+  display: none;
+}
+details > summary::before {
+  content: '+';
+  font-weight: 700;
+}
+details[open] > summary::before {
+  content: '−';
+}
 
 /* Accent CTA button */
 .cta {
@@ -134,8 +175,14 @@ details[open] > summary::before { content: '−'; }
   border: 0;
   cursor: pointer;
 }
-.cta[aria-busy="true"] { opacity: 0.7; cursor: wait; }
-.cta:disabled { opacity: 0.5; cursor: not-allowed; }
+.cta[aria-busy='true'] {
+  opacity: 0.7;
+  cursor: wait;
+}
+.cta:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
 
 /* Inline manual link ("leer más") */
 .read-more {
@@ -146,7 +193,9 @@ details[open] > summary::before { content: '−'; }
   text-decoration: none;
   margin-top: 12px;
 }
-.read-more:hover { text-decoration: underline; }
+.read-more:hover {
+  text-decoration: underline;
+}
 
 /* Top nav strip */
 .nav {
@@ -158,41 +207,146 @@ details[open] > summary::before { content: '−'; }
   font-family: var(--font-body);
   font-size: 0.85rem;
 }
-.nav .wordmark { color: var(--ink); font-weight: 700; }
-.nav a { color: var(--ink-soft); text-decoration: none; margin-left: 18px; }
-.nav a:hover { color: var(--accent); }
+.nav .wordmark {
+  color: var(--ink);
+  font-weight: 700;
+}
+.nav a {
+  color: var(--ink-soft);
+  text-decoration: none;
+  margin-left: 18px;
+}
+.nav a:hover {
+  color: var(--accent);
+}
 
 /* Hero number */
-.hero-num { font-family: var(--font-display); font-size: clamp(3rem, 8vw, 5rem); font-weight: 700; line-height: 1; color: var(--neto); letter-spacing: -0.025em; }
-.hero-sub { font-size: 0.85rem; color: var(--ink-mute); margin-top: 8px; text-transform: uppercase; letter-spacing: 0.06em; font-weight: 600; font-family: var(--font-body); }
+.hero-num {
+  font-family: var(--font-display);
+  font-size: clamp(3rem, 8vw, 5rem);
+  font-weight: 700;
+  line-height: 1;
+  color: var(--neto);
+  letter-spacing: -0.025em;
+}
+.hero-sub {
+  font-size: 0.85rem;
+  color: var(--ink-mute);
+  margin-top: 8px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  font-weight: 600;
+  font-family: var(--font-body);
+}
 
 /* Excel footer band */
-.excel-band { background: var(--ink); color: var(--paper); padding: 32px var(--container-gutter); margin: 0 calc(-1 * var(--container-gutter)); }
-.excel-band h3 { color: var(--paper); }
-.excel-band .lead { color: var(--paper-translucent); max-width: 56ch; }
+.excel-band {
+  background: var(--ink);
+  color: var(--paper);
+  padding: 32px var(--container-gutter);
+  margin: 0 calc(-1 * var(--container-gutter));
+}
+.excel-band h3 {
+  color: var(--paper);
+}
+.excel-band .lead {
+  color: var(--paper-translucent);
+  max-width: 56ch;
+}
 
 /* Focus-visible states for keyboard a11y */
-.cta:focus-visible              { outline: 2px solid var(--accent); outline-offset: 2px; }
-details > summary:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
-.read-more:focus-visible        { outline: 2px solid var(--accent); outline-offset: 2px; }
+.cta:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+details > summary:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+.read-more:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
 
 /* Vasos (tramos IRPF) */
-.vasos { display: grid; grid-template-columns: 90px 1fr 110px; gap: 8px 12px; align-items: center; margin-top: 18px; }
-.vasos-head { display: contents; font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.06em; color: var(--ink-mute); font-weight: 600; }
-.vasos-row  { display: contents; font-family: var(--font-body); font-size: 0.84rem; }
-.v-label    { font-weight: 700; }
-.v-bar      { height: 22px; background: #fff; border: 1px solid var(--rule); border-radius: 3px; overflow: hidden; }
-.v-fill     { height: 100%; background: var(--accent); opacity: 0.85; }
-.v-amount   { color: var(--accent); font-weight: 700; text-align: right; }
-.is-empty .v-bar { background: var(--paper-deep); }
-.is-empty .v-amount { color: var(--ink-mute); font-weight: 400; }
+.vasos {
+  display: grid;
+  grid-template-columns: 90px 1fr 110px;
+  gap: 8px 12px;
+  align-items: center;
+  margin-top: 18px;
+}
+.vasos-head {
+  display: contents;
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--ink-mute);
+  font-weight: 600;
+}
+.vasos-row {
+  display: contents;
+  font-family: var(--font-body);
+  font-size: 0.84rem;
+}
+.v-label {
+  font-weight: 700;
+}
+.v-bar {
+  height: 22px;
+  background: #fff;
+  border: 1px solid var(--rule);
+  border-radius: 3px;
+  overflow: hidden;
+}
+.v-fill {
+  height: 100%;
+  background: var(--accent);
+  opacity: 0.85;
+}
+.v-amount {
+  color: var(--accent);
+  font-weight: 700;
+  text-align: right;
+}
+.is-empty .v-bar {
+  background: var(--paper-deep);
+}
+.is-empty .v-amount {
+  color: var(--ink-mute);
+  font-weight: 400;
+}
 
 /* Small multiples */
-.multiples { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; margin-top: 18px; }
-@media (max-width: 720px) { .multiples { grid-template-columns: 1fr; } }
-.multi-cell { background: #fff; border: 1px solid var(--rule); border-radius: 6px; padding: 12px; }
-.multi-label { font-size: 0.72rem; font-weight: 700; color: var(--accent); text-transform: uppercase; letter-spacing: 0.04em; }
-.multi-meta { font-size: 0.78rem; color: var(--ink-mute); margin: 4px 0 8px; }
+.multiples {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 18px;
+  margin-top: 18px;
+}
+@media (max-width: 720px) {
+  .multiples {
+    grid-template-columns: 1fr;
+  }
+}
+.multi-cell {
+  background: #fff;
+  border: 1px solid var(--rule);
+  border-radius: 6px;
+  padding: 12px;
+}
+.multi-label {
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: var(--accent);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+.multi-meta {
+  font-size: 0.78rem;
+  color: var(--ink-mute);
+  margin: 4px 0 8px;
+}
 
 /* Semantic-hook classes used by chart SVGs as JS / test selectors only.
  * Their visual properties live as inline attributes on the SVG elements
@@ -207,5 +361,15 @@ details > summary:focus-visible { outline: 2px solid var(--accent); outline-offs
  */
 
 /* Form fields — replaces Pico's .grid */
-.form-row { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; align-items: start; margin-top: 14px; }
-@media (max-width: 720px) { .form-row { grid-template-columns: 1fr; } }
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 16px;
+  align-items: start;
+  margin-top: 14px;
+}
+@media (max-width: 720px) {
+  .form-row {
+    grid-template-columns: 1fr;
+  }
+}

@@ -5,8 +5,8 @@ import { mountNav } from '../src/ui/sections/nav';
 import { mountHero, updateHero } from '../src/ui/sections/hero';
 import { mountExcel } from '../src/ui/sections/excel';
 import { mountBreakdown, updateBreakdown } from '../src/ui/sections/breakdown';
-import { mountBrackets,  updateBrackets  } from '../src/ui/sections/brackets';
-import { mountHistory,   updateHistory   } from '../src/ui/sections/history';
+import { mountBrackets, updateBrackets } from '../src/ui/sections/brackets';
+import { mountHistory, updateHistory } from '../src/ui/sections/history';
 
 let host: HTMLElement;
 beforeEach(() => {
