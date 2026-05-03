@@ -14,8 +14,13 @@ export interface VasosData {
   readonly baseImponible: number;
 }
 
+/** Proxy width (€) for the open-ended top bracket in the visualisation.
+ *  No bruto in the engine's supported range falls into this region; the
+ *  value is purely cosmetic. */
+const OPEN_BRACKET_WIDTH = 60_000;
+
 function bracketWidth(t: VasoTramo, prev: number): number {
-  const top = Number.isFinite(t.hasta) ? t.hasta : prev + 60_000;
+  const top = Number.isFinite(t.hasta) ? t.hasta : prev + OPEN_BRACKET_WIDTH;
   return Math.max(0, top - prev);
 }
 
@@ -25,7 +30,7 @@ export function renderVasos(target: HTMLElement, d: VasosData): void {
     .map((t) => {
       const widthAvail = bracketWidth(t, prev);
       const fillRatio = widthAvail > 0 ? t.baseAplicada / widthAvail : 0;
-      prev = Number.isFinite(t.hasta) ? t.hasta : prev + 60_000;
+      prev = Number.isFinite(t.hasta) ? t.hasta : prev + OPEN_BRACKET_WIDTH;
       const isEmpty = t.cuota <= 0;
       const label = `T${String(t.idx)} · ${percent(t.tipo)}`;
       return `
@@ -41,10 +46,7 @@ export function renderVasos(target: HTMLElement, d: VasosData): void {
     .join('');
 
   target.innerHTML = `
-    <svg viewBox="0 0 1 1" width="0" height="0" style="position:absolute;" aria-hidden="true">
-      <title>Tramos del IRPF: cómo "se llenan" según tu base imponible</title>
-    </svg>
-    <div class="vasos" role="table" aria-label="Tramos del IRPF y cuota por tramo">
+    <div class="vasos" role="table" aria-label="Tramos del IRPF: cómo se llenan según tu base imponible. Cuota por tramo.">
       <div class="vasos-head" role="row">
         <div role="columnheader">Tramo</div>
         <div role="columnheader">Base aplicada</div>

@@ -9,12 +9,13 @@ export interface StackedBarData {
 }
 
 export function renderStackedBar(target: HTMLElement, d: StackedBarData): void {
-  const total = d.bruto > 0 ? d.bruto : 1;
-  const pNeto = (d.neto / total) * 100;
-  const pIrpf = (d.irpf / total) * 100;
-  const pSS   = (d.cotSocTrabajador / total) * 100;
-
-  // Width 100 of viewBox represents the bruto. We render to a 600x80 viewBox.
+  // 100×32 viewBox; rect widths are percentages of bruto, so the bar
+  // stretches to fill its container at any width via preserveAspectRatio="none".
+  const total = Number.isFinite(d.bruto) && d.bruto > 0 ? d.bruto : 1;
+  const clamp = (v: number): number => Math.max(0, Math.min(100, v));
+  const pNeto = clamp((d.neto / total) * 100);
+  const pIrpf = clamp((d.irpf / total) * 100);
+  const pSS   = clamp((d.cotSocTrabajador / total) * 100);
   const xNeto = 0;
   const xIrpf = pNeto;
   const xSS   = pNeto + pIrpf;

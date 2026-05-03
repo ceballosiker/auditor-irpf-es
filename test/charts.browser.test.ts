@@ -76,18 +76,17 @@ describe('renderVasos', () => {
     expect(empties.length).toBe(2);
   });
 
-  it('exposes a screen-reader-friendly title', () => {
+  it('exposes a screen-reader-friendly label on the table region', () => {
     renderVasos(host, data);
-    const svg = host.querySelector('svg');
-    expect(svg?.querySelector('title')?.textContent).toMatch(/Tramos del IRPF/i);
+    const table = host.querySelector('[role="table"]');
+    expect(table?.getAttribute('aria-label') ?? '').toMatch(/Tramos del IRPF/i);
   });
 });
 
 describe('renderGapArea', () => {
   const data: GapAreaData = {
-    years:    [2012, 2013, 2014, 2015, 2026],
-    gap:      [0,    100,  220,  350,  1247],
-    gapHoy:   1247,
+    years: [2012, 2013, 2014, 2015, 2026],
+    gap:   [0,    100,  220,  350,  1247],
   };
 
   it('renders an SVG with axes, an area path, a line path, and an endpoint marker', () => {

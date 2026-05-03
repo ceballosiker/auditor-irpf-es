@@ -4,7 +4,6 @@ import { eur } from '../format.js';
 export interface GapAreaData {
   readonly years: readonly number[];
   readonly gap: readonly number[];
-  readonly gapHoy: number;
 }
 
 export function renderGapArea(target: HTMLElement, d: GapAreaData): void {
@@ -28,11 +27,13 @@ export function renderGapArea(target: HTMLElement, d: GapAreaData): void {
     d.years.map((y, i) => `L${String(xScale(y))},${String(yScale(d.gap[i] ?? 0))}`).join(' ') +
     ` L${String(xScale(xMax))},${String(yScale(0))} Z`;
 
-  const xLast = xScale(xMax);
-  const yLast = yScale(d.gapHoy);
+  const gapHoy = d.gap[d.gap.length - 1] ?? 0;
 
-  const sign = d.gapHoy >= 0 ? '+' : '−';
-  const headlineNum = `${sign}${eur(Math.abs(d.gapHoy))}`;
+  const xLast = xScale(xMax);
+  const yLast = yScale(gapHoy);
+
+  const sign = gapHoy >= 0 ? '+' : '−';
+  const headlineNum = `${sign}${eur(Math.abs(gapHoy))}`;
 
   const srRows = d.years
     .map((y, i) => `<tr><th scope="row">${String(y)}</th><td>${eur(d.gap[i] ?? 0)}</td></tr>`)

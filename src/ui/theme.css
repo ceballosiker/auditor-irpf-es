@@ -193,3 +193,15 @@ details > summary:focus-visible { outline: 2px solid var(--accent); outline-offs
 .multi-cell { background: #fff; border: 1px solid var(--rule); border-radius: 6px; padding: 12px; }
 .multi-label { font-size: 0.72rem; font-weight: 700; color: var(--accent); text-transform: uppercase; letter-spacing: 0.04em; }
 .multi-meta { font-size: 0.78rem; color: var(--ink-mute); margin: 4px 0 8px; }
+
+/* Semantic-hook classes used by chart SVGs as JS / test selectors only.
+ * Their visual properties live as inline attributes on the SVG elements
+ * (so the chart renders correctly even without a stylesheet). Future
+ * dark-mode or hover treatments can target these classes here.
+ *   .segment       — stacked-bar segment rectangles
+ *   .sb-key        — stacked-bar inline legend
+ *   .gap-area      — gap-area filled area path
+ *   .gap-line      — gap-area polyline
+ *   .gap-endpoint  — gap-area endpoint marker
+ *   .multi         — multiples mini-chart svg
+ */
