@@ -1,5 +1,5 @@
 // src/ui/charts/multiples.ts
-import { eur, percent } from '../format.js';
+import { eur, percent } from '../intl.js';
 
 export interface MultiplesData {
   readonly years: readonly number[];

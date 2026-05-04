@@ -2,7 +2,7 @@
 import { calcularNominaConParametros, obtenerParametros } from '../../index.js';
 import type { Nomina, Parametros } from '../../index.js';
 import { renderStackedBar } from '../charts/stacked-bar.js';
-import { eur } from '../format.js';
+import { eur } from '../intl.js';
 import { render } from '../render.js';
 
 interface State {
@@ -36,12 +36,9 @@ function row(label: string, value: string, hint?: string): string {
 
 function drillTable(n: Nomina, p: Parametros): string {
   const baseCotizacion = Math.min(n.bruto, p.baseMax);
-  const tope = n.bruto > p.baseMax;
-  const meiTrabajador = baseCotizacion * p.mei[1];
-  const solidaridadTrabajador = Math.max(
-    0,
-    n.cotSocTrabajador - baseCotizacion * p.tipoTrabajadorTotal,
-  );
+  const tope = n.topeAlcanzado;
+  const meiTrabajador = n.meiTrabajador;
+  const solidaridadTrabajador = n.solidaridadTrabajador;
   const rows = [
     row('Bruto anual', eur(n.bruto)),
     row(

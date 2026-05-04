@@ -1,4 +1,5 @@
 import { ANIOS_SOPORTADOS } from '../normativa.js';
+import { requireEl } from './dom.js';
 import { render } from './render.js';
 
 export interface FormState {
@@ -58,16 +59,12 @@ export function mountForm(target: HTMLElement, opts: FormOptions): void {
     `,
   );
 
-  const form = target.querySelector<HTMLFormElement>('#calc-form');
-  const brutoInput = target.querySelector<HTMLInputElement>('#input-bruto');
-  const anioSelect = target.querySelector<HTMLSelectElement>('#input-anio');
-  if (!form || !brutoInput || !anioSelect) {
-    throw new Error('Form mount: expected fields not found in DOM');
-  }
+  const brutoInput = requireEl<HTMLInputElement>(target, '#input-bruto');
+  const anioSelect = requireEl<HTMLSelectElement>(target, '#input-anio');
 
   function readState(): FormState {
-    const bruto = Number.parseFloat(brutoInput?.value ?? '0');
-    const anio = Number.parseInt(anioSelect?.value ?? '0', 10);
+    const bruto = Number.parseFloat(brutoInput.value);
+    const anio = Number.parseInt(anioSelect.value, 10);
     return {
       bruto: Number.isFinite(bruto) && bruto >= 0 ? bruto : 0,
       anio,

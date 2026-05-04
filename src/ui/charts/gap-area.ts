@@ -1,5 +1,5 @@
 // src/ui/charts/gap-area.ts
-import { eur } from '../format.js';
+import { eur } from '../intl.js';
 
 export interface GapAreaData {
   readonly years: readonly number[];

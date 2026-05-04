@@ -1,5 +1,5 @@
 // src/ui/charts/vasos.ts
-import { eur, percent } from '../format.js';
+import { eur, percent } from '../intl.js';
 
 export interface VasoTramo {
   readonly idx: number;

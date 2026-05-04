@@ -2,7 +2,7 @@
 import { calcularNominaConParametros, obtenerParametros } from '../../index.js';
 import type { Nomina, Parametros } from '../../index.js';
 import { renderVasos } from '../charts/vasos.js';
-import { eur, percent } from '../format.js';
+import { eur, percent } from '../intl.js';
 import { render } from '../render.js';
 
 interface State {
@@ -35,7 +35,7 @@ function row(label: string, value: string, hint?: string): string {
 }
 
 function drillTable(n: Nomina, p: Parametros): string {
-  const tope43Aplica = n.cuotaTrasSMI > n.limite43 + 1e-6;
+  const tope43Aplica = n.tope43Aplica;
   const firstTipo = p.tramosIRPF[0]?.tipo ?? 0;
   const rows = [
     row('Rendimiento previo (bruto − cot. trabajador)', eur(n.renPrevio)),
