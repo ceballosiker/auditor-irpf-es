@@ -68,7 +68,7 @@ function renderStub(anio: number): string {
   const lines: string[] = [];
   lines.push(`# Normativa ${String(anio)}`);
   lines.push('');
-  lines.push(`▷ [Ver este año en la calculadora →](../../?anio=${String(anio)})`);
+  lines.push(`▷ [Ver este año en la calculadora →](../../../?anio=${String(anio)})`);
   lines.push('');
   lines.push(
     `> **Pendiente de redacción.** Esta página es un stub. La redacción completa con referencias BOE llegará en Phase 5 (v1.1.0), en paralelo con la validación de [\`audit-${String(anio)}\`](${REPO_URL}/issues/${String(issue)}).`,
