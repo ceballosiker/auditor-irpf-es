@@ -36,12 +36,9 @@ function row(label: string, value: string, hint?: string): string {
 
 function drillTable(n: Nomina, p: Parametros): string {
   const baseCotizacion = Math.min(n.bruto, p.baseMax);
-  const tope = n.bruto > p.baseMax;
-  const meiTrabajador = baseCotizacion * p.mei[1];
-  const solidaridadTrabajador = Math.max(
-    0,
-    n.cotSocTrabajador - baseCotizacion * p.tipoTrabajadorTotal,
-  );
+  const tope = n.topeAlcanzado;
+  const meiTrabajador = n.meiTrabajador;
+  const solidaridadTrabajador = n.solidaridadTrabajador;
   const rows = [
     row('Bruto anual', eur(n.bruto)),
     row(
