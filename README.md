@@ -3,7 +3,7 @@
 ![TypeScript](https://img.shields.io/badge/typescript-5.9%2B-blue.svg)
 ![Node](https://img.shields.io/badge/node-%3E%3D20.18-brightgreen.svg)
 ![License](https://img.shields.io/badge/license-MIT-green.svg)
-![Estado](https://img.shields.io/badge/estado-v1.1.0-brightgreen.svg)
+![Estado](https://img.shields.io/badge/estado-v1.2.0-brightgreen.svg)
 [![Calculadora](https://img.shields.io/badge/calculadora-ceballosiker.github.io-blue.svg)](https://ceballosiker.github.io/auditor-irpf-es/)
 [![Manual](https://img.shields.io/badge/manual-ceballosiker.github.io%2Fmanual-blue.svg)](https://ceballosiker.github.io/auditor-irpf-es/manual/)
 
@@ -12,7 +12,7 @@
 
 Auditor fiscal que calcula el salario neto en España (2012–2026): IRPF, Seguridad Social, MEI y Cuota de Solidaridad, con análisis de pérdida de poder adquisitivo ajustada a la inflación real (IPC oficial del INE). Se expone como una **calculadora interactiva 100 % en el navegador** (sin servidor) acompañada de un manual divulgativo y un proceso de auditoría pública año a año.
 
-> **Estado actual (v1.1.0):** motor TypeScript validado contra los fixtures del motor Python de referencia, **calculadora web interactiva con rediseño editorial-dataviz en producción** y manual divulgativo publicados en GitHub Pages, auditoría axe-core (WCAG 2.1 AA) + thresholds Lighthouse (perf ≥ 0.85, a11y ≥ 0.95) bloqueando cada PR. Próximo hito (`v1.2.0`): redacción completa de los 15 resúmenes anuales junto con la auditoría fiscal.
+> **Estado actual (v1.2.0):** motor TypeScript validado contra los fixtures del motor Python de referencia, **calculadora web interactiva con rediseño editorial-dataviz en producción** y manual divulgativo publicados en GitHub Pages, auditoría axe-core (WCAG 2.1 AA) + thresholds Lighthouse (perf ≥ 0.85, a11y ≥ 0.95) bloqueando cada PR. Próximo hito: redacción completa de los 15 resúmenes anuales junto con la auditoría fiscal.
 
 ## 🧮 Calculadora interactiva
 
