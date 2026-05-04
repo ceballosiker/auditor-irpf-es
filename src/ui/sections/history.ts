@@ -4,7 +4,7 @@ import { INFLACION_A_2026 } from '../../inflacion.js';
 import { ANIO_MIN, ANIO_MAX } from '../../normativa.js';
 import { renderGapArea } from '../charts/gap-area.js';
 import { renderMultiples } from '../charts/multiples.js';
-import { eur } from '../format.js';
+import { eur } from '../intl.js';
 import { gapSeries } from '../history-data.js';
 import { render } from '../render.js';
 

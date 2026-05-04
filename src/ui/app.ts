@@ -1,5 +1,6 @@
 // src/ui/app.ts
 import { ANIO_MAX } from '../normativa.js';
+import { requireEl } from './dom.js';
 import { mountForm } from './form.js';
 import type { FormState } from './form.js';
 import { mountBreakdown, updateBreakdown } from './sections/breakdown.js';
@@ -25,15 +26,12 @@ export function mountApp(app: HTMLElement): void {
   `,
   );
 
-  const navSec = app.querySelector<HTMLElement>('#nav-section');
-  const heroSec = app.querySelector<HTMLElement>('#hero-section');
-  const breakdownSec = app.querySelector<HTMLElement>('#breakdown-section');
-  const bracketsSec = app.querySelector<HTMLElement>('#brackets-section');
-  const historySec = app.querySelector<HTMLElement>('#history-section');
-  const excelSec = app.querySelector<HTMLElement>('#excel-section');
-  if (!navSec || !heroSec || !breakdownSec || !bracketsSec || !historySec || !excelSec) {
-    throw new Error('Layout sections not found after initial render');
-  }
+  const navSec = requireEl<HTMLElement>(app, '#nav-section');
+  const heroSec = requireEl<HTMLElement>(app, '#hero-section');
+  const breakdownSec = requireEl<HTMLElement>(app, '#breakdown-section');
+  const bracketsSec = requireEl<HTMLElement>(app, '#brackets-section');
+  const historySec = requireEl<HTMLElement>(app, '#history-section');
+  const excelSec = requireEl<HTMLElement>(app, '#excel-section');
 
   mountNav(navSec);
   mountHero(heroSec);
@@ -43,14 +41,12 @@ export function mountApp(app: HTMLElement): void {
   mountExcel(excelSec);
 
   // Form lives inside the hero section's #form-section slot.
-  const formMount = heroSec.querySelector<HTMLElement>('#form-section');
-  if (!formMount) throw new Error('#form-section slot missing in hero');
+  const formMount = requireEl<HTMLElement>(heroSec, '#form-section');
 
   const initial: FormState = { bruto: 30_000, anio: ANIO_MAX };
 
   function update(state: FormState): void {
     if (!Number.isInteger(state.anio)) return;
-    if (!heroSec || !breakdownSec || !bracketsSec || !historySec) return;
     updateHero(heroSec, state);
     updateBreakdown(breakdownSec, state);
     updateBrackets(bracketsSec, state);

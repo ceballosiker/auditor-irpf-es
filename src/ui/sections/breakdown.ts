@@ -2,7 +2,7 @@
 import { calcularNominaConParametros, obtenerParametros } from '../../index.js';
 import type { Nomina, Parametros } from '../../index.js';
 import { renderStackedBar } from '../charts/stacked-bar.js';
-import { eur } from '../format.js';
+import { eur } from '../intl.js';
 import { render } from '../render.js';
 
 interface State {

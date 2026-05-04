@@ -2,7 +2,7 @@
 import { calcularNominaConParametros, obtenerParametros } from '../../index.js';
 import type { Nomina, Parametros } from '../../index.js';
 import { renderVasos } from '../charts/vasos.js';
-import { eur, percent } from '../format.js';
+import { eur, percent } from '../intl.js';
 import { render } from '../render.js';
 
 interface State {
