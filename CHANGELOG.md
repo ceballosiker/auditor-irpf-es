@@ -6,6 +6,27 @@ El formato sigue [Keep a Changelog](https://keepachangelog.com/es-ES/1.1.0/) y e
 
 ## [Unreleased]
 
+## [1.2.0] - 2026-05-04
+
+Versión de seguimiento sobre v1.1.0: refresco de tooling, dos pulidos pequeños en la SPA, una ampliación aditiva del tipo público `Nomina` que elimina el último épsilon de coma flotante de la UI, y un deep-link bidireccional entre la calculadora y los stubs anuales del manual.
+
+### Added
+
+- **`Nomina` gana cuatro campos derivados** — `topeAlcanzado`, `meiTrabajador`, `solidaridadTrabajador`, `tope43Aplica`. La UI los lee directamente en `breakdown.ts` y `brackets.ts` en lugar de reconstruirlos por aritmética sobre otros campos. Cambio aditivo en el tipo público; las fixtures-oráculo (que comparan vía `nominaToFila`, sin tocar) no se regeneran. Cierra #65.
+- **Deep-link `?anio=YYYY` en la calculadora** — `?anio=2018` preselecciona el año al cargar (validado contra `ANIOS_SOPORTADOS`, fallback a `ANIO_MAX`). El cambio de año en el formulario actualiza la URL vía `history.replaceState`, así que recargar conserva el año. Cada `docs/anual/YYYY.md` (15 stubs) lleva ahora un enlace «▷ Ver este año en la calculadora →» en cabecera, generado por `scripts/render-anual-stubs.ts`. Cierra #71.
+- **Helper `requireEl()`** en `src/ui/dom.ts` — sustituye el patrón `querySelector + null-check` repetido en `app.ts` y `form.ts`. Sin cambio de comportamiento. Parte de #64.
+
+### Changed
+
+- **`engines.node` sube de `>=18.18` a `>=20.18`** — necesario para `@lhci/cli` 0.15 (Lighthouse 12, que importa locales JSON con `import attributes`) y para que `npm install` funcione sin `--legacy-peer-deps`. Matriz de CI: Node 18 fuera, Node 22 dentro, Node 20 se mantiene. **Cambio incompatible para contribuidores en Node 18; sin impacto en runtime ni en el bundle distribuído.** `.nvmrc` y los badges del README también se actualizan a 20.18. Cierra #61.
+- **Refresco de dev-deps** — `vitest` / `@vitest/browser` / `@vitest/coverage-v8` (1.6 → 2.1.9), `eslint` (9.7 → 9.39), `typescript-eslint` (8.0 → 8.59), `typescript` (5.5 → 5.9), `vite` (5.3 → 5.4), `prettier` (3.3 → 3.8), `@types/node` (^20 → ^22). `playwright` y `tsx` ya estaban en current. Sin cambios funcionales en el SPA.
+- **`src/ui/format.ts` renombrado a `src/ui/intl.ts`** — desambigua frente a `src/format.ts`, que es el serializador numérico Python-compatible para Excel. Mismo nombre, distinta capa, fuente recurrente de confusión. Sin cambio de API: `eur()` y `percent()` siguen siendo los exports. Parte de #64.
+- **El épsilon `1e-6` desaparece de la UI** — `brackets.ts` ya no compara `cuotaTrasSMI > limite43 + 1e-6`; lee `n.tope43Aplica` directamente. La comparación del motor ya era autoritativa; la UI sólo amplificaba ruido de coma flotante.
+
+### Notes
+
+- El sub-item original de #64 sobre hoistar selectores DOM a un mapa de constantes se descarta: post-#72, el set total cabe en `app.ts` y un mapa compartido sería sobre-ingeniería.
+
 ## [1.1.0] - 2026-05-04
 
 Rediseño completo de la calculadora web bajo una dirección editorial-dataviz: paleta cálida (off-white + naranja quemado + verde profundo), tipografía Georgia, narrativa pública-primero (tu neto → ¿adónde va el resto? → ¿cómo se calcula? → ¿qué ha cambiado entre 2012 y 2026?), con todo el detalle de auditoría (MEI, Solidaridad, T1–T7, tope 43 %, deducción SMI) detrás de un `<details>` colapsable por sección. Pico CSS y Chart.js desaparecen del bundle; en su lugar, una hoja de tokens propia (`src/ui/theme.css`) y cuatro renderers SVG hechos a mano. El motor de cálculo y los 15 fixtures-oráculo no se tocan.

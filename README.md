@@ -1,6 +1,6 @@
 # 💶 Auditor Histórico de Nóminas e IRPF (España 2012–2026) con Ajuste de Inflación
 
-![TypeScript](https://img.shields.io/badge/typescript-5.5%2B-blue.svg)
+![TypeScript](https://img.shields.io/badge/typescript-5.9%2B-blue.svg)
 ![Node](https://img.shields.io/badge/node-%3E%3D20.18-brightgreen.svg)
 ![License](https://img.shields.io/badge/license-MIT-green.svg)
 ![Estado](https://img.shields.io/badge/estado-v1.1.0-brightgreen.svg)
