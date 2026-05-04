@@ -10,6 +10,7 @@ import { mountHero, updateHero } from './sections/hero.js';
 import { mountHistory, updateHistory } from './sections/history.js';
 import { mountNav } from './sections/nav.js';
 import { render } from './render.js';
+import { parseAnioFromSearch, writeAnioToUrl } from './url.js';
 
 export function mountApp(app: HTMLElement): void {
   render(
@@ -43,7 +44,8 @@ export function mountApp(app: HTMLElement): void {
   // Form lives inside the hero section's #form-section slot.
   const formMount = requireEl<HTMLElement>(heroSec, '#form-section');
 
-  const initial: FormState = { bruto: 30_000, anio: ANIO_MAX };
+  const anioFromUrl = parseAnioFromSearch(window.location.search);
+  const initial: FormState = { bruto: 30_000, anio: anioFromUrl ?? ANIO_MAX };
 
   function update(state: FormState): void {
     if (!Number.isInteger(state.anio)) return;
@@ -51,6 +53,7 @@ export function mountApp(app: HTMLElement): void {
     updateBreakdown(breakdownSec, state);
     updateBrackets(bracketsSec, state);
     updateHistory(historySec, state);
+    writeAnioToUrl(state.anio);
   }
 
   mountForm(formMount, { initial, onChange: update });
