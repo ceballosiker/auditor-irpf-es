@@ -1,6 +1,6 @@
 // src/ui/sections/hero.ts
 import { calcularNomina } from '../../index.js';
-import { eur } from '../format.js';
+import { eur } from '../intl.js';
 import { render } from '../render.js';
 
 export interface HeroState {

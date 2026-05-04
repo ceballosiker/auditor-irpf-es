@@ -105,6 +105,11 @@ export function calcularNominaConParametros(bruto: number, p: Parametros): Nomin
   const irpfFinal = Math.min(cuotaTrasSMI, limite43);
   const salarioNeto = bruto - cotTrabajador - irpfFinal;
 
+  const topeAlcanzado = bruto > p.baseMax;
+  const meiTrabajador = baseCotizacion * p.mei[1];
+  const solidaridadTrabajador = sol.trabajador;
+  const tope43Aplica = cuotaTrasSMI > limite43 + 1e-6;
+
   return {
     bruto,
     anio: p.anio,
@@ -124,6 +129,10 @@ export function calcularNominaConParametros(bruto: number, p: Parametros): Nomin
     limite43,
     irpfFinal,
     salarioNeto,
+    topeAlcanzado,
+    meiTrabajador,
+    solidaridadTrabajador,
+    tope43Aplica,
   };
 }
 

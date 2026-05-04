@@ -79,4 +79,12 @@ export interface Nomina {
   readonly limite43: number;
   readonly irpfFinal: number;
   readonly salarioNeto: number;
+  /** True iff `bruto > baseMax`; the SS contribution is capped. */
+  readonly topeAlcanzado: boolean;
+  /** Worker share of the MEI cotización (`baseCotizacion * mei[1]`); 0 if MEI does not apply this year. */
+  readonly meiTrabajador: number;
+  /** Worker share of the Cuota de Solidaridad (1/6 of the total); 0 if no excess over baseMax. */
+  readonly solidaridadTrabajador: number;
+  /** True iff the 43 % cap (`limite43`) actually binds the final IRPF. */
+  readonly tope43Aplica: boolean;
 }
