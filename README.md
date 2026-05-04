@@ -106,7 +106,7 @@ npm run build:excel    # Genera el Excel completo (15 años × 0-100 000 €) po
 npm run lighthouse     # Build + Lighthouse CI (3 corridas, asserts perf/a11y/bp/seo)
 ```
 
-Requisitos: Node ≥ 18.18. Los tests browser y `lighthouse` requieren Chromium en el sistema (Playwright lo instala automáticamente con `npx playwright install chromium`).
+Requisitos: Node ≥ 20.18. Los tests browser y `lighthouse` requieren Chromium en el sistema (Playwright lo instala automáticamente con `npx playwright install chromium`).
 
 ### Python (motor original — archivado en `legacy/`)
 

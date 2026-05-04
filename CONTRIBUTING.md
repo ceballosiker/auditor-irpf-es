@@ -74,7 +74,7 @@ Ver la tabla en [Perfiles y áreas](#perfiles-y-áreas) más arriba.
 
 ## Setup local
 
-Requisitos: Node ≥ 18.18.
+Requisitos: Node ≥ 20.18.
 
 ```bash
 git clone https://github.com/ceballosiker/auditor-irpf-es.git
