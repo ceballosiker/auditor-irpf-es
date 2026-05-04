@@ -179,7 +179,9 @@ Primera release pública. Establece los cimientos para el porting del motor a Ty
 
 - README reformulado para reflejar la misión pública (democratizar el cálculo del IRPF), la llamada a tres perfiles colaboradores (fiscalistas, _techies_, divulgadores) y el pivote a TypeScript.
 
-[Unreleased]: https://github.com/ceballosiker/auditor-irpf-es/compare/v1.0.0...HEAD
+[Unreleased]: https://github.com/ceballosiker/auditor-irpf-es/compare/v1.2.0...HEAD
+[1.2.0]: https://github.com/ceballosiker/auditor-irpf-es/releases/tag/v1.2.0
+[1.1.0]: https://github.com/ceballosiker/auditor-irpf-es/releases/tag/v1.1.0
 [1.0.0]: https://github.com/ceballosiker/auditor-irpf-es/releases/tag/v1.0.0
 [0.4.0]: https://github.com/ceballosiker/auditor-irpf-es/releases/tag/v0.4.0
 [0.3.0]: https://github.com/ceballosiker/auditor-irpf-es/releases/tag/v0.3.0

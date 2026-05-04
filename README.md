@@ -96,7 +96,7 @@ Sigue el progreso en los [issues abiertos](https://github.com/ceballosiker/audit
 git clone https://github.com/ceballosiker/auditor-irpf-es.git
 cd auditor-irpf-es
 npm install
-npm test               # Vitest (674 tests)
+npm test               # Vitest
 npm run test:browser   # axe-core a11y + secciones + charts (Vitest browser, requiere Chromium)
 npm run lint           # ESLint
 npm run typecheck      # tsc --noEmit
@@ -158,7 +158,7 @@ Para regenerar los fixtures JSON (operación idempotente):
 │   ├── theme.css                 # Tokens y utilidades CSS (reemplaza Pico)
 │   ├── main.ts, app.ts           # Bootstrap + orquestador
 │   ├── form.ts                   # Formulario (bruto, año, CCAA)
-│   ├── format.ts, render.ts      # Helpers (eur/percent, innerHTML)
+│   ├── intl.ts, render.ts        # Helpers (eur/percent, innerHTML)
 │   ├── history-data.ts           # Counterfactual indexado a 2012 + gapSeries
 │   ├── sections/                 # 6 secciones: nav, hero, breakdown, brackets, history, excel
 │   └── charts/                   # 4 SVG renderers: stacked-bar, vasos, gap-area, multiples
