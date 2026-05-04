@@ -1,6 +1,6 @@
 # Resúmenes anuales 2012–2026
 
-Una página por año entre 2012 y 2026. En la versión `v0.4.0` todas son **stubs**: contienen los parámetros vigentes (extraídos automáticamente de `src/normativa.ts`) y un enlace al `audit-YYYY` correspondiente. La redacción completa, con referencias BOE y análisis de cambios, llegará en Phase 5 (`v1.1.0`).
+Una página por año entre 2012 y 2026. En la versión `v0.4.0` todas son **stubs**: contienen los parámetros vigentes (extraídos automáticamente de `src/normativa.ts`) y un enlace al `audit-YYYY` correspondiente. La redacción completa, con referencias BOE y análisis de cambios, llegará en Phase 5 (`v1.3.0`).
 
 | Año  | Página                    | Issue de auditoría                                               |
 | ---- | ------------------------- | ---------------------------------------------------------------- |

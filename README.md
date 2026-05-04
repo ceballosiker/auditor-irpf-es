@@ -20,7 +20,7 @@ Disponible en **<https://ceballosiker.github.io/auditor-irpf-es/>** — escribe 
 
 ## 📖 Manual divulgativo
 
-El manual está publicado en **<https://ceballosiker.github.io/auditor-irpf-es/manual/>**. Contiene siete páginas explicando paso a paso la cadena de cálculo (cotización, SS, MEI/Solidaridad, Art. 19/20, escala IRPF, SMI/tope 43 %), una página dedicada a la **progresividad en frío** con gráficos generados desde el propio motor, y un esqueleto de 15 resúmenes anuales (uno por año entre 2012 y 2026) cuya redacción completa irá llegando en `v1.2.0` en paralelo con la auditoría fiscal.
+El manual está publicado en **<https://ceballosiker.github.io/auditor-irpf-es/manual/>**. Contiene siete páginas explicando paso a paso la cadena de cálculo (cotización, SS, MEI/Solidaridad, Art. 19/20, escala IRPF, SMI/tope 43 %), una página dedicada a la **progresividad en frío** con gráficos generados desde el propio motor, y un esqueleto de 15 resúmenes anuales (uno por año entre 2012 y 2026) cuya redacción completa irá llegando en `v1.3.0` en paralelo con la auditoría fiscal.
 
 ---
 
@@ -78,11 +78,12 @@ Para maximizar la precisión antes de ampliar casuística, el motor modela delib
 | **v0.4.0** ✅ | Manual divulgativo en MkDocs Material publicado en GitHub Pages.                                                                                                                                                                                                                            |
 | **v1.0.0** ✅ | Calculadora web interactiva: SPA estático, 100 % en el navegador, GitHub Pages. axe-core + Lighthouse en CI.                                                                                                                                                                                |
 | **v1.1.0** ✅ | Rediseño editorial-dataviz de la calculadora: nueva narrativa pública-primero, 4 visualizaciones SVG (barra apilada, "vasos" de tramos, brecha acumulada, pequeños múltiples), drill-downs de auditoría detrás de `<details>`, integración con el manual. Pico y Chart.js fuera del bundle. |
-| **v1.2.0**    | Redacción completa de los 15 resúmenes anuales con referencias BOE, en paralelo con los `audit-YYYY`.                                                                                                                                                                                       |
+| **v1.2.0** ✅ | Versión de seguimiento sobre v1.1.0: refresco de tooling (Node ≥ 20.18, Lighthouse 12, vitest 2 + ts 5.9 + eslint 9.39), `Nomina` gana cuatro campos derivados (`topeAlcanzado`, `meiTrabajador`, `solidaridadTrabajador`, `tope43Aplica`) y la UI los lee directamente, deep-link `?anio=YYYY` con cross-links bidireccionales desde los stubs del manual, rename `src/ui/format` → `src/ui/intl` + helper `requireEl`. |
+| **v1.3.0**    | Redacción completa de los 15 resúmenes anuales con referencias BOE, en paralelo con los `audit-YYYY`.                                                                                                                                                                                       |
 
 Sigue el progreso en los [issues abiertos](https://github.com/ceballosiker/auditor-irpf-es/issues) y [milestones](https://github.com/ceballosiker/auditor-irpf-es/milestones).
 
-### Hoja de ruta normativa (post-v1.2)
+### Hoja de ruta normativa (post-v1.3)
 
 - Tramos autonómicos específicos por Comunidad Autónoma.
 - Deducciones familiares (hijos, ascendientes, discapacidad).
@@ -166,7 +167,7 @@ Para regenerar los fixtures JSON (operación idempotente):
 │   ├── index.md, contribuir.md
 │   ├── motor/                    # 7 páginas: cadena de cálculo paso a paso
 │   ├── progresividad-en-frio.md  # Concepto + gráficos generados del motor
-│   ├── anual/                    # Stubs 2012-2026 (redacción completa en v1.2.0)
+│   ├── anual/                    # Stubs 2012-2026 (redacción completa en v1.3.0)
 │   ├── auditoria/progreso.md     # Estado de los 15 audit-YYYY
 │   └── assets/*.svg              # Charts hand-rolled desde src/pipeline.ts
 ├── scripts/

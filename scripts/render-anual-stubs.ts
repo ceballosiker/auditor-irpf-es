@@ -71,7 +71,7 @@ function renderStub(anio: number): string {
   lines.push(`▷ [Ver este año en la calculadora →](../../../?anio=${String(anio)})`);
   lines.push('');
   lines.push(
-    `> **Pendiente de redacción.** Esta página es un stub. La redacción completa con referencias BOE llegará en Phase 5 (v1.1.0), en paralelo con la validación de [\`audit-${String(anio)}\`](${REPO_URL}/issues/${String(issue)}).`,
+    `> **Pendiente de redacción.** Esta página es un stub. La redacción completa con referencias BOE llegará en Phase 5 (v1.3.0), en paralelo con la validación de [\`audit-${String(anio)}\`](${REPO_URL}/issues/${String(issue)}).`,
   );
   lines.push('');
   lines.push('## Parámetros vigentes');
@@ -123,7 +123,7 @@ function renderIndex(): string {
   lines.push('# Resúmenes anuales 2012–2026');
   lines.push('');
   lines.push(
-    'Una página por año entre 2012 y 2026. En la versión `v0.4.0` todas son **stubs**: contienen los parámetros vigentes (extraídos automáticamente de `src/normativa.ts`) y un enlace al `audit-YYYY` correspondiente. La redacción completa, con referencias BOE y análisis de cambios, llegará en Phase 5 (`v1.1.0`).',
+    'Una página por año entre 2012 y 2026. En la versión `v0.4.0` todas son **stubs**: contienen los parámetros vigentes (extraídos automáticamente de `src/normativa.ts`) y un enlace al `audit-YYYY` correspondiente. La redacción completa, con referencias BOE y análisis de cambios, llegará en Phase 5 (`v1.3.0`).',
   );
   lines.push('');
   lines.push(`| Año  | Página                       | Issue de auditoría |`);
