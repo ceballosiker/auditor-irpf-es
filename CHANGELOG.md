@@ -6,6 +6,15 @@ El formato sigue [Keep a Changelog](https://keepachangelog.com/es-ES/1.1.0/) y e
 
 ## [Unreleased]
 
+## [1.2.1] - 2026-05-07
+
+Release de mantenimiento sobre v1.2.0: dos pulidos visuales del rediseño editorial-dataviz que arrastraban desde v1.1.0. Sin cambios en el motor de cálculo ni en los fixtures-oráculo.
+
+### Fixed
+
+- **Drill-tables con anchos fijos en `breakdown` y `brackets`** — las tablas dentro de los `<details>` colapsables auto-dimensionaban por contenido y rompían la rejilla visual entre filas. Pasan a `table-layout: fixed` con columnas 65/35 y `font-variant-numeric: tabular-nums` vía la nueva clase `.drill-table` en `src/ui/theme.css`. Cierra parte de #77.
+- **Ejes en los pequeños múltiples** — `renderMultiples` añade etiquetas mínimas en cada mini-gráfico: min/max del valor en Y (formateadas con el helper de cada serie) y primer/último año en X. Los paddings se separan en `PAD_L/R/T/B` para dejar sitio al label de Y sin alterar el aspecto del sparkline. Cierra parte de #77.
+
 ## [1.2.0] - 2026-05-04
 
 Versión de seguimiento sobre v1.1.0: refresco de tooling, dos pulidos pequeños en la SPA, una ampliación aditiva del tipo público `Nomina` que elimina el último épsilon de coma flotante de la UI, y un deep-link bidireccional entre la calculadora y los stubs anuales del manual.
