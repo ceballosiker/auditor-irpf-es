@@ -60,7 +60,7 @@ function drillTable(n: Nomina, p: Parametros): string {
     ),
     row('IRPF final', `<strong>${eur(n.irpfFinal)}</strong>`),
   ].join('');
-  return `<table>${rows}</table>`;
+  return `<table class="drill-table">${rows}</table>`;
 }
 
 export function updateBrackets(target: HTMLElement, state: State): void {
