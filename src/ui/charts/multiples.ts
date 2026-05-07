@@ -18,26 +18,37 @@ interface Series {
 
 function renderOne(s: Series, years: readonly number[]): string {
   const W = 220,
-    H = 110,
-    PAD = 12;
+    H = 110;
+  const PAD_L = 44,
+    PAD_R = 10,
+    PAD_T = 10,
+    PAD_B = 18;
   const yMin = Math.min(...s.values);
   const yMax = Math.max(...s.values);
   const span = Math.max(1e-6, yMax - yMin);
   const xMin = years[0] ?? 0;
-  const xSpan = Math.max(1, (years[years.length - 1] ?? 0) - xMin);
-  const x = (year: number): number => PAD + ((year - xMin) / xSpan) * (W - 2 * PAD);
-  const y = (v: number): number => H - PAD - ((v - yMin) / span) * (H - 2 * PAD);
+  const xMax = years[years.length - 1] ?? 0;
+  const xSpan = Math.max(1, xMax - xMin);
+  const x = (year: number): number => PAD_L + ((year - xMin) / xSpan) * (W - PAD_L - PAD_R);
+  const y = (v: number): number => H - PAD_B - ((v - yMin) / span) * (H - PAD_T - PAD_B);
   const points = years.map((yr, i) => `${String(x(yr))},${String(y(s.values[i] ?? 0))}`).join(' ');
   const first = s.values[0] ?? 0;
   const last = s.values[s.values.length - 1] ?? 0;
   const titleId = `${s.id}-t`;
+  const yMaxLabel = s.format(yMax);
+  const yMinLabel = s.format(yMin);
+  const axisAttrs = 'font-size="9" fill="var(--ink-mute)"';
 
   return `
     <div class="multi-cell">
       <div class="multi-label">${s.label}</div>
-      <div class="multi-meta">${String(years[0] ?? '')}: ${s.format(first)} → ${String(years[years.length - 1] ?? '')}: ${s.format(last)}</div>
+      <div class="multi-meta">${String(xMin)}: ${s.format(first)} → ${String(xMax)}: ${s.format(last)}</div>
       <svg class="multi" viewBox="0 0 ${String(W)} ${String(H)}" role="img" aria-labelledby="${titleId}" style="width:100%;height:auto;">
-        <title id="${titleId}">${s.label} entre ${String(years[0] ?? '')} y ${String(years[years.length - 1] ?? '')}</title>
+        <title id="${titleId}">${s.label} entre ${String(xMin)} y ${String(xMax)}</title>
+        <text class="multi-axis multi-axis-y" x="${String(PAD_L - 4)}" y="${String(PAD_T + 3)}" text-anchor="end" ${axisAttrs}>${yMaxLabel}</text>
+        <text class="multi-axis multi-axis-y" x="${String(PAD_L - 4)}" y="${String(H - PAD_B + 1)}" text-anchor="end" ${axisAttrs}>${yMinLabel}</text>
+        <text class="multi-axis multi-axis-x" x="${String(PAD_L)}" y="${String(H - 4)}" text-anchor="start" ${axisAttrs}>${String(xMin)}</text>
+        <text class="multi-axis multi-axis-x" x="${String(W - PAD_R)}" y="${String(H - 4)}" text-anchor="end" ${axisAttrs}>${String(xMax)}</text>
         <polyline points="${points}" fill="none" stroke="var(--accent)" stroke-width="1.8"/>
       </svg>
     </div>

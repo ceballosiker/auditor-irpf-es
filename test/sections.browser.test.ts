@@ -89,6 +89,12 @@ describe('breakdown section', () => {
     const rows = drill?.querySelectorAll('tr') ?? [];
     expect(rows.length).toBeGreaterThan(3);
   });
+
+  it('drill-down table uses the .drill-table class for fixed-width layout', () => {
+    mountBreakdown(host);
+    updateBreakdown(host, { bruto: 30_000, anio: ANIO_MAX });
+    expect(host.querySelector('details table.drill-table')).not.toBeNull();
+  });
 });
 
 describe('brackets section', () => {
@@ -108,6 +114,12 @@ describe('brackets section', () => {
     expect(rows.length).toBeGreaterThan(0);
     const drill = host.querySelector('details table');
     expect(drill?.querySelectorAll('tr').length ?? 0).toBeGreaterThan(5);
+  });
+
+  it('drill-down table uses the .drill-table class for fixed-width layout', () => {
+    mountBrackets(host);
+    updateBrackets(host, { bruto: 30_000, anio: ANIO_MAX });
+    expect(host.querySelector('details table.drill-table')).not.toBeNull();
   });
 });
 
