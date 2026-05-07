@@ -3,6 +3,6 @@ import { VERSION } from '../src/index';
 
 describe('VERSION', () => {
   it('matches package.json', () => {
-    expect(VERSION).toBe('1.2.0');
+    expect(VERSION).toBe('1.2.1');
   });
 });

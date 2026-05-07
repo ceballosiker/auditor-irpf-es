@@ -161,6 +161,42 @@ details[open] > summary::before {
   content: '−';
 }
 
+/* Drill-down table (used inside <details> in breakdown + brackets sections).
+ * Fixed layout with consistent column widths so rows don't auto-size to content. */
+.drill-table {
+  width: 100%;
+  table-layout: fixed;
+  border-collapse: collapse;
+  margin-top: 12px;
+  font-family: var(--font-body);
+  font-size: 0.88rem;
+}
+.drill-table th[scope='row'] {
+  width: 65%;
+  text-align: left;
+  font-weight: 500;
+  color: var(--ink-soft);
+  padding: 6px 10px 6px 0;
+  vertical-align: top;
+}
+.drill-table td {
+  width: 35%;
+  text-align: right;
+  padding: 6px 0 6px 10px;
+  vertical-align: top;
+  font-variant-numeric: tabular-nums;
+}
+.drill-table tr + tr th[scope='row'],
+.drill-table tr + tr td {
+  border-top: 1px solid var(--rule);
+}
+.drill-table small {
+  display: block;
+  font-size: 0.78rem;
+  color: var(--ink-mute);
+  margin-top: 2px;
+}
+
 /* Accent CTA button */
 .cta {
   display: inline-block;

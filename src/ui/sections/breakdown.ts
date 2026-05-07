@@ -56,7 +56,7 @@ function drillTable(n: Nomina, p: Parametros): string {
       : []),
     row('Coste laboral total', eur(n.costeLaboral)),
   ].join('');
-  return `<table>${rows}</table>`;
+  return `<table class="drill-table">${rows}</table>`;
 }
 
 export function updateBreakdown(target: HTMLElement, state: State): void {

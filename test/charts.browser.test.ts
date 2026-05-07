@@ -137,4 +137,19 @@ describe('renderMultiples', () => {
     const firstRow = host.querySelector('table.sr-only tbody tr');
     expect(firstRow?.querySelectorAll('th, td').length).toBe(5);
   });
+
+  it('each mini-chart includes y-axis (min/max) and x-axis (first/last year) labels', () => {
+    renderMultiples(host, data);
+    const charts = host.querySelectorAll('svg.multi');
+    expect(charts.length).toBe(4);
+    charts.forEach((svg) => {
+      expect(svg.querySelectorAll('text.multi-axis-y').length).toBe(2);
+      expect(svg.querySelectorAll('text.multi-axis-x').length).toBe(2);
+    });
+    const xLabels = Array.from(host.querySelectorAll('text.multi-axis-x')).map(
+      (t) => t.textContent ?? '',
+    );
+    expect(xLabels).toContain('2012');
+    expect(xLabels).toContain('2026');
+  });
 });
