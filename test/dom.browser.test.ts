@@ -27,4 +27,18 @@ describe('requireEl', () => {
     const el = requireEl<HTMLParagraphElement>('[data-test="ok"]');
     expect(el.tagName).toBe('P');
   });
+
+  it('includes the root identifier in the error message', () => {
+    document.body.innerHTML = '<div id="x"></div>';
+    const root = document.getElementById('x');
+    if (!root) throw new Error('test setup: #x not found');
+    // With an Element root, message names tagName + #id.
+    expect(() => requireEl(root, '.missing')).toThrow(/div#x/);
+    // With document as default root, message names "document".
+    expect(() => requireEl('.also-missing')).toThrow(/document/);
+    // With an Element root that has no id, message names just the tagName.
+    const noId = document.createElement('section');
+    document.body.appendChild(noId);
+    expect(() => requireEl(noId, '.missing')).toThrow(/in section$/);
+  });
 });

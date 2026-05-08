@@ -25,17 +25,18 @@ describe('mountApp ?anio= URL roundtrip', () => {
   it('preselects the year in the form when ?anio=YYYY is in the URL', () => {
     window.history.replaceState(null, '', `${window.location.pathname}?anio=2018`);
     setupApp();
-    const select = document.querySelector<HTMLSelectElement>('#input-anio');
-    if (!select) throw new Error('year select missing');
-    expect(select.value).toBe('2018');
+    const range = document.querySelector<HTMLInputElement>('#input-anio');
+    if (!range) throw new Error('year range missing');
+    expect(range.type).toBe('range');
+    expect(range.value).toBe('2018');
   });
 
   it('writes ?anio=YYYY to the URL when the year changes', () => {
     setupApp();
-    const select = document.querySelector<HTMLSelectElement>('#input-anio');
-    if (!select) throw new Error('year select missing');
-    select.value = '2020';
-    select.dispatchEvent(new Event('change', { bubbles: true }));
+    const range = document.querySelector<HTMLInputElement>('#input-anio');
+    if (!range) throw new Error('year range missing');
+    range.value = '2020';
+    range.dispatchEvent(new Event('input', { bubbles: true }));
     expect(window.location.search).toContain('anio=2020');
   });
 });

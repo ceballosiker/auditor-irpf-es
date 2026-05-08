@@ -1,6 +1,6 @@
 // Public API barrel for the auditor-irpf-es engine.
 
-export const VERSION = '1.2.1';
+export const VERSION = '1.3.0';
 
 export type {
   Art20Meta,
