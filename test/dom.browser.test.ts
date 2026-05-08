@@ -36,5 +36,9 @@ describe('requireEl', () => {
     expect(() => requireEl(root, '.missing')).toThrow(/div#x/);
     // With document as default root, message names "document".
     expect(() => requireEl('.also-missing')).toThrow(/document/);
+    // With an Element root that has no id, message names just the tagName.
+    const noId = document.createElement('section');
+    document.body.appendChild(noId);
+    expect(() => requireEl(noId, '.missing')).toThrow(/in section$/);
   });
 });
