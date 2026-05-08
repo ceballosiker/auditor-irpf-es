@@ -6,6 +6,16 @@ El formato sigue [Keep a Changelog](https://keepachangelog.com/es-ES/1.1.0/) y e
 
 ## [Unreleased]
 
+## [1.3.0] - 2026-05-08
+
+Versión de seguimiento sobre v1.2.1: el campo «Año fiscal» del formulario pasa de un `<select>` a un scrubber horizontal con teclado, y el helper `requireEl` enriquece sus mensajes de error. Sin cambios en el motor de cálculo ni en los fixtures-oráculo.
+
+### Changed
+
+- **Scrubber de año fiscal en lugar del `<select>`** — el campo «Año fiscal» pasa a un `<input type="range">` con styling propio (pista, manija y `<output>` sincronizado vía `aria-live="polite"`). Hereda toda la accesibilidad del range nativo: teclado (`ArrowLeft`/`ArrowRight` para mover ±1, `Home`/`End` para saltar a los extremos), click en cualquier punto de la pista, y `aria-valuetext` actualizado en cada cambio. Mantiene el deep-link `?anio=YYYY` ya wired desde v1.2.0. El lead del hero pierde su `max-width` para acompañar la longitud completa del scrubber. Cierra #68.
+- **Mensaje de error de `requireEl` enriquecido** — incluye ahora el identificador del root (id si lo tiene; etiqueta + clases en otro caso) además del selector que falla, para localizar más rápido el origen cuando la composición de secciones crece. Cierra #76.
+- **`form-row--2col` eliminado** — el modificador era redundante una vez que `.form-row` ya define dos columnas en su breakpoint estándar. Sin cambio visual.
+
 ## [1.2.1] - 2026-05-07
 
 Release de mantenimiento sobre v1.2.0: dos pulidos visuales del rediseño editorial-dataviz que arrastraban desde v1.1.0. Sin cambios en el motor de cálculo ni en los fixtures-oráculo.
