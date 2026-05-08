@@ -40,7 +40,7 @@ export function mountForm(target: HTMLElement, opts: FormOptions): void {
           </div>
           <small>Normativa aplicable a 31 de diciembre.</small>
         </div>
-        <div class="form-row form-row--2col">
+        <div class="form-row">
           <label>
             Salario bruto anual (€)
             <input

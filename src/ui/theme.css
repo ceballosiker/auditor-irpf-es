@@ -399,7 +399,7 @@ details > summary:focus-visible {
 /* Form fields — replaces Pico's .grid */
 .form-row {
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-columns: 1fr 1fr;
   gap: 16px;
   align-items: start;
   margin-top: 14px;
@@ -499,15 +499,4 @@ input[type='range']#input-anio:focus-visible {
   outline: 2px solid var(--accent);
   outline-offset: 4px;
   border-radius: 2px;
-}
-
-/* Form row variant: 2 columns (bruto + CCAA) when the año control
- * lives in its own band above. Falls back to 1 column on narrow screens. */
-.form-row--2col {
-  grid-template-columns: 1fr 1fr;
-}
-@media (max-width: 720px) {
-  .form-row--2col {
-    grid-template-columns: 1fr;
-  }
 }
