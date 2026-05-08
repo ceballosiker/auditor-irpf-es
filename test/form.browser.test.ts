@@ -1,5 +1,6 @@
 // test/form.browser.test.ts
 import '../src/ui/theme.css';
+import { userEvent } from '@vitest/browser/context';
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import { mountForm } from '../src/ui/form';
 import type { FormState } from '../src/ui/form';
@@ -7,6 +8,7 @@ import type { FormState } from '../src/ui/form';
 function setup(initial: FormState = { bruto: 30_000, anio: 2026 }): {
   host: HTMLElement;
   onChange: ReturnType<typeof vi.fn>;
+  bruto: HTMLInputElement;
   range: HTMLInputElement;
   output: HTMLOutputElement;
 } {
@@ -15,11 +17,13 @@ function setup(initial: FormState = { bruto: 30_000, anio: 2026 }): {
   if (!host) throw new Error('test setup: #host not in DOM');
   const onChange = vi.fn<(s: FormState) => void>();
   mountForm(host, { initial, onChange });
+  const bruto = host.querySelector<HTMLInputElement>('#input-bruto');
+  if (!bruto) throw new Error('bruto input missing');
   const range = host.querySelector<HTMLInputElement>('#input-anio');
   if (!range) throw new Error('range input missing');
   const output = host.querySelector<HTMLOutputElement>('output[for="input-anio"]');
   if (!output) throw new Error('output missing');
-  return { host, onChange, range, output };
+  return { host, onChange, bruto, range, output };
 }
 
 afterEach(() => {
@@ -57,12 +61,18 @@ describe('mountForm año scrubber', () => {
     expect(range.getAttribute('aria-valuetext')).toBe('2015');
   });
 
-  it('supports keyboard arrow navigation moving the year by ±1', () => {
+  it('decrements the year by one on a real ArrowLeft keypress', async () => {
     const { onChange, range } = setup({ bruto: 30_000, anio: 2020 });
-    range.value = '2019';
-    range.dispatchEvent(new KeyboardEvent('keydown', { key: 'ArrowLeft', bubbles: true }));
-    range.dispatchEvent(new Event('input', { bubbles: true }));
+    range.focus();
+    await userEvent.keyboard('{ArrowLeft}');
     expect(onChange).toHaveBeenLastCalledWith({ bruto: 30_000, anio: 2019 });
+  });
+
+  it('fires onChange on the bruto input event with the parsed numeric value', () => {
+    const { onChange, bruto } = setup({ bruto: 30_000, anio: 2020 });
+    bruto.value = '45000';
+    bruto.dispatchEvent(new Event('input', { bubbles: true }));
+    expect(onChange).toHaveBeenCalledWith({ bruto: 45000, anio: 2020 });
   });
 
   it('renders end-of-range tick labels 2012 and 2026', () => {
