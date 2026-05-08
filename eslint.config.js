@@ -10,6 +10,7 @@ export default tseslint.config(
       'coverage/',
       '.venv/',
       '.venv-*/',
+      '.cache/',
       'site/',
       'test/fixtures/**',
     ],
