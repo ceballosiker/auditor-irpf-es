@@ -224,9 +224,13 @@ coverage/
 *.tsbuildinfo
 .vite/
 
+# Vitest/Playwright browser screenshot artefactos
+test/__screenshots__/
+
 # Bootstrap scripts (one-shot ops tooling for GitHub state, kept local)
 scripts/bootstrap_*.sh
 
 # Superpowers / brainstorming artefacts — keep local-only, never commit
 .superpowers/
 specs/
+plans/
