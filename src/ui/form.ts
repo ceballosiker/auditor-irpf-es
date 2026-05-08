@@ -1,4 +1,4 @@
-import { ANIOS_SOPORTADOS } from '../normativa.js';
+import { ANIO_MAX, ANIO_MIN } from '../normativa.js';
 import { requireEl } from './dom.js';
 import { render } from './render.js';
 
@@ -15,19 +15,32 @@ export interface FormOptions {
 export function mountForm(target: HTMLElement, opts: FormOptions): void {
   const { initial, onChange } = opts;
 
-  const yearOptions = [...ANIOS_SOPORTADOS]
-    .reverse()
-    .map(
-      (y) =>
-        `<option value="${String(y)}"${y === initial.anio ? ' selected' : ''}>${String(y)}</option>`,
-    )
-    .join('');
-
   render(
     target,
     `
       <form id="calc-form" autocomplete="off" novalidate>
-        <div class="form-row">
+        <div class="anio-band">
+          <label for="input-anio">Año fiscal</label>
+          <div class="anio-track">
+            <input
+              type="range"
+              id="input-anio"
+              name="anio"
+              min="${String(ANIO_MIN)}"
+              max="${String(ANIO_MAX)}"
+              step="1"
+              value="${String(initial.anio)}"
+              aria-valuetext="${String(initial.anio)}"
+            />
+            <output for="input-anio" class="anio-output" aria-live="polite">${String(initial.anio)}</output>
+          </div>
+          <div class="anio-ticks" aria-hidden="true">
+            <span>${String(ANIO_MIN)}</span>
+            <span>${String(ANIO_MAX)}</span>
+          </div>
+          <small>Normativa aplicable a 31 de diciembre.</small>
+        </div>
+        <div class="form-row form-row--2col">
           <label>
             Salario bruto anual (€)
             <input
@@ -43,11 +56,6 @@ export function mountForm(target: HTMLElement, opts: FormOptions): void {
             <small>Importe íntegro antes de cotización social y retención.</small>
           </label>
           <label>
-            Año fiscal
-            <select id="input-anio" name="anio">${yearOptions}</select>
-            <small>Normativa aplicable a 31 de diciembre.</small>
-          </label>
-          <label>
             Comunidad Autónoma
             <select id="input-ccaa" name="ccaa" disabled>
               <option value="estatal" selected>Estatal (escala duplicada)</option>
@@ -60,21 +68,32 @@ export function mountForm(target: HTMLElement, opts: FormOptions): void {
   );
 
   const brutoInput = requireEl<HTMLInputElement>(target, '#input-bruto');
-  const anioSelect = requireEl<HTMLSelectElement>(target, '#input-anio');
+  const anioInput = requireEl<HTMLInputElement>(target, '#input-anio');
+  const anioOutput = requireEl<HTMLOutputElement>(target, 'output[for="input-anio"]');
 
   function readState(): FormState {
     const bruto = Number.parseFloat(brutoInput.value);
-    const anio = Number.parseInt(anioSelect.value, 10);
+    const anio = Number.parseInt(anioInput.value, 10);
     return {
       bruto: Number.isFinite(bruto) && bruto >= 0 ? bruto : 0,
       anio,
     };
   }
 
-  function emit(): void {
+  function syncAnioDisplay(value: string): void {
+    anioOutput.textContent = value;
+    anioInput.setAttribute('aria-valuetext', value);
+  }
+
+  function emitBruto(): void {
     onChange(readState());
   }
 
-  brutoInput.addEventListener('input', emit);
-  anioSelect.addEventListener('change', emit);
+  function emitAnio(): void {
+    syncAnioDisplay(anioInput.value);
+    onChange(readState());
+  }
+
+  brutoInput.addEventListener('input', emitBruto);
+  anioInput.addEventListener('input', emitAnio);
 }
