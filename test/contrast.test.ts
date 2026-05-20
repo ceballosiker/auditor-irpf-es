@@ -16,12 +16,20 @@ const THEME_CSS = readFileSync(join(REPO_ROOT, 'src/ui/theme.css'), 'utf8');
 
 type Tokens = Record<string, string>;
 
+/** Elimina comentarios `/* ... *\/` del cuerpo CSS para que `--paper` que
+ * aparece dentro de un comentario (e.g. "vs --paper: 15.74:1") no contamine
+ * los tokens. */
+function stripComments(css: string): string {
+  return css.replace(/\/\*[\s\S]*?\*\//g, '');
+}
+
 /** Extrae custom properties (`--name: value`) del cuerpo dado. */
 function parseProps(body: string): Tokens {
+  const clean = stripComments(body);
   const out: Tokens = {};
   const re = /--([a-z][a-z0-9-]*)\s*:\s*([^;]+);/gi;
   let m: RegExpExecArray | null;
-  while ((m = re.exec(body)) !== null) {
+  while ((m = re.exec(clean)) !== null) {
     out[`--${m[1]}`] = m[2].trim();
   }
   return out;
@@ -142,7 +150,10 @@ const SPA_PAIRS: Pair[] = [
   { fg: '--cta-ink', bg: '--accent', min: 4.5, label: 'cta-ink on accent' },
   { fg: '--ink', bg: '--surface', min: 4.5, label: 'ink on surface' },
   { fg: '--ink-soft', bg: '--surface', min: 4.5, label: 'ink-soft on surface' },
-  { fg: '--paper-translucent', bg: '--ink', over: '--ink', min: 4.5, label: 'paper-translucent on ink' },
+  // `--paper-translucent` se usa en `.excel-band .lead`. El bg real cambia con
+  // el tema (--ink en light, --paper-deep en dark por override). axe-core
+  // verifica este caso en el DOM rendered — no lo replicamos aquí como par
+  // estático porque tendría que ser theme-dependent.
 ];
 
 describe('contrast: SPA tokens meet WCAG 2.1 AA in both schemes', () => {
@@ -161,7 +172,7 @@ describe('contrast: SPA tokens meet WCAG 2.1 AA in both schemes', () => {
   }
 });
 
-describe('contrast: manual chart palette meets WCAG 2.1 AA in both schemes', () => {
+describe('contrast: manual chart palette meets WCAG 2.1 in both schemes', () => {
   const variants = [
     { name: 'light', p: PALETTE_LIGHT },
     { name: 'dark', p: PALETTE_DARK },
@@ -169,10 +180,20 @@ describe('contrast: manual chart palette meets WCAG 2.1 AA in both schemes', () 
 
   for (const v of variants) {
     const bg = parseColor(v.p.bg);
-    for (const fg of [v.p.axis, v.p.text, v.p.title, ...v.p.series]) {
-      it(`${v.name}: ${fg} on ${v.p.bg} ≥ 4.5:1`, () => {
+    // Text-like elements (axis labels, body text, titles) — WCAG 2.1 SC 1.4.3
+    // requires ≥ 4.5:1 for normal text.
+    for (const fg of [v.p.axis, v.p.text, v.p.title]) {
+      it(`${v.name} text: ${fg} on ${v.p.bg} ≥ 4.5:1`, () => {
         const r = ratio(parseColor(fg), bg);
         expect(r, `actual ${r.toFixed(2)}:1`).toBeGreaterThanOrEqual(4.5);
+      });
+    }
+    // Series lines/markers are non-text graphical objects — WCAG 2.1
+    // SC 1.4.11 requires ≥ 3:1 to be perceivable.
+    for (const fg of v.p.series) {
+      it(`${v.name} series: ${fg} on ${v.p.bg} ≥ 3:1`, () => {
+        const r = ratio(parseColor(fg), bg);
+        expect(r, `actual ${r.toFixed(2)}:1`).toBeGreaterThanOrEqual(3);
       });
     }
   }

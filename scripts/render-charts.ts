@@ -14,13 +14,17 @@ import { INFLACION_A_2026 } from '../src/inflacion.ts';
 const REPO_ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 const OUT_DIR = join(REPO_ROOT, 'docs', 'assets');
 
+// Paleta de series tab10-derivada, ajustada para alcanzar ≥ 3:1 sobre `bg`
+// (WCAG 2.1 SC 1.4.11, non-text contrast). Los valores originales
+// (#ff7f0e ≈ 2.29:1, #17becf ≈ 2.04:1) no eran perceivables sobre la paleta
+// editorial cálida.
 export const PALETTE_LIGHT = {
   bg: '#f7f3ec',
   axis: '#333333',
   grid: '#e5e5e5',
   text: '#444444',
   title: '#222222',
-  series: ['#1f77b4', '#d62728', '#2ca02c', '#9467bd', '#ff7f0e', '#17becf'] as const,
+  series: ['#1f77b4', '#d62728', '#2ca02c', '#9467bd', '#cc6600', '#00838f'] as const,
 } as const;
 
 export const PALETTE_DARK = {
