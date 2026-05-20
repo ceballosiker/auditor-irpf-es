@@ -115,12 +115,12 @@ function resolve(tokens: Tokens, value: string, depth = 0): string {
 function contrastBetween(tokens: Tokens, fgName: string, bgName: string, overName?: string): number {
   const fg = parseColor(resolve(tokens, tokens[fgName] ?? fgName));
   const bg = parseColor(resolve(tokens, tokens[bgName] ?? bgName));
-  if (fg.a < 1) {
-    const over = parseColor(resolve(tokens, tokens[overName ?? bgName] ?? overName ?? bgName));
-    const flat = flatten(fg, over);
-    return ratio(flat, { r: bg.r, g: bg.g, b: bg.b });
+  if (fg.a >= 1) {
+    return ratio({ r: fg.r, g: fg.g, b: fg.b }, { r: bg.r, g: bg.g, b: bg.b });
   }
-  return ratio({ r: fg.r, g: fg.g, b: fg.b }, { r: bg.r, g: bg.g, b: bg.b });
+  const overKey = overName ?? bgName;
+  const over = parseColor(resolve(tokens, tokens[overKey] ?? overKey));
+  return ratio(flatten(fg, over), { r: bg.r, g: bg.g, b: bg.b });
 }
 
 interface Pair {
