@@ -11,12 +11,14 @@
   /* Palette */
   --paper: #f7f3ec; /* warm off-white, page background */
   --paper-deep: #f1ebdf; /* used in history section */
+  --surface: #ffffff; /* elevated cards / inputs / v-bar empty / multi-cell */
   --ink: #1a1a1a; /* primary text   — vs --paper: 15.74:1 (WCAG AA, large+normal) */
   --ink-soft: #444444; /* body prose     — vs --paper:  8.81:1 (WCAG AA, large+normal) */
   --ink-mute: #666666; /* eyebrows, captions — vs --paper: 5.19:1 (WCAG AA normal) */
   --rule: #d4cdbf; /* hairlines, borders */
   --accent: #a84e1a; /* burnt orange   — vs --paper: 5.04:1, vs --paper-deep: 4.69:1 (WCAG AA); #fff on accent: 5.57:1 */
   --accent-soft: #f9c79c; /* lighter accent fills (background only, not used as text) */
+  --cta-ink: #ffffff; /* text on --accent (CTA, v-amount on fill) */
   --paper-translucent: rgba(247, 243, 236, 0.75); /* --paper at 75% opacity, for use on --ink bg */
   --neto: #2f6b3c; /* deep green     — vs --paper: 5.77:1; #fff on neto: 6.38:1 (WCAG AA) */
   --ss: #4a5a6e; /* slate          — vs --paper: 6.37:1; #fff on ss:   7.05:1 (WCAG AA) */
