@@ -14,7 +14,26 @@ import { INFLACION_A_2026 } from '../src/inflacion.ts';
 const REPO_ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 const OUT_DIR = join(REPO_ROOT, 'docs', 'assets');
 
-const PALETTE = ['#1f77b4', '#d62728', '#2ca02c', '#9467bd', '#ff7f0e', '#17becf'] as const;
+export const PALETTE_LIGHT = {
+  bg: '#f7f3ec',
+  axis: '#333333',
+  grid: '#e5e5e5',
+  text: '#444444',
+  title: '#222222',
+  series: ['#1f77b4', '#d62728', '#2ca02c', '#9467bd', '#ff7f0e', '#17becf'] as const,
+} as const;
+
+export const PALETTE_DARK = {
+  bg: '#1a1612',
+  axis: '#f3ede2',
+  grid: '#3a342c',
+  text: '#d4cdbf',
+  title: '#f3ede2',
+  series: ['#5d9ec9', '#e87073', '#66bf66', '#b89bd6', '#ffaa57', '#71d6e0'] as const,
+} as const;
+
+// Alias que mantiene la firma actual del código de render (Tarea 7 lo migra a var()).
+const PALETTE = PALETTE_LIGHT.series;
 
 interface Series {
   label: string;
