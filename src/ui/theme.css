@@ -32,7 +32,61 @@
   --container-gutter: 24px;
 
   /* Schemes */
-  color-scheme: light;
+  color-scheme: light dark;
+}
+
+/* Dark mode editorial.
+ *
+ * Pure @media en producción (auto-detección del SO). El selector dual
+ * :root[data-theme='dark'] existe únicamente como hook de tests
+ * (test/a11y.browser.test.ts, test/charts.browser.test.ts).
+ *
+ * Si este bloque crece > ~60 líneas, considerar extraer a tokens-dark.css.
+ */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --paper: #1a1612;
+    --paper-deep: #100d0a;
+    --surface: #241f1a;
+    --ink: #f3ede2;
+    --ink-soft: #d4cdbf;
+    --ink-mute: #9a9388;
+    --rule: #3a342c;
+    --accent: #e89052;
+    --accent-soft: #6a3e22;
+    --cta-ink: #1a1612;
+    --paper-translucent: rgba(243, 237, 226, 0.75);
+    --neto: #6ab07a;
+    --ss: #8a8e9e;
+  }
+
+  /* La banda Excel se construye sobre --ink en light; al invertirse perdería
+   * la jerarquía "banda final = punto más oscuro". Forzar paper-deep. */
+  .excel-band {
+    background: var(--paper-deep);
+    color: var(--ink);
+  }
+}
+
+:root[data-theme='dark'] {
+  --paper: #1a1612;
+  --paper-deep: #100d0a;
+  --surface: #241f1a;
+  --ink: #f3ede2;
+  --ink-soft: #d4cdbf;
+  --ink-mute: #9a9388;
+  --rule: #3a342c;
+  --accent: #e89052;
+  --accent-soft: #6a3e22;
+  --cta-ink: #1a1612;
+  --paper-translucent: rgba(243, 237, 226, 0.75);
+  --neto: #6ab07a;
+  --ss: #8a8e9e;
+}
+
+:root[data-theme='dark'] .excel-band {
+  background: var(--paper-deep);
+  color: var(--ink);
 }
 
 /* Reset essentials (replaces what Pico used to do) */
