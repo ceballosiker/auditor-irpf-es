@@ -338,7 +338,7 @@ details[open] > summary::before {
   margin: 0 calc(-1 * var(--container-gutter));
 }
 .excel-band h3 {
-  color: var(--paper);
+  color: inherit;
 }
 .excel-band .lead {
   color: var(--paper-translucent);
