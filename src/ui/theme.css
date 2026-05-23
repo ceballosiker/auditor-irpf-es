@@ -11,12 +11,14 @@
   /* Palette */
   --paper: #f7f3ec; /* warm off-white, page background */
   --paper-deep: #f1ebdf; /* used in history section */
+  --surface: #ffffff; /* elevated cards / inputs / v-bar empty / multi-cell */
   --ink: #1a1a1a; /* primary text   — vs --paper: 15.74:1 (WCAG AA, large+normal) */
   --ink-soft: #444444; /* body prose     — vs --paper:  8.81:1 (WCAG AA, large+normal) */
   --ink-mute: #666666; /* eyebrows, captions — vs --paper: 5.19:1 (WCAG AA normal) */
   --rule: #d4cdbf; /* hairlines, borders */
   --accent: #a84e1a; /* burnt orange   — vs --paper: 5.04:1, vs --paper-deep: 4.69:1 (WCAG AA); #fff on accent: 5.57:1 */
   --accent-soft: #f9c79c; /* lighter accent fills (background only, not used as text) */
+  --cta-ink: #ffffff; /* text on --accent (CTA, v-amount on fill) */
   --paper-translucent: rgba(247, 243, 236, 0.75); /* --paper at 75% opacity, for use on --ink bg */
   --neto: #2f6b3c; /* deep green     — vs --paper: 5.77:1; #fff on neto: 6.38:1 (WCAG AA) */
   --ss: #4a5a6e; /* slate          — vs --paper: 6.37:1; #fff on ss:   7.05:1 (WCAG AA) */
@@ -30,7 +32,61 @@
   --container-gutter: 24px;
 
   /* Schemes */
-  color-scheme: light;
+  color-scheme: light dark;
+}
+
+/* Dark mode editorial.
+ *
+ * Pure @media en producción (auto-detección del SO). El selector dual
+ * :root[data-theme='dark'] existe únicamente como hook de tests
+ * (test/a11y.browser.test.ts, test/charts.browser.test.ts).
+ *
+ * Si este bloque crece > ~60 líneas, considerar extraer a tokens-dark.css.
+ */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --paper: #1a1612;
+    --paper-deep: #100d0a;
+    --surface: #241f1a;
+    --ink: #f3ede2;
+    --ink-soft: #d4cdbf;
+    --ink-mute: #9a9388;
+    --rule: #3a342c;
+    --accent: #e89052;
+    --accent-soft: #6a3e22;
+    --cta-ink: #1a1612;
+    --paper-translucent: rgba(243, 237, 226, 0.75);
+    --neto: #6ab07a;
+    --ss: #8a8e9e;
+  }
+
+  /* La banda Excel se construye sobre --ink en light; al invertirse perdería
+   * la jerarquía "banda final = punto más oscuro". Forzar paper-deep. */
+  .excel-band {
+    background: var(--paper-deep);
+    color: var(--ink);
+  }
+}
+
+:root[data-theme='dark'] {
+  --paper: #1a1612;
+  --paper-deep: #100d0a;
+  --surface: #241f1a;
+  --ink: #f3ede2;
+  --ink-soft: #d4cdbf;
+  --ink-mute: #9a9388;
+  --rule: #3a342c;
+  --accent: #e89052;
+  --accent-soft: #6a3e22;
+  --cta-ink: #1a1612;
+  --paper-translucent: rgba(243, 237, 226, 0.75);
+  --neto: #6ab07a;
+  --ss: #8a8e9e;
+}
+
+:root[data-theme='dark'] .excel-band {
+  background: var(--paper-deep);
+  color: var(--ink);
 }
 
 /* Reset essentials (replaces what Pico used to do) */
@@ -98,7 +154,7 @@ select {
   font-family: var(--font-display);
   font-size: 1.1rem;
   padding: 12px 14px;
-  background: #fff;
+  background: var(--surface);
   color: var(--ink);
   border: 1px solid var(--rule);
   border-radius: 4px;
@@ -200,7 +256,7 @@ details[open] > summary::before {
 .cta {
   display: inline-block;
   background: var(--accent);
-  color: #fff;
+  color: var(--cta-ink);
   padding: 12px 22px;
   border-radius: 4px;
   font-family: var(--font-body);
@@ -282,7 +338,7 @@ details[open] > summary::before {
   margin: 0 calc(-1 * var(--container-gutter));
 }
 .excel-band h3 {
-  color: var(--paper);
+  color: inherit;
 }
 .excel-band .lead {
   color: var(--paper-translucent);
@@ -329,7 +385,7 @@ details > summary:focus-visible {
 }
 .v-bar {
   height: 22px;
-  background: #fff;
+  background: var(--surface);
   border: 1px solid var(--rule);
   border-radius: 3px;
   overflow: hidden;
@@ -365,7 +421,7 @@ details > summary:focus-visible {
   }
 }
 .multi-cell {
-  background: #fff;
+  background: var(--surface);
   border: 1px solid var(--rule);
   border-radius: 6px;
   padding: 12px;
@@ -480,7 +536,7 @@ input[type='range']#input-anio::-webkit-slider-thumb {
   height: 18px;
   border-radius: 50%;
   background: var(--accent);
-  border: 2px solid #fff;
+  border: 2px solid var(--surface);
   box-shadow: 0 0 0 1px var(--accent);
   margin-top: -7px; /* centra el thumb sobre el track de 4px */
   cursor: pointer;
@@ -490,7 +546,7 @@ input[type='range']#input-anio::-moz-range-thumb {
   height: 18px;
   border-radius: 50%;
   background: var(--accent);
-  border: 2px solid #fff;
+  border: 2px solid var(--surface);
   box-shadow: 0 0 0 1px var(--accent);
   cursor: pointer;
 }
