@@ -1,9 +1,18 @@
 // test/charts.browser.test.ts
+import '../src/ui/theme.css';
 import { afterEach, beforeEach, describe, expect, it } from 'vitest';
 import { renderStackedBar, type StackedBarData } from '../src/ui/charts/stacked-bar';
 import { renderVasos, type VasosData } from '../src/ui/charts/vasos';
 import { renderGapArea, type GapAreaData } from '../src/ui/charts/gap-area';
 import { renderMultiples, type MultiplesData } from '../src/ui/charts/multiples';
+
+function setTheme(theme: 'light' | 'dark'): void {
+  document.documentElement.dataset.theme = theme;
+}
+
+function clearTheme(): void {
+  delete document.documentElement.dataset.theme;
+}
 
 let host: HTMLElement;
 beforeEach(() => {
@@ -12,6 +21,7 @@ beforeEach(() => {
 });
 afterEach(() => {
   document.body.innerHTML = '';
+  clearTheme();
 });
 
 describe('renderStackedBar', () => {
@@ -151,5 +161,70 @@ describe('renderMultiples', () => {
     );
     expect(xLabels).toContain('2012');
     expect(xLabels).toContain('2026');
+  });
+});
+
+describe('charts: var(--token) fills resolve in both themes', () => {
+  const stacked: StackedBarData = {
+    bruto: 30_000,
+    neto: 24_518,
+    irpf: 3_577,
+    cotSocTrabajador: 1_905,
+  };
+  const vasosData: VasosData = {
+    tramos: [
+      { idx: 1, tipo: 0.19, hasta: 12_450, baseAplicada: 12_450, cuota: 2_366 },
+      { idx: 2, tipo: 0.24, hasta: 20_200, baseAplicada: 7_750, cuota: 1_860 },
+    ],
+    baseImponible: 20_200,
+  };
+
+  function firstFill(selector: string): string {
+    const el = host.querySelector(selector);
+    if (!el) throw new Error(`charts test: ${selector} not in DOM`);
+    return getComputedStyle(el).fill;
+  }
+
+  it('stacked-bar .segment fill resolves to a non-transparent color in light', () => {
+    setTheme('light');
+    renderStackedBar(host, stacked);
+    const fill = firstFill('rect.segment');
+    expect(fill).not.toBe('');
+    expect(fill).not.toBe('rgba(0, 0, 0, 0)');
+    expect(fill).not.toBe('none');
+  });
+
+  it('stacked-bar .segment fill resolves to a non-transparent color in dark', () => {
+    setTheme('dark');
+    renderStackedBar(host, stacked);
+    const fill = firstFill('rect.segment');
+    expect(fill).not.toBe('');
+    expect(fill).not.toBe('rgba(0, 0, 0, 0)');
+    expect(fill).not.toBe('none');
+  });
+
+  it('stacked-bar .segment fill differs between light and dark themes', () => {
+    setTheme('light');
+    renderStackedBar(host, stacked);
+    const light = firstFill('rect.segment');
+
+    document.body.innerHTML = '<div id="host"></div>';
+    host = document.getElementById('host') as HTMLElement;
+
+    setTheme('dark');
+    renderStackedBar(host, stacked);
+    const dark = firstFill('rect.segment');
+
+    expect(dark).not.toBe(light);
+  });
+
+  it('vasos .v-fill background resolves in both themes', () => {
+    setTheme('dark');
+    renderVasos(host, vasosData);
+    const fill = host.querySelector<HTMLElement>('.v-fill');
+    if (!fill) throw new Error('charts test: .v-fill not in DOM');
+    const bg = getComputedStyle(fill).backgroundColor;
+    expect(bg).not.toBe('');
+    expect(bg).not.toBe('rgba(0, 0, 0, 0)');
   });
 });
