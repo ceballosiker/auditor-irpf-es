@@ -12,7 +12,7 @@
 
 Auditor fiscal que calcula el salario neto en España (2012–2026): IRPF, Seguridad Social, MEI y Cuota de Solidaridad, con análisis de pérdida de poder adquisitivo ajustada a la inflación real (IPC oficial del INE). Se expone como una **calculadora interactiva 100 % en el navegador** (sin servidor) acompañada de un manual divulgativo y un proceso de auditoría pública año a año.
 
-> **Estado actual (v1.2.0):** motor TypeScript validado contra los fixtures del motor Python de referencia, **calculadora web interactiva con rediseño editorial-dataviz en producción** y manual divulgativo publicados en GitHub Pages, auditoría axe-core (WCAG 2.1 AA) + thresholds Lighthouse (perf ≥ 0.85, a11y ≥ 0.95) bloqueando cada PR. Próximo hito: redacción completa de los 15 resúmenes anuales junto con la auditoría fiscal.
+> **Estado actual (v1.4.0):** motor TypeScript validado contra los fixtures del motor Python de referencia, **calculadora web interactiva con rediseño editorial-dataviz y modo oscuro automático en producción** y manual divulgativo publicados en GitHub Pages, auditoría axe-core (WCAG 2.1 AA) + thresholds Lighthouse (perf ≥ 0.85, a11y ≥ 0.95) bloqueando cada PR. Próximo hito: redacción completa de los 15 resúmenes anuales junto con la auditoría fiscal.
 
 ## 🧮 Calculadora interactiva
 
@@ -20,7 +20,7 @@ Disponible en **<https://ceballosiker.github.io/auditor-irpf-es/>** — escribe 
 
 ## 📖 Manual divulgativo
 
-El manual está publicado en **<https://ceballosiker.github.io/auditor-irpf-es/manual/>**. Contiene siete páginas explicando paso a paso la cadena de cálculo (cotización, SS, MEI/Solidaridad, Art. 19/20, escala IRPF, SMI/tope 43 %), una página dedicada a la **progresividad en frío** con gráficos generados desde el propio motor, y un esqueleto de 15 resúmenes anuales (uno por año entre 2012 y 2026) cuya redacción completa irá llegando en `v1.3.0` en paralelo con la auditoría fiscal.
+El manual está publicado en **<https://ceballosiker.github.io/auditor-irpf-es/manual/>**. Contiene siete páginas explicando paso a paso la cadena de cálculo (cotización, SS, MEI/Solidaridad, Art. 19/20, escala IRPF, SMI/tope 43 %), una página dedicada a la **progresividad en frío** con gráficos generados desde el propio motor, y un esqueleto de 15 resúmenes anuales (uno por año entre 2012 y 2026) cuya redacción completa irá llegando en paralelo con la auditoría fiscal.
 
 ---
 
@@ -79,11 +79,13 @@ Para maximizar la precisión antes de ampliar casuística, el motor modela delib
 | **v1.0.0** ✅ | Calculadora web interactiva: SPA estático, 100 % en el navegador, GitHub Pages. axe-core + Lighthouse en CI.                                                                                                                                                                                                                                                                                                             |
 | **v1.1.0** ✅ | Rediseño editorial-dataviz de la calculadora: nueva narrativa pública-primero, 4 visualizaciones SVG (barra apilada, "vasos" de tramos, brecha acumulada, pequeños múltiples), drill-downs de auditoría detrás de `<details>`, integración con el manual. Pico y Chart.js fuera del bundle.                                                                                                                              |
 | **v1.2.0** ✅ | Versión de seguimiento sobre v1.1.0: refresco de tooling (Node ≥ 20.18, Lighthouse 12, vitest 2 + ts 5.9 + eslint 9.39), `Nomina` gana cuatro campos derivados (`topeAlcanzado`, `meiTrabajador`, `solidaridadTrabajador`, `tope43Aplica`) y la UI los lee directamente, deep-link `?anio=YYYY` con cross-links bidireccionales desde los stubs del manual, rename `src/ui/format` → `src/ui/intl` + helper `requireEl`. |
-| **v1.3.0**    | Redacción completa de los 15 resúmenes anuales con referencias BOE, en paralelo con los `audit-YYYY`.                                                                                                                                                                                                                                                                                                                    |
+| **v1.3.0** ✅ | Scrubber de año fiscal (`<input type="range">` con teclado nativo y `<output>` sincronizado vía `aria-live`), mensaje enriquecido de `requireEl`, eliminación del modificador redundante `form-row--2col`. Sin cambios en el motor ni en los fixtures-oráculo.                                                                                                                                                            |
+| **v1.4.0** ✅ | Modo oscuro editorial automático vía `@media (prefers-color-scheme: dark)` + selector dual para tests; paleta cálida ("Tinta sobre papel quemado") y SVGs estáticos del manual theme-aware con `<style>` interno; nueva suite WCAG en `test/contrast.test.ts` y axe-core/charts parametrizados por tema.                                                                                                                  |
+| **v1.x**      | Redacción completa de los 15 resúmenes anuales con referencias BOE, en paralelo con los `audit-YYYY`.                                                                                                                                                                                                                                                                                                                    |
 
 Sigue el progreso en los [issues abiertos](https://github.com/ceballosiker/auditor-irpf-es/issues) y [milestones](https://github.com/ceballosiker/auditor-irpf-es/milestones).
 
-### Hoja de ruta normativa (post-v1.3)
+### Hoja de ruta normativa (post-v1.4)
 
 - Tramos autonómicos específicos por Comunidad Autónoma.
 - Deducciones familiares (hijos, ascendientes, discapacidad).
@@ -167,7 +169,7 @@ Para regenerar los fixtures JSON (operación idempotente):
 │   ├── index.md, contribuir.md
 │   ├── motor/                    # 7 páginas: cadena de cálculo paso a paso
 │   ├── progresividad-en-frio.md  # Concepto + gráficos generados del motor
-│   ├── anual/                    # Stubs 2012-2026 (redacción completa en v1.3.0)
+│   ├── anual/                    # Stubs 2012-2026 (redacción completa pendiente)
 │   ├── auditoria/progreso.md     # Estado de los 15 audit-YYYY
 │   └── assets/*.svg              # Charts hand-rolled desde src/pipeline.ts
 ├── scripts/
