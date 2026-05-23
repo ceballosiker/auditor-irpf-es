@@ -3,7 +3,7 @@
 ![TypeScript](https://img.shields.io/badge/typescript-5.9%2B-blue.svg)
 ![Node](https://img.shields.io/badge/node-%3E%3D20.18-brightgreen.svg)
 ![License](https://img.shields.io/badge/license-MIT-green.svg)
-![Estado](https://img.shields.io/badge/estado-v1.2.0-brightgreen.svg)
+![Estado](https://img.shields.io/badge/estado-v1.4.0-brightgreen.svg)
 [![Calculadora](https://img.shields.io/badge/calculadora-ceballosiker.github.io-blue.svg)](https://ceballosiker.github.io/auditor-irpf-es/)
 [![Manual](https://img.shields.io/badge/manual-ceballosiker.github.io%2Fmanual-blue.svg)](https://ceballosiker.github.io/auditor-irpf-es/manual/)
 
