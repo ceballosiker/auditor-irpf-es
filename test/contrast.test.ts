@@ -9,7 +9,7 @@ import { readFileSync } from 'node:fs';
 import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { describe, expect, it } from 'vitest';
-import { PALETTE_LIGHT, PALETTE_DARK } from '../scripts/render-charts.ts';
+import { PALETTE_LIGHT, PALETTE_DARK } from '../scripts/render-charts';
 
 const REPO_ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 const THEME_CSS = readFileSync(join(REPO_ROOT, 'src/ui/theme.css'), 'utf8');
@@ -30,7 +30,9 @@ function parseProps(body: string): Tokens {
   const re = /--([a-z][a-z0-9-]*)\s*:\s*([^;]+);/gi;
   let m: RegExpExecArray | null;
   while ((m = re.exec(clean)) !== null) {
-    out[`--${m[1]}`] = m[2].trim();
+    const [, name, value] = m;
+    if (name === undefined || value === undefined) continue;
+    out[`--${name}`] = value.trim();
   }
   return out;
 }
@@ -38,7 +40,9 @@ function parseProps(body: string): Tokens {
 /** Tokens del `:root` light (primer bloque `:root { ... }`). */
 function parseLightTokens(css: string): Tokens {
   const match = css.match(/:root\s*\{([\s\S]*?)\}/);
-  if (!match) throw new Error('contrast: no :root block found in theme.css');
+  if (!match || match[1] === undefined) {
+    throw new Error('contrast: no :root block found in theme.css');
+  }
   return parseProps(match[1]);
 }
 
@@ -47,7 +51,9 @@ function parseDarkTokens(css: string): Tokens {
   const match = css.match(
     /@media\s*\(\s*prefers-color-scheme:\s*dark\s*\)\s*\{\s*:root\s*\{([\s\S]*?)\}\s*\}/,
   );
-  if (!match) throw new Error('contrast: no dark @media :root block found in theme.css');
+  if (!match || match[1] === undefined) {
+    throw new Error('contrast: no dark @media :root block found in theme.css');
+  }
   return parseProps(match[1]);
 }
 
@@ -70,9 +76,13 @@ function parseColor(v: string): { r: number; g: number; b: number; a: number } {
     };
   }
   const rgba = s.match(/^rgba?\(([^)]+)\)$/i);
-  if (rgba) {
+  if (rgba && rgba[1] !== undefined) {
     const parts = rgba[1].split(',').map((p) => Number(p.trim()));
-    return { r: parts[0], g: parts[1], b: parts[2], a: parts[3] ?? 1 };
+    const [r, g, b, a] = parts;
+    if (r === undefined || g === undefined || b === undefined) {
+      throw new Error(`contrast: malformed rgba '${v}'`);
+    }
+    return { r, g, b, a: a ?? 1 };
   }
   throw new Error(`contrast: unsupported color '${v}'`);
 }
@@ -111,9 +121,9 @@ function resolve(tokens: Tokens, value: string, depth = 0): string {
   if (depth > 8) throw new Error(`contrast: token resolution too deep for '${value}'`);
   const v = value.trim();
   const varMatch = v.match(/^var\(\s*(--[a-z0-9-]+)\s*\)$/i);
-  if (varMatch) {
+  if (varMatch && varMatch[1] !== undefined) {
     const next = tokens[varMatch[1]];
-    if (!next) throw new Error(`contrast: unresolved var ${varMatch[1]}`);
+    if (next === undefined) throw new Error(`contrast: unresolved var ${varMatch[1]}`);
     return resolve(tokens, next, depth + 1);
   }
   return v;
