@@ -110,7 +110,10 @@ function luminance({ r, g, b }: { r: number; g: number; b: number }): number {
 }
 
 /** Ratio WCAG 2.1 entre dos colores opacos. */
-function ratio(a: { r: number; g: number; b: number }, b: { r: number; g: number; b: number }): number {
+function ratio(
+  a: { r: number; g: number; b: number },
+  b: { r: number; g: number; b: number },
+): number {
   const L1 = Math.max(luminance(a), luminance(b));
   const L2 = Math.min(luminance(a), luminance(b));
   return (L1 + 0.05) / (L2 + 0.05);
@@ -130,7 +133,12 @@ function resolve(tokens: Tokens, value: string, depth = 0): string {
 }
 
 /** Calcula contraste entre dos token-names, aplanando alpha sobre `over` si hace falta. */
-function contrastBetween(tokens: Tokens, fgName: string, bgName: string, overName?: string): number {
+function contrastBetween(
+  tokens: Tokens,
+  fgName: string,
+  bgName: string,
+  overName?: string,
+): number {
   const fg = parseColor(resolve(tokens, tokens[fgName] ?? fgName));
   const bg = parseColor(resolve(tokens, tokens[bgName] ?? bgName));
   if (fg.a >= 1) {
