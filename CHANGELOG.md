@@ -6,6 +6,23 @@ El formato sigue [Keep a Changelog](https://keepachangelog.com/es-ES/1.1.0/) y e
 
 ## [Unreleased]
 
+## [1.4.0] - 2026-05-23
+
+Versión de seguimiento sobre v1.3.0: la SPA y los 3 SVGs estáticos del manual ganan modo oscuro editorial cálido, activado automáticamente por `prefers-color-scheme: dark` sin JavaScript en producción. Sin cambios en el motor de cálculo ni en los fixtures-oráculo.
+
+### Added
+
+- **Modo oscuro editorial automático** — paleta "Tinta sobre papel quemado" (paper `#1a1612`, ink `#f3ede2`, accent `#e89052`, neto `#6ab07a`, ss `#8a8e9e`) activada por `@media (prefers-color-scheme: dark)` en `src/ui/theme.css`. Dos tokens nuevos (`--surface`, `--cta-ink`) reemplazan los literales `#fff` que sobrevivían en inputs, CTA, `.v-bar`, `.multi-cell` y range thumbs. Selector dual `:root[data-theme='dark']` expuesto solo como hook de tests; en producción no hay toggle ni JS. Cierra #70.
+- **SVGs del manual theme-aware** — los 3 charts estáticos (`docs/assets/*.svg`) embeben su propia hoja `<style>` con tokens `--c-bg/--c-axis/--c-grid/--c-text/--c-title/--c-s0..s5` y bloque `@media` para dark; los charts SPA ya usaban `var()` y heredan sin cambios. Las paletas light/dark de series se exportan desde `scripts/render-charts.ts` (`PALETTE_LIGHT`, `PALETTE_DARK`) y se verifican vía test de contraste.
+- **`test/contrast.test.ts`** — suite Node que parsea `theme.css` e importa las paletas del manual, comprueba ratios WCAG 2.1 ≥ 4.5:1 en todos los pares texto/fondo críticos en ambos esquemas (36 verificaciones).
+
+### Changed
+
+- **`test/a11y.browser.test.ts` parametrizado por tema** — refactor a una factoría `suiteFor(theme)` que aplica `data-theme` y ejecuta axe-core en light + dark (6 tests).
+- **`test/charts.browser.test.ts` añade 4 verificaciones** de que los fills `var(--accent)`/`var(--neto)`/`var(--ss)` resuelven a colores distintos y no transparentes en ambos esquemas — guard contra regresión silenciosa donde un token mal definido devolvería `rgba(0,0,0,0)`.
+- **`.excel-band h3` ahora hereda color del padre** (`color: inherit` en vez de `var(--paper)`) para que el override `:root[data-theme='dark'] .excel-band` lo arrastre y no caiga a 1.07:1 sobre `--paper-deep`.
+- **`scripts/render-charts.ts`** elimina el campo `color` de la interface `Series` (la asignación de color pasa a derivarse del índice de la serie vía `var(--c-s${i})`) e introduce `inflacionFor(anio)` como guard contra `INFLACION_A_2026[a]` ahora que `noUncheckedIndexedAccess` alcanza el archivo.
+
 ## [1.3.0] - 2026-05-08
 
 Versión de seguimiento sobre v1.2.1: el campo «Año fiscal» del formulario pasa de un `<select>` a un scrubber horizontal con teclado, y el helper `requireEl` enriquece sus mensajes de error. Sin cambios en el motor de cálculo ni en los fixtures-oráculo.
