@@ -154,7 +154,7 @@ select {
   font-family: var(--font-display);
   font-size: 1.1rem;
   padding: 12px 14px;
-  background: #fff;
+  background: var(--surface);
   color: var(--ink);
   border: 1px solid var(--rule);
   border-radius: 4px;
@@ -256,7 +256,7 @@ details[open] > summary::before {
 .cta {
   display: inline-block;
   background: var(--accent);
-  color: #fff;
+  color: var(--cta-ink);
   padding: 12px 22px;
   border-radius: 4px;
   font-family: var(--font-body);
@@ -385,7 +385,7 @@ details > summary:focus-visible {
 }
 .v-bar {
   height: 22px;
-  background: #fff;
+  background: var(--surface);
   border: 1px solid var(--rule);
   border-radius: 3px;
   overflow: hidden;
@@ -421,7 +421,7 @@ details > summary:focus-visible {
   }
 }
 .multi-cell {
-  background: #fff;
+  background: var(--surface);
   border: 1px solid var(--rule);
   border-radius: 6px;
   padding: 12px;
@@ -536,7 +536,7 @@ input[type='range']#input-anio::-webkit-slider-thumb {
   height: 18px;
   border-radius: 50%;
   background: var(--accent);
-  border: 2px solid #fff;
+  border: 2px solid var(--surface);
   box-shadow: 0 0 0 1px var(--accent);
   margin-top: -7px; /* centra el thumb sobre el track de 4px */
   cursor: pointer;
@@ -546,7 +546,7 @@ input[type='range']#input-anio::-moz-range-thumb {
   height: 18px;
   border-radius: 50%;
   background: var(--accent);
-  border: 2px solid #fff;
+  border: 2px solid var(--surface);
   box-shadow: 0 0 0 1px var(--accent);
   cursor: pointer;
 }
