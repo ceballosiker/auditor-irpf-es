@@ -31,47 +31,52 @@ function setupApp(): HTMLElement {
   return app;
 }
 
-describe('a11y: SPA passes axe-core (WCAG 2.1 AA)', () => {
-  beforeEach(() => {
-    document.documentElement.dataset.theme = 'light';
-  });
+function suiteFor(theme: 'light' | 'dark'): void {
+  describe(`a11y: SPA passes axe-core (WCAG 2.1 AA) — ${theme}`, () => {
+    beforeEach(() => {
+      document.documentElement.dataset.theme = theme;
+    });
 
-  afterEach(() => {
-    document.body.innerHTML = '';
-    delete document.documentElement.dataset.theme;
-  });
+    afterEach(() => {
+      document.body.innerHTML = '';
+      delete document.documentElement.dataset.theme;
+    });
 
-  it('has no serious or critical violations on initial render', async () => {
-    setupApp();
-    await waitForRender('#hero-section');
-    const violations = await scanForCriticalViolations();
-    expect(violations, JSON.stringify(violations, null, 2)).toEqual([]);
-  });
+    it('has no serious or critical violations on initial render', async () => {
+      setupApp();
+      await waitForRender('#hero-section');
+      const violations = await scanForCriticalViolations();
+      expect(violations, JSON.stringify(violations, null, 2)).toEqual([]);
+    });
 
-  it('has no serious or critical violations after changing bruto', async () => {
-    setupApp();
-    await waitForRender('#hero-section');
-    const input = document.querySelector<HTMLInputElement>('#input-bruto');
-    if (!input) throw new Error('bruto input missing');
-    input.value = '45000';
-    input.dispatchEvent(new Event('input', { bubbles: true }));
-    await new Promise((r) => setTimeout(r, 500));
-    const violations = await scanForCriticalViolations();
-    expect(violations, JSON.stringify(violations, null, 2)).toEqual([]);
-  });
+    it('has no serious or critical violations after changing bruto', async () => {
+      setupApp();
+      await waitForRender('#hero-section');
+      const input = document.querySelector<HTMLInputElement>('#input-bruto');
+      if (!input) throw new Error('bruto input missing');
+      input.value = '45000';
+      input.dispatchEvent(new Event('input', { bubbles: true }));
+      await new Promise((r) => setTimeout(r, 500));
+      const violations = await scanForCriticalViolations();
+      expect(violations, JSON.stringify(violations, null, 2)).toEqual([]);
+    });
 
-  it('has no serious or critical violations while the Excel button shows aria-busy', async () => {
-    // We set aria-busy directly rather than clicking the button: a real click
-    // would trigger the full 15-year x 100k-row workbook build (minutes of
-    // CPU). The point of this scan is to verify the busy-state markup is
-    // accessible, not to exercise SheetJS.
-    setupApp();
-    await waitForRender('#hero-section');
-    const button = document.querySelector<HTMLButtonElement>('#excel-download');
-    if (!button) throw new Error('excel-download button missing');
-    button.setAttribute('aria-busy', 'true');
-    button.disabled = true;
-    const violations = await scanForCriticalViolations();
-    expect(violations, JSON.stringify(violations, null, 2)).toEqual([]);
+    it('has no serious or critical violations while the Excel button shows aria-busy', async () => {
+      // We set aria-busy directly rather than clicking the button: a real click
+      // would trigger the full 15-year x 100k-row workbook build (minutes of
+      // CPU). The point of this scan is to verify the busy-state markup is
+      // accessible, not to exercise SheetJS.
+      setupApp();
+      await waitForRender('#hero-section');
+      const button = document.querySelector<HTMLButtonElement>('#excel-download');
+      if (!button) throw new Error('excel-download button missing');
+      button.setAttribute('aria-busy', 'true');
+      button.disabled = true;
+      const violations = await scanForCriticalViolations();
+      expect(violations, JSON.stringify(violations, null, 2)).toEqual([]);
+    });
   });
-});
+}
+
+suiteFor('light');
+suiteFor('dark');
